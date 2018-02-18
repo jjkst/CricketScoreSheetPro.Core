@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketScoreSheetPro.Core", "CricketScoreSheetPro.Core\CricketScoreSheetPro.Core.csproj", "{6BD177D1-4349-43BE-A1B0-5628B5DD01D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketScoreSheetPro.Core.Test", "CricketScoreSheetPro.Core.Test\CricketScoreSheetPro.Core.Test.csproj", "{334A07A8-C3A9-4D84-8822-F01B43F579ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BD177D1-4349-43BE-A1B0-5628B5DD01D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD177D1-4349-43BE-A1B0-5628B5DD01D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD177D1-4349-43BE-A1B0-5628B5DD01D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD177D1-4349-43BE-A1B0-5628B5DD01D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{334A07A8-C3A9-4D84-8822-F01B43F579ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{334A07A8-C3A9-4D84-8822-F01B43F579ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{334A07A8-C3A9-4D84-8822-F01B43F579ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{334A07A8-C3A9-4D84-8822-F01B43F579ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
