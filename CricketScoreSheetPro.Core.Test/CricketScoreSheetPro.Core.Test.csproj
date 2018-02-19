@@ -101,9 +101,11 @@
     <Compile Include="DataAccessTest\ServiceTest\TournamentServiceTest.cs" />
     <Compile Include="DataAccessTest\ServiceTest\UserTeamServiceTest.cs" />
     <Compile Include="DataAccessTest\ServiceTest\UserTournamentServiceTest.cs" />
+    <Compile Include="Extensions\ExpectedExceptionExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTest\ServiceTest\BaseServiceTest.cs" />
     <Compile Include="UnitTest\ServiceTest\PlayerServiceTest.cs" />
+    <Compile Include="UnitTest\ServiceTest\MatchServiceTest.cs" />
     <Compile Include="UnitTest\ValidationTest\TeamValidatorTest.cs" />
     <Compile Include="UnitTest\ValidationTest\TournamentValidatorTest.cs" />
   </ItemGroup>

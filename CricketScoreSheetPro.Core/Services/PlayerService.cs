@@ -1,6 +1,7 @@
 ﻿using CricketScoreSheetPro.Core.Helper;
 using CricketScoreSheetPro.Core.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CricketScoreSheetPro.Core.Services
@@ -63,35 +64,30 @@ namespace CricketScoreSheetPro.Core.Services
             return fielder;
         }
 
-        public Player UpdateBowlerThisBall(Player bowler, AccessService service)
+        public Player UpdateBowlerThisBall(Player bowler)
         {
             if (bowler == null) throw new ArgumentNullException("Bowler not found");
+            if (_undo && bowler.BallsBowled <= 0) throw new ArgumentException("Bowler haven't bowled any ball");
 
-            if (_undo && bowler.BallsPlayed <= 0) throw new ArgumentException("Bowler haven't bowled any ball");
             var undoval = _undo ? -1 : 1;
             bowler.RunsGiven = bowler.RunsGiven + 
-                ( (_thisBall.RunsScored + _thisBall.Wide + _thisBall.NoBall + _thisBall.Byes + _thisBall.LegByes)*undoval);
+                ( (_thisBall.RunsScored + _thisBall.Wide + _thisBall.NoBall ) * undoval);
             bowler.BallsBowled = bowler.BallsBowled + ( ((_thisBall.Wide > 0 || _thisBall.NoBall > 0) ? 0 : 1) * undoval);
-            bowler.Wickets = bowler.Wickets + ( (((_thisBall.HowOut == "not out" || _thisBall.HowOut == "retired") ? 0 : 1) +
-                    (!string.IsNullOrEmpty(_thisBall.RunnerHowOut) && _thisBall.RunnerHowOut.Contains("runout") ? 1 : 0)  ) * undoval);
+            bowler.Wickets = bowler.Wickets + ( ((_thisBall.HowOut == "not out" || _thisBall.HowOut == "retired") ? 0 : 1) * undoval);
             bowler.Wides = bowler.Wides + ( (_thisBall.Wide > 0 ? 1 : 0) * undoval);
             bowler.NoBalls = bowler.NoBalls + ( (_thisBall.NoBall > 0 ? 1 : 0) * undoval);
-            bowler.Maiden = bowler.Maiden + GetMaidenValue(bowler, service);
             return bowler;
         }
 
-        private int GetMaidenValue(Player bowler, AccessService service)
+        public int GetMaidenValue(List<Ball> thisbowlerovers)
         {
-            var bowlerTeam = service.TeamService.GetItem(bowler.TeamId).Result;
-            var match = service.MatchService.GetItem(bowler.MatchId).Result;
-            var balls = bowlerTeam.Name == match.HomeTeam.TeamName ? AccessService.HomeTeamBalls : AccessService.AwayTeamBalls;
-            var thisbowlerbowledballs = balls.Where(p => p.ActiveBowlerId == bowler.Id);
-            if (Common.ConvertBallstoOvers(thisbowlerbowledballs.Count()).Split('.')[1] != "0") return 0;
+            if (thisbowlerovers == null) throw new ArgumentNullException("Balls collection not found");
+            if (Common.ConvertBallstoOvers(thisbowlerovers.Count()).Split('.')[1] != "0") return 0;
 
             //check if bowler given runs in last 6 balls if not add or subtract maiden based on undo or not
             int i = 6;
             bool runflg = false;
-            foreach (var b in thisbowlerbowledballs.AsEnumerable().Reverse())
+            foreach (var b in thisbowlerovers.AsEnumerable().Reverse())
             {
                 if (i == 0) break;
                 if ((b.RunsScored + b.Wide + b.NoBall) > 0)
