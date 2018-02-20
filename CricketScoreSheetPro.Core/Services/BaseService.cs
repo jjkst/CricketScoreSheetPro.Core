@@ -1,4 +1,5 @@
 ﻿using Firebase.Database;
+using Firebase.Database.Offline;
 using Firebase.Database.Query;
 using Newtonsoft.Json;
 using System;
@@ -9,11 +10,10 @@ namespace CricketScoreSheetPro.Core.Services
 {
     public class BaseService<T> where T : class 
     {
-        
         public static FirebaseClient Client { get; set; } = new FirebaseClient("https://xamarinfirebase-4a90e.firebaseio.com/");
 
         internal ChildQuery _reference { get; set; }
-
+             
         public virtual async Task<T> Create(T obj) 
         {
             if (obj == null) return null;            
