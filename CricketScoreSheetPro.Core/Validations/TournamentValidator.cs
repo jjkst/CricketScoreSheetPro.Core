@@ -5,44 +5,44 @@ using System.Linq;
 
 namespace CricketScoreSheetPro.Core.Validations
 {
-    public class TournamentValidator :  IValidator
+    public class TournamentValidator
     {
-        private IService<UserTournament> Service;
-        private Tournament Tournament { get; set; }
+        //private IService<UserTournament> Service;
+        //private Tournament Tournament { get; set; }
 
-        public TournamentValidator(IService<UserTournament> service, Tournament obj) 
-        {
-            this.Service = service;
-            this.Tournament = obj;            
-        }
+        //public TournamentValidator(IService<UserTournament> service, Tournament obj) 
+        //{
+        //    this.Service = service;
+        //    this.Tournament = obj;            
+        //}
 
-        public IList<ErrorType> IsValid()
-        {
-            var errortype = new List<ErrorType>();
+        //public IList<ErrorResponse> IsValid()
+        //{
+        //    var errortype = new List<ErrorResponse>();
 
-            if (string.IsNullOrEmpty(Tournament.Name))
-            {
-                errortype.Add(new ErrorType
-                {
-                    Message = "Tournament name cannot be blank.",
-                    Type = ErrorTypes.Error
-                });
-                return errortype;
-            }
+        //    if (string.IsNullOrEmpty(Tournament.Name))
+        //    {
+        //        errortype.Add(new ErrorResponse
+        //        {
+        //            Message = "Tournament name cannot be blank.",
+        //            Type = ErrorTypes.Error
+        //        });
+        //        return errortype;
+        //    }
 
-            var usertournaments = Service.GetList().Result;
+        //    var usertournaments = Service.GetList().Result;
 
-            if (usertournaments.Any(ut=>ut.TournamentName.ToLower() == Tournament.Name.ToLower()))
-            {
-                errortype.Add(new ErrorType
-                {
-                    Message = "Team name already exists.",
-                    Type = ErrorTypes.Error
-                });
-                return errortype;
-            }
+        //    if (usertournaments.Any(ut=>ut.TournamentName.ToLower() == Tournament.Name.ToLower()))
+        //    {
+        //        errortype.Add(new ErrorResponse
+        //        {
+        //            Message = "Team name already exists.",
+        //            Type = ErrorTypes.Error
+        //        });
+        //        return errortype;
+        //    }
 
-            return errortype;
-        }
+        //    return errortype;
+        //}
     }
 }

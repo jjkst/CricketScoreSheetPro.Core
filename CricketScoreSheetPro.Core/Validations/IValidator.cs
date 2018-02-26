@@ -9,6 +9,6 @@ namespace CricketScoreSheetPro.Core.Validations
 {
     public interface IValidator
     {
-        IList<ErrorType> IsValid();
+        IList<ErrorResponse> IsValid();
     }
 }

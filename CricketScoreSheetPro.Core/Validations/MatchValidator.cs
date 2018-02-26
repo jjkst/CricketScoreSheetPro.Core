@@ -16,9 +16,9 @@ namespace CricketScoreSheetPro.Core.Validations
             this.Match = obj;
         }
 
-        public IList<ErrorType> IsValid()
+        public IList<ErrorResponse> IsValid()
         {
-            var errortype = new List<ErrorType>();
+            var errortype = new List<ErrorResponse>();
 
             return errortype;
         }
