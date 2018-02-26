@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Firebase.Database;
 
 namespace CricketScoreSheetPro.Core.Models
 {
@@ -33,5 +34,9 @@ namespace CricketScoreSheetPro.Core.Models
             Umpires = new List<string>();
         }
 
+        public static explicit operator FirebaseObject<object>(UserMatch v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

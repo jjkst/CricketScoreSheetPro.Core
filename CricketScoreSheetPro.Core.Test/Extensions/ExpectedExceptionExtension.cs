@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,12 +29,18 @@ namespace CricketScoreSheetPro.Core.Test.Extensions
         {
             Assert.IsNotNull(exception);
 
-            Assert.IsInstanceOfType(exception, _expectedExceptionType, "Wrong type of exception was thrown.");
-
-            if (!_expectedExceptionMessage.Length.Equals(0))
+            if (exception.GetType() == typeof(AggregateException))
             {
-                Assert.IsTrue(exception.Message.Contains(_expectedExceptionMessage), "Wrong exception message was returned.");
+                exception.InnerException.ToString().Should().Contain(_expectedExceptionMessage);
             }
+            else
+            {
+                Assert.IsInstanceOfType(exception, _expectedExceptionType, "Wrong type of exception was thrown.");
+                if (!_expectedExceptionMessage.Length.Equals(0))
+                {
+                    Assert.IsTrue(exception.Message.Contains(_expectedExceptionMessage), "Wrong exception message was returned.");
+                }
+            }            
         }
     }
 }
