@@ -1,5 +1,6 @@
 ﻿using Firebase.Database;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace CricketScoreSheetPro.Core.Helper
 {
@@ -12,7 +13,7 @@ namespace CricketScoreSheetPro.Core.Helper
 
         public static IList<T> ConvertFirebaseObjectCollectionToList<T>(IReadOnlyCollection<FirebaseObject<T>> firebaseObjectCollection) where T : class
         {
-            var val = new List<T>();
+            var val = new ObservableCollection<T>();
             foreach (var item in firebaseObjectCollection)
             {
                 val.Add(item.Object);
