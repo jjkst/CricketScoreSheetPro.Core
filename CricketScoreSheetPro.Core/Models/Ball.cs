@@ -1,5 +1,7 @@
-﻿namespace CricketScoreSheetPro.Core.Models
-{
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CricketScoreSheetPro.Core.Models
+{    
     public class Ball
     {
         public string ActiveBatsmanId { get; set; }

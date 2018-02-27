@@ -10,16 +10,6 @@ namespace CricketScoreSheetPro.Core.Helper
         {
             return balls/6 + "." + balls%6;
         }
-
-        public static IList<T> ConvertFirebaseObjectCollectionToList<T>(IReadOnlyCollection<FirebaseObject<T>> firebaseObjectCollection) where T : class
-        {
-            var val = new ObservableCollection<T>();
-            foreach (var item in firebaseObjectCollection)
-            {
-                val.Add(item.Object);
-            }
-
-            return val;
-        }
+        
     }
 }

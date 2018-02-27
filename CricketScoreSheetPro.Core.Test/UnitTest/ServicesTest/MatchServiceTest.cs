@@ -8,55 +8,171 @@ using FluentAssertions;
 using Firebase.Database;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using CricketScoreSheetPro.Core.Test.Extensions;
+using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 {
     [TestClass]
     public class MatchServiceTest
     {
-        [TestMethod]
-        public void AddMatchAsync()
+        private static UserMatch UserMatch { get; set; }
+        private static MatchService MatchService { get; set; }
+
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
         {
             //Arrange
-            var newUserMatch = new UserMatch { TournamentId = "TID" };
-            var fo = new Mock<FirebaseObject<UserMatch>>();
-            fo.Setup(x => x.Key).Returns("Id");
-            fo.Setup(x => x.Object).Returns(newUserMatch);
-
+            UserMatch = new UserMatch { TournamentId = "TID" };
+            var matches = new List<UserMatch> { UserMatch };
             var mockRepo = new Mock<IRepository<UserMatch>>();
-            mockRepo.Setup(x => x.CreateAsync(It.IsAny<UserMatch>())).ReturnsAsync(fo.Object);
-
-
-            //Act
-            var matchService = new MatchService(mockRepo.Object);
-            var val = matchService.AddMatchAsync(newUserMatch);
-
-            //Assert
-            val.Should().NotBeNull();
+            mockRepo.Setup(x => x.CreateAsync(It.IsAny<UserMatch>())).ReturnsAsync(UserMatch);
+            mockRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<UserMatch>())).Returns(Task.FromResult(0));
+            mockRepo.Setup(x => x.GetListAsync()).ReturnsAsync(matches);
+            mockRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(UserMatch);
+            mockRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
+            mockRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
+            MatchService = new MatchService(mockRepo.Object);
         }
 
         [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserMatchRepository is null")]
+        [TestCategory("UnitTest")]
+        public void MatchService_NullRepository()
+        {
+            //Act
+            var matchService = new MatchService(null);
+
+            //Assert
+            matchService.Should().BeNull();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void AddMatchAsync()
+        {
+            //Act            
+            var val = MatchService.AddMatchAsync(UserMatch);
+
+            //Assert
+            val.Result.Should().NotBeNull();
+            val.Result.Should().BeEquivalentTo(UserMatch);
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserMatch is null")]
+        [TestCategory("UnitTest")]
+        public void AddMatchAsync_Null()
+        {
+            //Act
+            var val = MatchService.AddMatchAsync(null);
+
+            //Assert
+            val.Result.Should().BeNull();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateMatchAsync()
+        {
+            //Act
+            var val = MatchService.UpdateMatchAsync("MID", UserMatch);
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
+        [TestCategory("UnitTest")]
+        public void UpdateMatchAsync_EmptyMatchId()
+        {
+            //Act
+            var val = MatchService.UpdateMatchAsync("", UserMatch);
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserMatch is null")]
+        [TestCategory("UnitTest")]
+        public void UpdateMatchAsync_Null()
+        {
+            //Act
+            var val = MatchService.UpdateMatchAsync("MID", null);
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMatchAsync()
+        {
+            //Act
+            var val = MatchService.GetMatchAsync("MID");
+
+            //Assert
+            val.Result.Should().BeEquivalentTo(UserMatch);
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
+        [TestCategory("UnitTest")]
+        public void GetMatchAsync_EmptyMatchId()
+        {
+            //Act
+            var val = MatchService.GetMatchAsync("");
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
         public void GetMatchesAsync()
         {
-            ////Arrange
-            //var newUserMatch = new UserMatch { TournamentId = "TID" };
-            //var f = new Dictionary<string, UserMatch> { { "MID", newUserMatch } };
+            //Act
+            var val = MatchService.GetMatchesAsync();
 
-            //var fo = new List<FirebaseObject<UserMatch>>
-            //{
-            //    Convert.ChangeType(f, typeof(FirebaseObject<UserMatch>))
-            //};
-
-            //var mockRepo = new Mock<IRepository<UserMatch>>();
-            //mockRepo.Setup(x => x.GetListAsync()).ReturnsAsync(fo);
+            //Assert
+            val.Result.Should().BeEquivalentTo(new List<UserMatch> { UserMatch });
+        }
 
 
-            ////Act
-            //var matchService = new MatchService(mockRepo.Object);
-            //var val = matchService.AddMatchAsync(newUserMatch);
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void DeleteAllMatchesAsync()
+        {
+            //Act
+            var val = MatchService.DeleteAllMatchesAsync();
 
-            ////Assert
-            //val.Should().NotBeNull();
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void DeleteMatchAsync()
+        {
+            //Act
+            var val = MatchService.DeleteMatchAsync("MID");
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
+        [TestCategory("UnitTest")]
+        public void DeleteMatchAsync_EmptyMatchId()
+        {
+            //Act
+            var val = MatchService.DeleteMatchAsync("");
+
+            //Assert
+            val.Wait();
         }
     }
 }

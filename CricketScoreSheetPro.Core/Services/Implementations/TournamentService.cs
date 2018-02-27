@@ -23,12 +23,12 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             var tournamentAdd = await _tournamentRepository.CreateAsync(newTournament);
             var newusertournament = new UserTournament
             {
-                TournamentId = tournamentAdd.Key,
-                TournamentName = tournamentAdd.Object.Name,
-                Status = tournamentAdd.Object.Status
+                TournamentId = tournamentAdd.Id,
+                TournamentName = tournamentAdd.Name,
+                Status = tournamentAdd.Status
             };
-            await _usertournamentRepository.CreateWithIdAsync(tournamentAdd.Key, newusertournament);
-            return tournamentAdd.Object;
+            await _usertournamentRepository.CreateWithIdAsync(tournamentAdd.Id, newusertournament);
+            return tournamentAdd;
         }
 
         public async Task UpdateTournamentAsync(string tournamentId, Tournament updateTournament)
@@ -52,7 +52,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
         public async Task<IList<UserTournament>> GetTournamentsAsync()
         {
             var usertournaments = await _usertournamentRepository.GetListAsync();
-            return Common.ConvertFirebaseObjectCollectionToList(usertournaments);
+            return usertournaments;
         }
 
         public async Task DeleteAllTournamentsAsync()

@@ -23,12 +23,12 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             var teamAdd = await _teamRepository.CreateAsync(newTeam);
             var newuserteam = new UserTeam
             {
-                TeamId = teamAdd.Key,
-                TeamName = teamAdd.Object.Name,
-                TournamentId = teamAdd.Object.TournamentId
+                TeamId = teamAdd.Id,
+                TeamName = teamAdd.Name,
+                TournamentId = teamAdd.TournamentId
             };
-            await _userteamRepository.CreateWithIdAsync(teamAdd.Key, newuserteam);
-            return teamAdd.Object;
+            await _userteamRepository.CreateWithIdAsync(teamAdd.Id, newuserteam);
+            return teamAdd;
         }
 
         public async Task UpdateTeamAsync(string teamId, Team updateTeam)
@@ -52,7 +52,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
         public async Task<IList<UserTeam>> GetTeamsAsync()
         {
             var userteams = await _userteamRepository.GetListAsync();
-            return Common.ConvertFirebaseObjectCollectionToList(userteams);
+            return userteams;
         }
 
         public async Task DeleteAllTeamsAsync()

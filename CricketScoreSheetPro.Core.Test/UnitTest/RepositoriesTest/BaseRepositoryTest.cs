@@ -9,6 +9,7 @@ using FluentAssertions;
 using CricketScoreSheetPro.Core.Repositories.Implementations;
 using CricketScoreSheetPro.Core.Test.Extensions;
 using Firebase.Database.Query;
+using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 {
@@ -28,6 +29,22 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
             //Assert
             val.Should().BeNull();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void CreateAsync_NotNull()
+        {
+            //Arrange
+            var obj = new { Name = "CreateWithValidObjectTest" };
+            var baseRepo = new Mock<BaseRepository<object>>();
+
+            //Act
+            baseRepo.Setup(x => x.CreateAsync(It.IsAny<object>())).ReturnsAsync(obj);
+
+            //Assert
+            baseRepo.Verify();
+            baseRepo.Object.CreateAsync(obj).Result.Should().BeEquivalentTo(obj);
         }
 
         [TestMethod]
@@ -57,6 +74,23 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
             var val = baseRepo.CreateWithIdAsync("", new object());
 
             //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void CreateWithIdAsync_NotNull()
+        {
+            //Arrange
+            object obj = new { Name = "CreateWithIdAsync_NotNull" };
+            var baseRepo = new Mock<BaseRepository<object>>();
+            baseRepo.Setup(x => x.CreateWithIdAsync("Id", It.IsAny<object>())).Returns(Task.FromResult(0));
+
+            //Act
+            var val = baseRepo.Object.CreateWithIdAsync("Id", obj);
+
+            //Assert
+            baseRepo.Verify();
             val.Wait();
         }
 
@@ -106,6 +140,23 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         }
 
         [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateAsync_NotNull()
+        {
+            // Arrange
+            object obj = new { Name = "Update_Positive" };
+            var baseRepo = new Mock<BaseRepository<object>>();
+            baseRepo.Setup(m => m.UpdateAsync(It.IsAny<string>(), It.IsAny<string>(), (It.IsAny<object>()))).Returns(Task.FromResult(0));
+
+            //Act
+            var val = baseRepo.Object.UpdateAsync("uid", "tid", obj);
+
+            //Assert
+            baseRepo.Verify();
+            val.Wait();
+        }
+
+        [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
         [TestCategory("UnitTest")]
         public void GetItemAsync_EmptyId()
@@ -121,17 +172,42 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         }
 
         [TestMethod]
-        public void GetListAsyncTest()
+        [TestCategory("UnitTest")]
+        public void GetItemAsync_NotNull()
         {
-            //Arrange                     
-            var mockBaseRepository = new Mock<IRepository<object>>();
+            // Arrange
+            object obj = new { Name = "GetItem_Positive" };
+            var baseRepo = new Mock<BaseRepository<object>>();
 
             //Act
-            mockBaseRepository.Setup(m => m.GetListAsync()).ReturnsAsync(new List<FirebaseObject<object>>());
+            baseRepo.Setup(m => m.GetItemAsync(It.IsAny<string>()))
+                        .ReturnsAsync(obj);
 
             //Assert
-            mockBaseRepository.Verify();
-            mockBaseRepository.Object.GetListAsync().Result.Count.Should().Be(0);
+            baseRepo.Verify();
+            baseRepo.Object.GetItemAsync("Id").Result.Should().BeEquivalentTo(obj);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetListAsync_NotNull()
+        {
+            // Arrange
+            var lst = new List<object>
+            {
+                new { Name = "GetListAsync_NotNull" }
+            };
+
+            var baseRepo = new Mock<BaseRepository<object>>();
+            baseRepo.Setup(m => m.GetListAsync())
+               .ReturnsAsync(lst);
+
+            //Act
+            var val = baseRepo.Object.GetListAsync();
+
+            //Assert
+            baseRepo.Verify();
+            val.Result.Should().BeEquivalentTo(lst);
         }
 
         [TestMethod]
@@ -147,7 +223,41 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
             //Assert
             val.Wait();
-        }     
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void DeleteByIdAsync_NotNull()
+        {
+            // Arrange
+            object obj = new { Name = "Delete_Positive" };
+            var baseRepo = new Mock<BaseRepository<object>>();
+            baseRepo.Setup(m => m.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
+
+            //Act
+            var val = baseRepo.Object.DeleteByIdAsync("Id");
+
+            //Assert
+            baseRepo.Verify();
+            val.Wait();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void DeleteAsync_NotNull()
+        {
+            // Arrange
+            object obj = new { Name = "Delete_Positive" };
+            var baseRepo = new Mock<BaseRepository<object>>();
+            baseRepo.Setup(m => m.DeleteAsync()).Returns(Task.FromResult(0));
+
+            //Act
+            var val = baseRepo.Object.DeleteAsync();
+
+            //Assert
+            baseRepo.Verify();
+            val.Wait();
+        }
 
     }
 }

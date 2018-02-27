@@ -108,6 +108,7 @@
     <Compile Include="UnitTest\RepositoriesTest\UserTeamRepositoryTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\UserMatchRepositoryTest.cs" />
     <Compile Include="UnitTest\ServicesTest\MatchServiceTest.cs" />
+    <Compile Include="UnitTest\ServicesTest\PlayerServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
