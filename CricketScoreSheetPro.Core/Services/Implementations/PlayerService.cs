@@ -15,8 +15,8 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public PlayerService(IRepository<Player> playerRepository, IRepository<TeamPlayer> teamplayerRepository)
         {
-            _playerRepository = playerRepository ?? throw new ArgumentNullException($"PlayerRepository is null"); ;
-            _teamplayerRepository = teamplayerRepository ?? throw new ArgumentNullException($"TeamPlayerRepository is null"); ;
+            _playerRepository = playerRepository ?? throw new ArgumentNullException($"PlayerRepository is null"); 
+            _teamplayerRepository = teamplayerRepository ?? throw new ArgumentNullException($"TeamPlayerRepository is null"); 
         }
 
         public async Task<Player> AddPlayerAsync(Player newPlayer)
@@ -54,13 +54,13 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return team;
         }
 
-        public async Task<IList<TeamPlayer>> GetPlayersPerTeamAsync()
+        public async Task<IList<TeamPlayer>> GetTeamPlayersAsync()
         {
             var teamplayers = await _teamplayerRepository.GetListAsync();
             return teamplayers;
         }
 
-        public async Task<IList<Player>> GetPlayersForAllUserTeamsAsync(IRepository<UserTeam> userteamRepository)
+        public async Task<IList<Player>> GetUserTeamPlayersAsync(IRepository<UserTeam> userteamRepository)
         {
             if (userteamRepository == null) throw new ArgumentNullException($"UserTeamRepo is null");
             var userteams = await userteamRepository.GetListAsync();

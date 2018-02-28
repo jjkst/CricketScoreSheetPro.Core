@@ -16,9 +16,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public TournamentsViewModel(ITournamentService tournamentService)
         {
             _tournamentService = tournamentService;
-            Tournaments = _tournamentService.GetTournamentsAsync().Result;
+            Tournaments = _tournamentService.GetUserTournamentsAsync().Result.ToList();
+            //Tournaments.AddRange(_tournamentService.GetImportTournamentsAsync().Result.ToList());
         }
 
-        public IList<UserTournament> Tournaments { get; private set; }
+        public List<UserTournament> Tournaments { get; private set; }
     }
 }

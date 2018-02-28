@@ -1,4 +1,5 @@
 ﻿using CricketScoreSheetPro.Core.Models;
+using CricketScoreSheetPro.Core.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
         Task<Tournament> AddTournamentAsync(Tournament newTournament);
         Task UpdateTournamentAsync(string tournamentId, Tournament updateTournament);
         Task<Tournament> GetTournamentAsync(string tournamentId);
-        Task<IList<UserTournament>> GetTournamentsAsync();
+        Task<IList<UserTournament>> GetUserTournamentsAsync();
+        Task<IList<UserTournament>> GetImportTournamentsAsync(IRepository<UserTournament> importusertournamentRepository);
         Task DeleteAllTournamentsAsync();
         Task DeleteTournamentAsync(string tournamentId);
     }

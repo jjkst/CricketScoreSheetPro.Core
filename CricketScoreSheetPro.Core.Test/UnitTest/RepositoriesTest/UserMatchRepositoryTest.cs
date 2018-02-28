@@ -11,7 +11,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void CheckUrl_NonImport()
+        public void UserMatchRepositoryCheckUrl_NonImport()
         {
             //Arrange
             var baseRepo = new UserMatchRepository(new FirebaseClient("http://baseUrl"), "UUID", false);
@@ -25,7 +25,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void CheckUrl_Import()
+        public void UserMatchRepositoryCheckUrl_Import()
         {
             //Arrange
             var baseRepo = new UserMatchRepository(new FirebaseClient("http://baseUrl"), "UUID", true);

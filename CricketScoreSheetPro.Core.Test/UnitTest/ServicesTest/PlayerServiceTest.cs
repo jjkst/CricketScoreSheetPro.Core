@@ -42,7 +42,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerRepository is null")]
         [TestCategory("UnitTest")]
-        public void MatchService_NullPlayerRepository()
+        public void PlayerService_NullPlayerRepository()
         {
             //Act
             var playerService = new PlayerService(null, (new Mock<IRepository<TeamPlayer>>()).Object);
@@ -147,10 +147,10 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void GetPlayersPerTeamAsync()
+        public void GetTeamPlayersAsync()
         {
             //Act
-            var val = PlayerService.GetPlayersPerTeamAsync();
+            var val = PlayerService.GetTeamPlayersAsync();
 
             //Assert
             val.Result.Should().BeEquivalentTo(new List<TeamPlayer> { new TeamPlayer { PlayerName = "PlayerName" } });
@@ -159,10 +159,10 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserTeamRepo is null")]
         [TestCategory("UnitTest")]
-        public void GetPlayersForAllUserTeamsAsync_NullUserTeamRepo()
+        public void GetUserTeamPlayersAsync_NullUserTeamRepo()
         {
             //Act
-            var val = PlayerService.GetPlayersForAllUserTeamsAsync(null);
+            var val = PlayerService.GetUserTeamPlayersAsync(null);
 
             //Assert
             val.Result.Should().BeEquivalentTo(Player);
@@ -170,14 +170,14 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void GetPlayersForAllUserTeamsAsync()
+        public void GetUserTeamPlayersAsync()
         {
             //Arrange
             var mockUserTeamRepo = new Mock<IRepository<UserTeam>>();
             mockUserTeamRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<UserTeam> { new UserTeam { TeamName = "Chennai Super Kings" } });
 
             //Act
-            var val = PlayerService.GetPlayersForAllUserTeamsAsync(mockUserTeamRepo.Object);
+            var val = PlayerService.GetUserTeamPlayersAsync(mockUserTeamRepo.Object);
 
             //Assert
             val.Result.Should().BeEquivalentTo(Player);
@@ -209,7 +209,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Player ID is null")]
         [TestCategory("UnitTest")]
-        public void DeletePlayerAsync_EmptyMatchId()
+        public void DeletePlayerAsync_EmptyPlayerId()
         {
             //Act
             var val = PlayerService.DeletePlayerAsync("");

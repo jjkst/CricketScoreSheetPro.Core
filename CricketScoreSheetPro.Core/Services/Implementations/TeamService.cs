@@ -2,6 +2,7 @@
 using CricketScoreSheetPro.Core.Models;
 using CricketScoreSheetPro.Core.Repositories.Interfaces;
 using CricketScoreSheetPro.Core.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,12 +15,13 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public TeamService(IRepository<Team> teamRepository, IRepository<UserTeam> userteamRepository)
         {
-            _teamRepository = teamRepository;
-            _userteamRepository = userteamRepository;
+            _teamRepository = teamRepository ?? throw new ArgumentNullException($"TeamRepository is null"); 
+            _userteamRepository = userteamRepository ?? throw new ArgumentNullException($"UserTeamRepository is null");
         }
 
         public async Task<Team> AddTeamAsync(Team newTeam)
         {
+            if (newTeam == null) throw new ArgumentNullException($"Team is null");
             var teamAdd = await _teamRepository.CreateAsync(newTeam);
             var newuserteam = new UserTeam
             {
@@ -33,6 +35,8 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public async Task UpdateTeamAsync(string teamId, Team updateTeam)
         {
+            if (updateTeam == null) throw new ArgumentNullException($"Team is null");
+            if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"Team ID is null");
             await _teamRepository.CreateWithIdAsync(teamId, updateTeam);
             var updateuserteam = new UserTeam
             {
@@ -45,14 +49,22 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public async Task<Team> GetTeamAsync(string teamId)
         {
+            if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"Team ID is null");
             var team = await _teamRepository.GetItemAsync(teamId);
             return team;
         }
 
-        public async Task<IList<UserTeam>> GetTeamsAsync()
+        public async Task<IList<UserTeam>> GetUserTeamsAsync()
         {
             var userteams = await _userteamRepository.GetListAsync();
             return userteams;
+        }
+
+        public async Task<IList<UserTeam>> GetImportTeamsAsync(IRepository<UserTeam> importuserteamRepository)
+        {
+            if (importuserteamRepository == null) throw new ArgumentNullException($"Import UserTeamRepo is null");
+            var importuserteams = await importuserteamRepository.GetListAsync();
+            return importuserteams;
         }
 
         public async Task DeleteAllTeamsAsync()
@@ -63,6 +75,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public async Task DeleteTeamAsync(string teamId)
         {
+            if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"Team ID is null");
             await _teamRepository.DeleteByIdAsync(teamId);
             await _userteamRepository.DeleteByIdAsync(teamId);
         }

@@ -11,7 +11,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void CheckUrl()
+        public void PlayerRepositoryCheckUrl()
         {
             //Arrange
             var baseRepo = new PlayerRepository(new FirebaseClient("http://baseUrl"));
