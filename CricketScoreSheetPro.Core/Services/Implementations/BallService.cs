@@ -12,13 +12,12 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public BallService(Ball thisBall, bool undo = false)
         {
-            _thisBall = thisBall ?? throw new ArgumentNullException("Ball not found");
+            _thisBall = thisBall ?? throw new ArgumentNullException("This Ball is null");
             _undo = undo;
         }
 
         public UserMatch UpdateMatchThisBall(UserMatch currentMatch, string battingTeamName)
         {
-            if (_thisBall == null) throw new ArgumentNullException("Ball not found");
             if (currentMatch == null) throw new ArgumentNullException("Current match not set");
 
             Innings battingTeam;
@@ -35,7 +34,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             }
             else
             {
-                throw new ArgumentException("Team not found");
+                throw new ArgumentException("Batting team not found");
             }
 
             if (_undo && battingTeam.Balls <= 0) throw new ArgumentException("Batting team innings is not started yet.");
@@ -53,12 +52,19 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             battingTeam.Byes = battingTeam.Byes + (_thisBall.Byes * undoval);
             battingTeam.LegByes = battingTeam.LegByes + (_thisBall.LegByes * undoval);
 
-            if (_undo) battingTeam.InningStatus = false;
-            else battingTeam.InningStatus = battingTeam.Balls >= currentMatch.TotalOvers * 6;
-
             //No need to care match status when undo so return
-            if (_undo) return currentMatch;
+            if (_undo)
+            {
+                battingTeam.InningStatus = false;
+                currentMatch.MatchComplete = false;
+                currentMatch.WinningTeamName = string.Empty;
+                currentMatch.Comments = string.Empty;
+                return currentMatch;
+            }
 
+            //Batting innings complete
+            battingTeam.InningStatus = battingTeam.Balls >= currentMatch.TotalOvers * 6;
+            
             //Match complete
             if (bowlingTeam.InningStatus && battingTeam.InningStatus) currentMatch.MatchComplete = true;
 
