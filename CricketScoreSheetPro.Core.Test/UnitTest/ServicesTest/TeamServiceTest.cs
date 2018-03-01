@@ -153,34 +153,6 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserTeamRepo is null")]
-        [TestCategory("UnitTest")]
-        public void GetImportTeamsAsync_NullUserTeamRepo()
-        {
-            //Act
-            var val = TeamService.GetImportTeamsAsync(null);
-
-            //Assert
-            val.Result.Should().BeNull();
-        }
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        public void GetImportTeamsAsync()
-        {
-            //Arrange
-            var mockUserTeamRepo = new Mock<IRepository<UserTeam>>();
-            mockUserTeamRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<UserTeam> { new UserTeam { TeamName = Team.Name } });
-
-            //Act
-            var val = TeamService.GetImportTeamsAsync(mockUserTeamRepo.Object);
-
-            //Assert
-            val.Result.Should().BeEquivalentTo(new List<UserTeam> { new UserTeam { TeamName = Team.Name } });
-        }
-
-
-        [TestMethod]
         [TestCategory("UnitTest")]
         public void DeleteAllTeamsAsync()
         {

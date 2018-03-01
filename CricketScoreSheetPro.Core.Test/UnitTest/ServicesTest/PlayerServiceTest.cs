@@ -24,7 +24,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public static void ClassInit(TestContext context)
         {
             //Arrange
-            Player = new Player { Name = "PlayerName" };            
+            Player = new Player { Name = "PlayerName", TeamId = "TeamId"};            
             var players = new List<Player> { Player };
             var mockPlayerRepo = new Mock<IRepository<Player>>();
             mockPlayerRepo.Setup(x => x.CreateAsync(It.IsAny<Player>())).ReturnsAsync(Player);
@@ -157,7 +157,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserTeamRepo is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "No teams are added")]
         [TestCategory("UnitTest")]
         public void GetUserTeamPlayersAsync_NullUserTeamRepo()
         {
@@ -173,11 +173,10 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void GetUserTeamPlayersAsync()
         {
             //Arrange
-            var mockUserTeamRepo = new Mock<IRepository<UserTeam>>();
-            mockUserTeamRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<UserTeam> { new UserTeam { TeamName = "Chennai Super Kings" } });
+            var userteams = new List<UserTeam> { new UserTeam { TeamName = "Chennai Super Kings", TeamId = "TeamId" } };
 
             //Act
-            var val = PlayerService.GetUserTeamPlayersAsync(mockUserTeamRepo.Object);
+            var val = PlayerService.GetUserTeamPlayersAsync(userteams);
 
             //Assert
             val.Result.Should().BeEquivalentTo(Player);

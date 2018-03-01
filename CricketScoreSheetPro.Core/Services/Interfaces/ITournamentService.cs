@@ -14,7 +14,6 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
         Task UpdateTournamentAsync(string tournamentId, Tournament updateTournament);
         Task<Tournament> GetTournamentAsync(string tournamentId);
         Task<IList<UserTournament>> GetUserTournamentsAsync();
-        Task<IList<UserTournament>> GetImportTournamentsAsync(IRepository<UserTournament> importusertournamentRepository);
         Task DeleteAllTournamentsAsync();
         Task DeleteTournamentAsync(string tournamentId);
     }

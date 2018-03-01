@@ -6,11 +6,11 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
 {
     public class UserTeamRepository : BaseRepository<UserTeam>
     {
-        public UserTeamRepository(FirebaseClient client, string uuid, bool importFlg)
+        public UserTeamRepository(FirebaseClient client, string uuid)
         {
-            _reference = client.Child(importFlg ? "Imports" : "Users")
-                    .Child(uuid)
-                    .Child("UserTeams");
+            _reference = client.Child("Users")
+                               .Child(uuid)
+                               .Child("UserTeams");
         }
     }
 }

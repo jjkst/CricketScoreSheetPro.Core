@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.ViewModels
 {
-    class TournamentDetailViewModel
+    public class TournamentDetailViewModel
     {
     }
 }

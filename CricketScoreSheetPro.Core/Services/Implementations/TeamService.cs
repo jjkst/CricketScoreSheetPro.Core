@@ -60,13 +60,6 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return userteams;
         }
 
-        public async Task<IList<UserTeam>> GetImportTeamsAsync(IRepository<UserTeam> importuserteamRepository)
-        {
-            if (importuserteamRepository == null) throw new ArgumentNullException($"Import UserTeamRepo is null");
-            var importuserteams = await importuserteamRepository.GetListAsync();
-            return importuserteams;
-        }
-
         public async Task DeleteAllTeamsAsync()
         {
             await _teamRepository.DeleteAsync();

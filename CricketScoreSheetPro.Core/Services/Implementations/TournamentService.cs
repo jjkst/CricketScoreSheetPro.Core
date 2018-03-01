@@ -60,13 +60,6 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return usertournaments;
         }
 
-        public async Task<IList<UserTournament>> GetImportTournamentsAsync(IRepository<UserTournament> importusertournamentRepository)
-        {
-            if (importusertournamentRepository == null) throw new ArgumentNullException($"Import UserTournamentRepo is null");
-            var importusertournaments = await importusertournamentRepository.GetListAsync();
-            return importusertournaments;
-        }
-
         public async Task DeleteAllTournamentsAsync()
         {
             await _tournamentRepository.DeleteAsync();

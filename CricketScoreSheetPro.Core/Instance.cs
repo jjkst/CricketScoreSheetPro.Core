@@ -16,8 +16,6 @@ namespace CricketScoreSheetPro.Core.Services
 
         public string UUID { get; set; }
 
-        public bool ImportFlag { get; set; }
-
         public string TeamId { get; set; }
 
         //private PlayerService playerService;

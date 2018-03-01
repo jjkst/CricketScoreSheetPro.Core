@@ -11,30 +11,16 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void UserTeamRepositoryCheckUrl_NonImport()
+        public void UserTeamRepositoryCheckUrl()
         {
             //Arrange
-            var baseRepo = new UserTeamRepository(new FirebaseClient("http://baseUrl"), "UUID", false);
+            var baseRepo = new UserTeamRepository(new FirebaseClient("http://baseUrl"), "UUID");
 
             //Act
             var val = baseRepo._reference;
 
             //Assert
             val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Users/UUID/UserTeams/.json");
-        }
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        public void UserTeamRepositoryCheckUrl_Import()
-        {
-            //Arrange
-            var baseRepo = new UserTeamRepository(new FirebaseClient("http://baseUrl"), "UUID", true);
-
-            //Act
-            var val = baseRepo._reference;
-
-            //Assert
-            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Imports/UUID/UserTeams/.json");
         }
     }
 }

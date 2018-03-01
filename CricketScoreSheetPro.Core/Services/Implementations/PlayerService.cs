@@ -60,10 +60,9 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return teamplayers;
         }
 
-        public async Task<IList<Player>> GetUserTeamPlayersAsync(IRepository<UserTeam> userteamRepository)
+        public async Task<IList<Player>> GetUserTeamPlayersAsync(IList<UserTeam> userteams)
         {
-            if (userteamRepository == null) throw new ArgumentNullException($"UserTeamRepo is null");
-            var userteams = await userteamRepository.GetListAsync();
+            if (userteams == null) throw new ArgumentNullException($"No teams are added");
             var players = new List<Player>();
             foreach (var team in userteams)
             {

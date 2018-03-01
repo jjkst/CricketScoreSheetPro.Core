@@ -28,6 +28,8 @@ namespace CricketScoreSheetPro.Core.Models
 
         public IList<string> Umpires { get; set; }
 
+        public bool ImportedFlg { get; set; }
+
         public UserMatch()
         {
             AddDate = DateTime.Today;
