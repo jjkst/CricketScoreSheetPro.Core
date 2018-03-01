@@ -17,8 +17,6 @@ namespace CricketScoreSheetPro.Core.Models
 
         public decimal EntryFee { get; set; }
 
-        public DateTime AddDate { get; set; }
-
         public IList<string> Prizes { get; set; }
 
         public IList<string> Facilities { get; set; }
@@ -27,7 +25,6 @@ namespace CricketScoreSheetPro.Core.Models
 
         public Tournament()
         {
-            AddDate = DateTime.Today;
             Prizes = new List<string>();
             Facilities = new List<string>();
             Venues = new List<string>();
