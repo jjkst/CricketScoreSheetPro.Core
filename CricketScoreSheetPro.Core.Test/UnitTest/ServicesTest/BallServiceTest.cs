@@ -79,7 +79,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
                 RunOuts = 1
             };
         }
-        
+
+        #region UpdateMatchThisBall
+
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "This Ball is null")]
         [TestCategory("UnitTest")]
@@ -350,7 +352,11 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.WinningTeamName.Should().Be("Tie");
             Match.Comments.Should().Be("Game is tie");
         }
-        
+
+        #endregion UpdateMatchThisBall
+
+        #region UpdateBatsmanThisBall
+
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Batsman not found")]
         [TestCategory("UnitTest")]
@@ -499,5 +505,725 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Player.Fours.Should().Be(fours);
             Player.Sixes.Should().Be(sixes);
         }
+
+        #endregion UpdateBatsmanThisBall
+
+        #region UpdateRunnerThisBall
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Runner not found")]
+        [TestCategory("UnitTest")]
+        public void UpdateRunnerThisBall_Null()
+        {
+            //Arrange
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.UpdateRunnerThisBall(null);
+
+            //Assert
+            val.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateRunnerThisBall_NoChange()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                RunnerBatsmanId = "RunnerId",
+            };
+            var howout = Player.HowOut;
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateRunnerThisBall(Player);
+
+            //Assert
+            Player.HowOut.Should().Be(howout);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateRunnerThisBall_runout()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                RunnerBatsmanId = "RunnerId",
+                RunnerHowOut = "run out"
+            };
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateRunnerThisBall(Player);
+
+            //Assert
+            Player.HowOut.Should().Be(thisball.RunnerHowOut);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateRunnerThisBall_UndoRunOut()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                RunnerBatsmanId = "RunnerId",
+                RunnerHowOut = "run out"
+            };
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateRunnerThisBall(Player);
+
+            //Assert
+            Player.HowOut.Should().Be("not out");
+        }
+
+        #endregion UpdateRunnerThisBall
+
+        #region UpdateFielderThisBall
+        
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Fielder not found")]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_Null()
+        {
+            //Arrange
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.UpdateFielderThisBall(null);
+
+            //Assert
+            val.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_Catch()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"c {Player.Name}"
+            };
+            var catches = Player.Catches;
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.Catches.Should().Be(catches + 1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_UndoCatch()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"c {Player.Name}"
+            };
+            var catches = Player.Catches;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.Catches.Should().Be(catches - 1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_UndoCatchWhenZero()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"c {Player.Name}"
+            };
+            Player.Catches = 0;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.Catches.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_Stumping()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"st †{Player.Name}"
+            };
+            var stumpings = Player.Stumpings;
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.Stumpings.Should().Be(stumpings + 1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_UndoStumping()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"st †{Player.Name}"
+            };
+            var stumping = Player.Stumpings;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.Stumpings.Should().Be(stumping - 1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_UndoStumpingWhenZero()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"st †{Player.Name}"
+            };
+            Player.Stumpings = 0;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.Stumpings.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_Runouts()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"runout {Player.Name}"
+            };
+            var runouts = Player.RunOuts;
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.RunOuts.Should().Be(runouts + 1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_UndoRunouts()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"runout {Player.Name}"
+            };
+            var runouts = Player.RunOuts;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+
+            //Assert
+            Player.RunOuts.Should().Be(runouts - 1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateFielderThisBall_UndoRunoutsWhenZero()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                FielderId = "fielderId",
+                HowOut = $"runout {Player.Name}"
+            };
+            Player.RunOuts = 0;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateFielderThisBall(Player);
+
+            //Assert
+            Player.RunOuts.Should().Be(0);
+        }
+
+
+        #endregion UpdateFielderThisBall
+
+        #region UpdateBowlerThisBall
+        
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Bowler not found")]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall_Null()
+        {
+            //Arrange
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.UpdateBowlerThisBall(null);
+
+            //Assert
+            val.Should().NotBeNull();
+        }
+        
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Bowler haven't bowled any ball")]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall_UndoWhenZeroBallsBowled()
+        {
+            //Arrange
+            var ballService = new BallService(new Ball(), true);
+
+            //Act
+            var val = ballService.UpdateBowlerThisBall(new Player());
+
+            //Assert
+            val.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                ActiveBowlerId = "BowlerId",
+                RunsScored = 4,
+                Byes = 1,
+                LegByes = 1,
+                HowOut = "Bowled",
+            };
+            var howout = Player.HowOut;
+            var runsgiven = Player.RunsGiven;
+            var ballsBowled = Player.BallsBowled;
+            var wickets = Player.Wickets;
+            var wides = Player.Wides;
+            var noballs = Player.NoBalls;
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateBowlerThisBall(Player);
+
+            //Assert
+            Player.Should().NotBeNull();
+            Player.RunsGiven.Should().Be(runsgiven + thisball.RunsScored + thisball.Wide + thisball.NoBall);
+            Player.BallsBowled.Should().Be(ballsBowled + 1);
+            Player.Wickets.Should().Be(wickets + 1);
+            Player.Wides.Should().Be(wides);
+            Player.NoBalls.Should().Be(noballs);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall_UndoScore()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                ActiveBowlerId = "BowlerId",
+                RunsScored = 4,
+                Byes = 1,
+                LegByes = 1,
+                HowOut = "Bowled",
+            };
+            var howout = Player.HowOut;
+            var runsgiven = Player.RunsGiven;
+            var ballsBowled = Player.BallsBowled;
+            var wickets = Player.Wickets;
+            var wides = Player.Wides;
+            var noballs = Player.NoBalls;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateBowlerThisBall(Player);
+
+            //Assert
+            Player.Should().NotBeNull();
+            Player.RunsGiven.Should().Be(runsgiven - thisball.RunsScored - thisball.Wide - thisball.NoBall);
+            Player.BallsBowled.Should().Be(ballsBowled - 1);
+            Player.Wickets.Should().Be(wickets - 1);
+            Player.Wides.Should().Be(wides);
+            Player.NoBalls.Should().Be(noballs);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall_UpdateScoreWhenWide()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                ActiveBowlerId = "BowlerId",
+                RunsScored = 0,
+                Wide = 1,
+                Byes = 1,
+                LegByes = 1
+            };
+
+            var runsgiven = Player.RunsGiven;
+            var ballsBowled = Player.BallsBowled;
+            var wickets = Player.Wickets;
+            var wides = Player.Wides;
+            var noballs = Player.NoBalls;
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateBowlerThisBall(Player);
+
+            //Assert
+            Player.Should().NotBeNull();
+            Player.RunsGiven.Should().Be(runsgiven + thisball.RunsScored + thisball.Wide + thisball.NoBall);
+            Player.BallsBowled.Should().Be(ballsBowled);
+            Player.Wickets.Should().Be(wickets);
+            Player.Wides.Should().Be(wides + 1);
+            Player.NoBalls.Should().Be(noballs);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall_UndoWide()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                ActiveBowlerId = "BowlerId",
+                RunsScored = 0,
+                Wide = 1,
+                Byes = 1,
+                LegByes = 1
+            };
+            var howout = Player.HowOut;
+            var runsgiven = Player.RunsGiven;
+            var ballsBowled = Player.BallsBowled;
+            var wickets = Player.Wickets;
+            var wides = Player.Wides;
+            var noballs = Player.NoBalls;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateBowlerThisBall(Player);
+
+            //Assert
+            Player.Should().NotBeNull();
+            Player.RunsGiven.Should().Be(runsgiven - thisball.RunsScored - thisball.Wide - thisball.NoBall);
+            Player.BallsBowled.Should().Be(ballsBowled);
+            Player.Wickets.Should().Be(wickets);
+            Player.Wides.Should().Be(wides - 1);
+            Player.NoBalls.Should().Be(noballs);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall_noball()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                ActiveBowlerId = "BowlerId",
+                RunsScored = 2,
+                NoBall = 1,
+                Byes = 1,
+                LegByes = 1
+            };
+            var runsgiven = Player.RunsGiven;
+            var ballsBowled = Player.BallsBowled;
+            var wickets = Player.Wickets;
+            var wides = Player.Wides;
+            var noballs = Player.NoBalls;
+            var ballService = new BallService(thisball);
+
+            //Act
+            ballService.UpdateBowlerThisBall(Player);
+
+            //Assert
+            Player.Should().NotBeNull();
+            Player.RunsGiven.Should().Be(runsgiven + thisball.RunsScored + thisball.Wide + thisball.NoBall);
+            Player.BallsBowled.Should().Be(ballsBowled);
+            Player.Wickets.Should().Be(wickets);
+            Player.Wides.Should().Be(wides);
+            Player.NoBalls.Should().Be(noballs + 1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void UpdateBowlerThisBall_UndoNoball()
+        {
+            //Arrange
+            var thisball = new Ball
+            {
+                ActiveBowlerId = "BowlerId",
+                RunsScored = 2,
+                NoBall = 1,
+                Byes = 1,
+                LegByes = 1
+            };
+            var runsgiven = Player.RunsGiven;
+            var ballsBowled = Player.BallsBowled;
+            var wickets = Player.Wickets;
+            var wides = Player.Wides;
+            var noballs = Player.NoBalls;
+            var ballService = new BallService(thisball, true);
+
+            //Act
+            ballService.UpdateBowlerThisBall(Player);
+
+            //Assert
+            Player.Should().NotBeNull();
+            Player.RunsGiven.Should().Be(runsgiven - thisball.RunsScored - thisball.Wide - thisball.NoBall);
+            Player.BallsBowled.Should().Be(ballsBowled);
+            Player.Wickets.Should().Be(wickets);
+            Player.Wides.Should().Be(wides);
+            Player.NoBalls.Should().Be(noballs - 1);
+        }
+        
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Balls collection not found")]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_NullBallsCollection()
+        {
+            //Arrange
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(null);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_LessThanOver_Positive()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+            {
+                new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0}
+            };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_OverWithRuns()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_OverWithoutRuns()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_OverWithWide()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 1, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_OverWithNoBall()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 1},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_MoreThanAnOver_RunInRecentOver()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_MoreThanAnOver_NoRunInRecentOver()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(1);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_MoreThanAnOver_InCompleteLastOver()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+
+                };
+            var ballService = new BallService(new Ball());
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        #endregion UpdateBowlerThisBall
+
     }
 }
