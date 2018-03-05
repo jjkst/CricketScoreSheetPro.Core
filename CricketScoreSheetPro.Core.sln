@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketScoreSheetPro.Core", "CricketScoreSheetPro.Core\CricketScoreSheetPro.Core.csproj", "{6BD177D1-4349-43BE-A1B0-5628B5DD01D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketScoreSheetPro.Core.Test", "CricketScoreSheetPro.Core.Test\CricketScoreSheetPro.Core.Test.csproj", "{334A07A8-C3A9-4D84-8822-F01B43F579ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C03F4A28-2553-450C-8553-D9D07119148C}"
+	ProjectSection(SolutionItems) = preProject
+		cricketscoresheetpro..runsettings = cricketscoresheetpro..runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {714F2A8B-6919-4220-AB44-B37C080B47E9}
 	EndGlobalSection
 EndGlobal

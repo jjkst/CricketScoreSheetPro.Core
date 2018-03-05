@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="Extensions\ExpectedExceptionExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTest\HelperTest\FunctionsTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\BaseRepositoryTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\PlayerRepositoryTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\TeamPlayerRepositoryTest.cs" />
@@ -112,6 +113,9 @@
     <Compile Include="UnitTest\ServicesTest\TeamServiceTest.cs" />
     <Compile Include="UnitTest\ServicesTest\TournamentServiceTest.cs" />
     <Compile Include="UnitTest\ServicesTest\BallServiceTest.cs" />
+    <Compile Include="UnitTest\ValidationsTest\TournamentValidatorTest.cs" />
+    <Compile Include="UnitTest\ValidationsTest\BaseValidatorTest.cs" />
+    <Compile Include="UnitTest\ViewModelsTest\TournamentViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

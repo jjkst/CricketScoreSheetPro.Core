@@ -36,13 +36,15 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper\Common.cs" />
+    <Compile Include="Helper\Functions.cs" />
     <Compile Include="Models\Ball.cs" />
     <Compile Include="Models\ErrorResponse.cs" />
     <Compile Include="Models\Innings.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerStatistics.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamPlayer.cs" />
+    <Compile Include="Models\TeamStatistics.cs" />
     <Compile Include="Models\Tournament.cs" />
     <Compile Include="Models\UserMatch.cs" />
     <Compile Include="Models\UserTeam.cs" />
@@ -57,7 +59,6 @@
     <Compile Include="Repositories\Implementations\UserTeamRepository.cs" />
     <Compile Include="Repositories\Implementations\UserTournamentRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
-    <Compile Include="Instance.cs" />
     <Compile Include="Services\Implementations\BallService.cs" />
     <Compile Include="Services\Implementations\MatchService.cs" />
     <Compile Include="Services\Implementations\PlayerService.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Services\Interfaces\ITeamService.cs" />
     <Compile Include="Services\Interfaces\ITournamentService.cs" />
     <Compile Include="Validations\BallValidator.cs" />
-    <Compile Include="Validations\IValidator.cs" />
+    <Compile Include="Validations\BaseValidator.cs" />
     <Compile Include="Validations\MatchValidator.cs" />
     <Compile Include="Validations\PlayerValidator.cs" />
     <Compile Include="Validations\TeamValidator.cs" />

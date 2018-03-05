@@ -112,14 +112,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), venues);
         }
 
-        public void UpdateTournament(Tournament updateTournament)
+        public void RefreshTournament()
         {
-            _tournamentService.UpdateTournamentAsync(Tournament.Id, updateTournament);
+            Tournament = _tournamentService.GetTournamentAsync(Tournament.Id).Result;
         }
-
-        public void AddTournament(Tournament newTournament)
-        {
-            Tournament = _tournamentService.AddTournamentAsync(newTournament).Result;
-        }
+        
     }
 }

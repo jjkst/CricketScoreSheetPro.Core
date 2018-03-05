@@ -221,6 +221,36 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        public void UpdateMatchThisBall_AwayTeamUpdateScore()
+        {
+            //Arrange
+            Thisball.HowOut = "not out";
+            Thisball.RunnerHowOut = "not out";
+            var ballService = new BallService(Thisball);           
+            var runs = Match.AwayTeam.Runs;
+            var wickets = Match.AwayTeam.Wickets;
+            var balls = Match.AwayTeam.Balls;
+            var wides = Match.AwayTeam.Wides;
+            var noballs = Match.AwayTeam.NoBalls;
+            var byes = Match.AwayTeam.Byes;
+            var legbyes = Match.AwayTeam.LegByes;
+
+            //Act
+            ballService.UpdateMatchThisBall(Match, "AwayTeamName");
+
+            //Assert
+            Match.AwayTeam.Runs.Should().Be(runs + Thisball.RunsScored + Thisball.Wide + Thisball.NoBall
+                + Thisball.Byes + Thisball.LegByes);
+            Match.AwayTeam.Wickets.Should().Be(wickets); 
+            Match.AwayTeam.Balls.Should().Be(balls); //wide or noball
+            Match.AwayTeam.Wides.Should().Be(wides + Thisball.Wide);
+            Match.AwayTeam.NoBalls.Should().Be(noballs + Thisball.NoBall);
+            Match.AwayTeam.Byes.Should().Be(byes + Thisball.Byes);
+            Match.AwayTeam.LegByes.Should().Be(legbyes + Thisball.LegByes);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
         public void UpdateMatchThisBall_BattingTeamInningsCompleteWhenOverareDone()
         {
             //Arrange
@@ -1012,7 +1042,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Player.Wides.Should().Be(wides);
             Player.NoBalls.Should().Be(noballs - 1);
         }
-        
+
+        #endregion UpdateBowlerThisBall
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Balls collection not found")]
         [TestCategory("UnitTest")]
@@ -1125,9 +1157,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
                     new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
                     new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
                     new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
                     new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 1},
-                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
-                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
                 };
             var ballService = new BallService(new Ball());
 
@@ -1223,7 +1255,61 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             val.Should().Be(0);
         }
 
-        #endregion UpdateBowlerThisBall
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_MoreThanAnOver_Undo_InCompleteLastOver()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+
+                };
+            var ballService = new BallService(new Ball(), true);
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(0);
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        public void GetMaidenValue_MoreThanAnOver_Undo_NoRunInRecentOver()
+        {
+            //Arrange
+            var ballscollection = new List<Ball>
+                {
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 1, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                    new Ball{ActiveBowlerId = "BowlerId", RunsScored = 0, Wide = 0, NoBall = 0},
+                };
+            var ballService = new BallService(new Ball(), true);
+
+            //Act
+            var val = ballService.GetMaidenValue(ballscollection);
+
+            //Assert
+            val.Should().Be(-1);
+        }
 
     }
 }

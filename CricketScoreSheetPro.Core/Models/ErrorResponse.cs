@@ -9,6 +9,6 @@
     {
         public string Message { get; set; }
 
-        public ErrorTypes Type { get; set; }
+        public ErrorTypes ErrorType { get; set; }
     }
 }

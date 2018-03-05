@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Validations
 {
-    public class MatchValidator : IValidator
+    public class MatchValidator 
     {
         private UserMatch Match { get; set; }
 
