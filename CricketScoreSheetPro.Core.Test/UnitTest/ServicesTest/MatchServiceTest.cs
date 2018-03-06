@@ -16,23 +16,23 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
     [TestClass]
     public class MatchServiceTest
     {
-        private static Match UserMatch { get; set; }
+        private static Models.Match Match { get; set; }
         private static MatchService MatchService { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
             //Arrange
-            UserMatch = new Models.Match { TournamentId = "TID" };
-            var matches = new List<Models.Match> { UserMatch };
+            Match = new Models.Match { TournamentId = "TID" };
+            var matches = new List<Models.Match> { Match };
             var mockRepo = new Mock<IRepository<Models.Match>>();
-            mockRepo.Setup(x => x.CreateAsync(It.IsAny<Match>())).ReturnsAsync(UserMatch);
+            mockRepo.Setup(x => x.CreateAsync(It.IsAny<Models.Match>())).ReturnsAsync(Match);
             mockRepo.Setup((IRepository<Models.Match> x) => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Models.Match>())).Returns(Task.FromResult(0));
             mockRepo.Setup(x => x.GetListAsync()).ReturnsAsync(matches);
-            mockRepo.Setup((IRepository<Models.Match> x) => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync((Models.Match)UserMatch);
+            mockRepo.Setup((IRepository<Models.Match> x) => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync((Models.Match)Match);
             mockRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
             mockRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
-            MatchService = new MatchService(mockRepo.Object);
+            MatchService = new MatchService(mockRepo.Object, null);
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void MatchService_NullRepository()
         {
             //Act
-            var matchService = new MatchService(null);
+            var matchService = new MatchService(null, null);
 
             //Assert
             matchService.Should().BeNull();
@@ -52,11 +52,11 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void AddMatchAsync()
         {
             //Act            
-            var val = MatchService.AddMatchAsync((Models.Match)UserMatch);
+            var val = MatchService.AddMatchAsync((Models.Match)Match);
 
             //Assert
             val.Result.Should().NotBeNull();
-            val.Result.Should().BeEquivalentTo((Models.Match)UserMatch);
+            val.Result.Should().BeEquivalentTo((Models.Match)Match);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void UpdateMatchAsync()
         {
             //Act
-            var val = MatchService.UpdateMatchAsync("MID", (Models.Match)UserMatch);
+            var val = MatchService.UpdateMatchAsync("MID", (Models.Match)Match);
 
             //Assert
             val.Wait();
@@ -88,7 +88,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void UpdateMatchAsync_EmptyMatchId()
         {
             //Act
-            var val = MatchService.UpdateMatchAsync("", (Models.Match)UserMatch);
+            var val = MatchService.UpdateMatchAsync("", (Models.Match)Match);
 
             //Assert
             val.Wait();
@@ -114,7 +114,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var val = MatchService.GetMatchAsync("MID");
 
             //Assert
-            val.Result.Should().BeEquivalentTo((Models.Match)UserMatch);
+            val.Result.Should().BeEquivalentTo((Models.Match)Match);
         }
 
         [TestMethod]
@@ -137,7 +137,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var val = MatchService.GetMatchesAsync();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<Models.Match> { UserMatch });
+            val.Result.Should().BeEquivalentTo(new List<Models.Match> { Match });
         }
 
 

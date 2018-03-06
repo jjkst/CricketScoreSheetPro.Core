@@ -146,10 +146,10 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void GetUserTeamsAsync()
         {
             //Act
-            var val = TeamService.GetUserTeamsAsync();
+            var val = TeamService.GetTeamsAsync();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<Team> { new Team { TeamName = "TeamName" } });
+            val.Result.Should().BeEquivalentTo(new List<Team> { new Team { Name = "TeamName" } });
         }
 
         [TestMethod]

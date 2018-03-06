@@ -16,11 +16,11 @@ namespace CricketScoreSheetPro.Core.Validations
             this._service = service ?? throw new ArgumentNullException($"TournamentService is null");
         }
 
-        public IList<ErrorResponse> IsValidName(string name)
+        public IList<ErrorResponse> IsTournamentNameExist(string name)
         {
             var errors = new List<ErrorResponse>();
-            var usertournaments = _service.GetUserTournamentsAsync().Result;
-            if (usertournaments.Any(ut => ut.TournamentName.ToLower() == name.ToLower()))
+            var usertournaments = _service.GetTournamentsAsync().Result;
+            if (usertournaments.Any(ut => ut.Name.ToLower() == name.ToLower()))
             {
                 errors.Add(new ErrorResponse
                 {

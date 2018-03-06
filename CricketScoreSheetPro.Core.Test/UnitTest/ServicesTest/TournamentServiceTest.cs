@@ -205,10 +205,10 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void GetUserTournamentsAsync()
         {
             //Act
-            var val = TournamentService.GetUserTournamentsAsync();
+            var val = TournamentService.GetTournamentsAsync();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<Tournament> { new Tournament { TournamentName = Tournament.Name } });
+            val.Result.Should().BeEquivalentTo(new List<Tournament> { new Tournament { Name = Tournament.Name } });
         }
 
         [TestMethod]

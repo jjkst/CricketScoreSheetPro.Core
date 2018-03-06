@@ -1,5 +1,6 @@
 ﻿using CricketScoreSheetPro.Core.Models;
 using CricketScoreSheetPro.Core.Repositories.Interfaces;
+using CricketScoreSheetPro.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Services.Implementations
 {
-    public class TeamInningService
+    public class TeamInningService : ITeamInningService
     {
         private readonly IRepository<TeamDetail> _teamdetailRepository;
         private readonly IRepository<TeamInning> _teaminningsRepository;

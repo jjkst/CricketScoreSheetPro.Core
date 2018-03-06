@@ -11,16 +11,16 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void TournamentRepositoryCheckUrl()
+        public void UserTournamentRepositoryCheckUrl()
         {
             //Arrange
-            var baseRepo = new TournamentDetailRepository(new FirebaseClient("http://baseUrl"));
+            var baseRepo = new TournamentRepository(new FirebaseClient("http://baseUrl"), "UUID");
 
             //Act
             var val = baseRepo._reference;
 
             //Assert
-            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Tournaments/.json");
+            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Users/UUID/Tournament/.json");
         }
     }
 }

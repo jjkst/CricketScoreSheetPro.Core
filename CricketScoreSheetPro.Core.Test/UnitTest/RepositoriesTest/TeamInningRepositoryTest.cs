@@ -7,20 +7,20 @@ using FluentAssertions;
 namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 {
     [TestClass]
-    public class PlayerRepositoryTest
+    public class TeamInningRepositoryTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void PlayerRepositoryCheckUrl()
+        public void TeamPlayerRepositoryCheckUrl()
         {
             //Arrange
-            var baseRepo = new PlayerInningRepository(new FirebaseClient("http://baseUrl"));
+            var baseRepo = new TeamInningRepository(new FirebaseClient("http://baseUrl"), "teamId");
 
             //Act
             var val = baseRepo._reference;
 
             //Assert
-            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Players/.json");
+            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/TeamInning/.json");
         }
     }
 }

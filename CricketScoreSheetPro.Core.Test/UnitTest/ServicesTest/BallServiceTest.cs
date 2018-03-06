@@ -62,8 +62,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
             Player = new PlayerInning
             {
-                Name = "JK",
-                Roles = new List<string> { "Batsman", "Bowler" },
+                PlayerName = "JK",
                 RunsTaken = 10,
                 BallsPlayed = 4,
                 Fours = 1,
@@ -91,7 +90,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(null);
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(new PlayerInning());
+            var val = ballService.UpdateBatsman(new PlayerInning());
 
             //Assert
             val.Should().BeNull();
@@ -106,7 +105,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(new Ball());
 
             //Act
-            var match = ballService.UpdateMatchThisBall(null, "battingTeamName");
+            var match = ballService.UpdateMatch(null, "battingTeamName");
 
             //Assert
             match.Should().BeNull();
@@ -121,7 +120,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(new Ball());
 
             //Act
-            var match = ballService.UpdateMatchThisBall(Match, "battingTeamName");
+            var match = ballService.UpdateMatch(Match, "battingTeamName");
 
             //Assert
             match.Should().BeNull();
@@ -137,7 +136,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.HomeTeam.Balls = 0;
 
             //Act
-            var match = ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            var match = ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             match.Should().BeNull();
@@ -153,7 +152,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.HomeTeam.Complete = true;
 
             //Act
-            var match = ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            var match = ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             match.Should().BeNull();
@@ -174,7 +173,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var legbyes = Match.HomeTeam.LegByes;
 
             //Act
-            ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             Match.HomeTeam.Runs.Should().Be(runs - Thisball.RunsScored - Thisball.Wide - Thisball.NoBall
@@ -206,7 +205,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var legbyes = Match.HomeTeam.LegByes;
 
             //Act
-            ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             Match.HomeTeam.Runs.Should().Be(runs + Thisball.RunsScored + Thisball.Wide + Thisball.NoBall
@@ -236,7 +235,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var legbyes = Match.AwayTeam.LegByes;
 
             //Act
-            ballService.UpdateMatchThisBall(Match, "AwayTeamName");
+            ballService.UpdateMatch(Match, "AwayTeamName");
 
             //Assert
             Match.AwayTeam.Runs.Should().Be(runs + Thisball.RunsScored + Thisball.Wide + Thisball.NoBall
@@ -267,7 +266,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var legbyes = Match.HomeTeam.LegByes;
             
             //Act
-            ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             Match.HomeTeam.Runs.Should().Be(runs + Thisball.RunsScored + Thisball.Wide + Thisball.NoBall
@@ -301,7 +300,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var legbyes = Match.HomeTeam.LegByes;
 
             //Act
-            ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             Match.HomeTeam.Runs.Should().Be(runs + Thisball.RunsScored + Thisball.Wide + Thisball.NoBall
@@ -341,7 +340,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var legbyes = Match.HomeTeam.LegByes;
 
             //Act
-            ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             Match.HomeTeam.Runs.Should().Be(runs + Thisball.RunsScored + Thisball.Wide + Thisball.NoBall
@@ -374,7 +373,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.AwayTeam.Runs = Match.HomeTeam.Runs;
 
             //Act
-            ballService.UpdateMatchThisBall(Match, "HomeTeamName");
+            ballService.UpdateMatch(Match, "HomeTeamName");
 
             //Assert
             Match.HomeTeam.Complete.Should().BeTrue();
@@ -396,7 +395,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(Thisball);
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(null);
+            var val = ballService.UpdateBatsman(null);
 
             //Assert
             val.Should().BeNull();
@@ -412,7 +411,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(Thisball, true);
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(Player);
+            var val = ballService.UpdateBatsman(Player);
 
             //Assert
             val.Should().NotBeNull();
@@ -437,7 +436,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var sixes = Player.Sixes;
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(Player);
+            var val = ballService.UpdateBatsman(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -467,7 +466,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var sixes = Player.Sixes;
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(Player);
+            var val = ballService.UpdateBatsman(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -496,7 +495,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var sixes = Player.Sixes;
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(Player);
+            var val = ballService.UpdateBatsman(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -525,7 +524,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var sixes = Player.Sixes;
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(Player);
+            var val = ballService.UpdateBatsman(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -549,7 +548,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(new Ball());
 
             //Act
-            var val = ballService.UpdateRunnerThisBall(null);
+            var val = ballService.UpdateRunner(null);
 
             //Assert
             val.Should().NotBeNull();
@@ -568,7 +567,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateRunnerThisBall(Player);
+            ballService.UpdateRunner(Player);
 
             //Assert
             Player.HowOut.Should().Be(howout);
@@ -587,7 +586,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateRunnerThisBall(Player);
+            ballService.UpdateRunner(Player);
 
             //Assert
             Player.HowOut.Should().Be(thisball.RunnerHowOut);
@@ -606,7 +605,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateRunnerThisBall(Player);
+            ballService.UpdateRunner(Player);
 
             //Assert
             Player.HowOut.Should().Be("not out");
@@ -625,7 +624,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(new Ball());
 
             //Act
-            var val = ballService.UpdateFielderThisBall(null);
+            var val = ballService.UpdateFielder(null);
 
             //Assert
             val.Should().NotBeNull();
@@ -639,13 +638,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"c {Player.Name}"
+                HowOut = $"c {Player.PlayerName}"
             };
             var catches = Player.Catches;
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.Catches.Should().Be(catches + 1);
@@ -659,13 +658,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"c {Player.Name}"
+                HowOut = $"c {Player.PlayerName}"
             };
             var catches = Player.Catches;
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.Catches.Should().Be(catches - 1);
@@ -679,13 +678,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"c {Player.Name}"
+                HowOut = $"c {Player.PlayerName}"
             };
             Player.Catches = 0;
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.Catches.Should().Be(0);
@@ -699,13 +698,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"st †{Player.Name}"
+                HowOut = $"st †{Player.PlayerName}"
             };
             var stumpings = Player.Stumpings;
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.Stumpings.Should().Be(stumpings + 1);
@@ -719,13 +718,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"st †{Player.Name}"
+                HowOut = $"st †{Player.PlayerName}"
             };
             var stumping = Player.Stumpings;
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.Stumpings.Should().Be(stumping - 1);
@@ -739,13 +738,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"st †{Player.Name}"
+                HowOut = $"st †{Player.PlayerName}"
             };
             Player.Stumpings = 0;
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.Stumpings.Should().Be(0);
@@ -759,13 +758,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"runout {Player.Name}"
+                HowOut = $"runout {Player.PlayerName}"
             };
             var runouts = Player.RunOuts;
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.RunOuts.Should().Be(runouts + 1);
@@ -779,13 +778,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"runout {Player.Name}"
+                HowOut = $"runout {Player.PlayerName}"
             };
             var runouts = Player.RunOuts;
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
 
             //Assert
@@ -800,13 +799,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var thisball = new Ball
             {
                 FielderId = "fielderId",
-                HowOut = $"runout {Player.Name}"
+                HowOut = $"runout {Player.PlayerName}"
             };
             Player.RunOuts = 0;
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateFielderThisBall(Player);
+            ballService.UpdateFielder(Player);
 
             //Assert
             Player.RunOuts.Should().Be(0);
@@ -826,7 +825,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(new Ball());
 
             //Act
-            var val = ballService.UpdateBowlerThisBall(null);
+            var val = ballService.UpdateBowler(null);
 
             //Assert
             val.Should().NotBeNull();
@@ -841,7 +840,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(new Ball(), true);
 
             //Act
-            var val = ballService.UpdateBowlerThisBall(new PlayerInning());
+            var val = ballService.UpdateBowler(new PlayerInning());
 
             //Assert
             val.Should().NotBeNull();
@@ -849,7 +848,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void UpdateBowlerThisBall()
+        public void UpdateBowler()
         {
             //Arrange
             var thisball = new Ball
@@ -869,7 +868,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateBowlerThisBall(Player);
+            ballService.UpdateBowler(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -902,7 +901,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateBowlerThisBall(Player);
+            ballService.UpdateBowler(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -935,7 +934,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateBowlerThisBall(Player);
+            ballService.UpdateBowler(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -968,7 +967,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateBowlerThisBall(Player);
+            ballService.UpdateBowler(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -1000,7 +999,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball);
 
             //Act
-            ballService.UpdateBowlerThisBall(Player);
+            ballService.UpdateBowler(Player);
 
             //Assert
             Player.Should().NotBeNull();
@@ -1032,7 +1031,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(thisball, true);
 
             //Act
-            ballService.UpdateBowlerThisBall(Player);
+            ballService.UpdateBowler(Player);
 
             //Assert
             Player.Should().NotBeNull();

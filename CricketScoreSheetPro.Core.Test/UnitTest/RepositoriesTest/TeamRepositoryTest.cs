@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Firebase.Database;
 using CricketScoreSheetPro.Core.Repositories.Implementations;
+using Firebase.Database;
 using FluentAssertions;
 
 namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
@@ -11,16 +11,16 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void TeamRepositoryCheckUrl()
+        public void UserTeamRepositoryCheckUrl()
         {
             //Arrange
-            var baseRepo = new TeamDetailRepository(new FirebaseClient("http://baseUrl"));
+            var baseRepo = new TeamRepository(new FirebaseClient("http://baseUrl"), "UUID");
 
             //Act
             var val = baseRepo._reference;
 
             //Assert
-            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Teams/.json");
+            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Users/UUID/Team/.json");
         }
     }
 }

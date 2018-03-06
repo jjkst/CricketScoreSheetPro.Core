@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Services.Implementations
 {
-    public class PlayerInningService : IPlayerService
+    public class PlayerInningService : IPlayerInningService
     {
         private readonly IRepository<TeamDetail> _teamdetailRepository;
         private readonly IRepository<PlayerInning> _playerinningsRepository;
@@ -46,20 +46,20 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             await _playerinningsRepository.CreateWithIdAsync(playerInningsId, playerinning);
         }
 
-        public async Task<PlayerInning> GetTeamInningAsync(string playerInningsId)
+        public async Task<PlayerInning> GetPlayerInningAsync(string playerInningsId)
         {
             if (string.IsNullOrEmpty(playerInningsId)) throw new ArgumentException($"PlayerInning ID is null");
             var playerInning = await _playerinningsRepository.GetItemAsync(playerInningsId);
             return playerInning;
         }
 
-        public async Task<IList<PlayerInning>> GetTeamInningsAsync()
+        public async Task<IList<PlayerInning>> GetPlayerInningsAsync()
         {
             var playerInnings = await _playerinningsRepository.GetListAsync();
             return playerInnings;
         }
 
-        public async Task DeleteAllPlayerInningsInningsAsync()
+        public async Task DeleteAllPlayerInningsAsync()
         {
             await _playerinningsRepository.DeleteAsync();
         }

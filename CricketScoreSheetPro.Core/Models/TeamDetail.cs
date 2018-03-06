@@ -4,6 +4,8 @@ namespace CricketScoreSheetPro.Core.Models
 {
     public class TeamDetail
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public IList<Player> Players { get; set; }

@@ -5,6 +5,7 @@ namespace CricketScoreSheetPro.Core.Models
 {
     public class TournamentDetail
     {
+        public string Id { get; set; }
         public string Name { get; set; }
 
         public string Sponsor { get; set; }

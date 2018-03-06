@@ -18,9 +18,9 @@ namespace CricketScoreSheetPro.Core.Models
 
         public bool MatchComplete { get; set; }
 
-        public Team HomeTeam { get; set; }
+        public TeamInning HomeTeam { get; set; }
 
-        public Team AwayTeam { get; set; }
+        public TeamInning AwayTeam { get; set; }
 
         public string WinningTeamName { get; set; }
 

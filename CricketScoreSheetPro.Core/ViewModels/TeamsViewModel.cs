@@ -15,7 +15,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public TeamsViewModel(ITeamService teamService)
         {
             _teamService = teamService;
-            Teams = _teamService.GetUserTeamsAsync().Result.ToList();
+            Teams = _teamService.GetTeamsAsync().Result.ToList();
         }
 
         public List<Team> Teams { get; private set; }

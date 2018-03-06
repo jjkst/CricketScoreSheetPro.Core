@@ -67,7 +67,8 @@
     <Compile Include="Services\Implementations\TeamService.cs" />
     <Compile Include="Services\Implementations\TournamentService.cs" />
     <Compile Include="Services\Interfaces\IMatchService.cs" />
-    <Compile Include="Services\Interfaces\IPlayerService.cs" />
+    <Compile Include="Services\Interfaces\IPlayerInningService.cs" />
+    <Compile Include="Services\Interfaces\ITeamInningService.cs" />
     <Compile Include="Services\Interfaces\ITeamService.cs" />
     <Compile Include="Services\Interfaces\ITournamentService.cs" />
     <Compile Include="Validations\BallValidator.cs" />

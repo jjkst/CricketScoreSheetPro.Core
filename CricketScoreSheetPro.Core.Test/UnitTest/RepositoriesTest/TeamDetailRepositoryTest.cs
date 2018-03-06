@@ -1,26 +1,26 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CricketScoreSheetPro.Core.Repositories.Implementations;
 using Firebase.Database;
+using CricketScoreSheetPro.Core.Repositories.Implementations;
 using FluentAssertions;
 
 namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 {
     [TestClass]
-    public class TeamPlayerRepositoryTest
+    public class TeamDetailRepositoryTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void TeamPlayerRepositoryCheckUrl()
+        public void TeamRepositoryCheckUrl()
         {
             //Arrange
-            var baseRepo = new TeamInningRepository(new FirebaseClient("http://baseUrl"), "teamId");
+            var baseRepo = new TeamDetailRepository(new FirebaseClient("http://baseUrl"));
 
             //Act
             var val = baseRepo._reference;
 
             //Assert
-            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Teams/teamId/Players/.json");
+            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/TeamDetail/.json");
         }
     }
 }

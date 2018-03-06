@@ -18,7 +18,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public TournamentsViewModel(ITournamentService tournamentService)
         {
             _tournamentService = tournamentService ?? throw new ArgumentNullException($"TournamentService is null"); 
-            Tournaments = _tournamentService.GetUserTournamentsAsync().Result.ToList();
+            Tournaments = _tournamentService.GetTournamentsAsync().Result.ToList();
         }
 
         public List<Tournament> Tournaments { get; private set; }

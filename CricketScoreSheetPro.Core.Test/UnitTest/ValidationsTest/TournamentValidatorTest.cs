@@ -18,13 +18,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
         public void IsValidName_Duplicate()
         {
             //Arrange
-            var ut = new Tournament() { TournamentName = "ValidateDuplicateTournamentNameTest" };
+            var ut = new Tournament() { Name = "ValidateDuplicateTournamentNameTest" };
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetUserTournamentsAsync()).ReturnsAsync(new List<Tournament> { ut });
+            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { ut });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);
-            var val = validator.IsValidName("ValidateDuplicateTournamentNameTest");
+            var val = validator.IsTournamentNameExist("ValidateDuplicateTournamentNameTest");
 
             //Assert
             val.First().Message.Should().Be("Tournament name already exists.");
@@ -36,13 +36,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
         public void IsValidName_Valid()
         {
             //Arrange
-            var ut = new Tournament() { TournamentName = "ValidateDuplicateTournamentNameTest" };
+            var ut = new Tournament() { Name = "ValidateDuplicateTournamentNameTest" };
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetUserTournamentsAsync()).ReturnsAsync(new List<Tournament> { ut });
+            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { ut });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);
-            var val = validator.IsValidName("Valid");
+            var val = validator.IsTournamentNameExist("Valid");
 
             //Assert
             val.Count().Should().Be(0);
@@ -54,7 +54,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
         {
             //Arrange
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetUserTournamentsAsync()).ReturnsAsync(new List<Tournament> { new Tournament() });
+            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { new Tournament() });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);
@@ -72,7 +72,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
         {
             //Arrange
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetUserTournamentsAsync()).ReturnsAsync(new List<Tournament> { new Tournament() });
+            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { new Tournament() });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);
