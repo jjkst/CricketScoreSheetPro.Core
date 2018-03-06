@@ -14,7 +14,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         public void TeamPlayerRepositoryCheckUrl()
         {
             //Arrange
-            var baseRepo = new TeamPlayerRepository(new FirebaseClient("http://baseUrl"), "teamId");
+            var baseRepo = new TeamInningRepository(new FirebaseClient("http://baseUrl"), "teamId");
 
             //Act
             var val = baseRepo._reference;

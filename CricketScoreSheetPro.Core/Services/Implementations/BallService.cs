@@ -16,13 +16,13 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _undo = undo;
         }
 
-        public UserMatch UpdateMatchThisBall(UserMatch currentMatch, string battingTeamName)
+        public Match UpdateMatchThisBall(Match currentMatch, string battingTeamName)
         {
             if (currentMatch == null) throw new ArgumentNullException("Current match not set");
 
-            Innings battingTeam;
-            Innings bowlingTeam;
-            if (currentMatch.HomeTeam.TeamName.ToLower() == battingTeamName.ToLower())
+            TeamInning battingTeam;
+            TeamInning bowlingTeam;
+            if (currentMatch.HomeTeam.Name.ToLower() == battingTeamName.ToLower())
             {
                 battingTeam = currentMatch.HomeTeam;
                 bowlingTeam = currentMatch.AwayTeam;
@@ -38,7 +38,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             }
 
             if (_undo && battingTeam.Balls <= 0) throw new ArgumentException("Batting team innings is not started yet.");
-            if (!_undo && battingTeam.InningStatus) throw new ArgumentException("Batting team innings is already over.");
+            if (!_undo && battingTeam.Complete) throw new ArgumentException("Batting team innings is already over.");
 
             var undoval = _undo ? -1 : 1;
             battingTeam.Runs = battingTeam.Runs +
@@ -55,7 +55,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             //No need to care match status when undo so return
             if (_undo)
             {
-                battingTeam.InningStatus = false;
+                battingTeam.Complete = false;
                 currentMatch.MatchComplete = false;
                 currentMatch.WinningTeamName = string.Empty;
                 currentMatch.Comments = string.Empty;
@@ -63,16 +63,16 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             }
 
             //Batting innings complete
-            battingTeam.InningStatus = battingTeam.Balls >= currentMatch.TotalOvers * 6;
+            battingTeam.Complete = battingTeam.Balls >= currentMatch.TotalOvers * 6;
             
             //Match complete
-            if (bowlingTeam.InningStatus && battingTeam.InningStatus) currentMatch.MatchComplete = true;
+            if (bowlingTeam.Complete && battingTeam.Complete) currentMatch.MatchComplete = true;
 
             //Batting team chased successfully
-            if (bowlingTeam.InningStatus && battingTeam.Runs > bowlingTeam.Runs)
+            if (bowlingTeam.Complete && battingTeam.Runs > bowlingTeam.Runs)
             {
                 currentMatch.MatchComplete = true;
-                battingTeam.InningStatus = true;
+                battingTeam.Complete = true;
                 currentMatch.WinningTeamName = battingTeam.TeamName;
                 currentMatch.Comments = battingTeam.TeamName + " won by " + (11 - battingTeam.Wickets) + " wickets";
             }
@@ -95,7 +95,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return currentMatch;
         }
 
-        public Player UpdateBatsmanThisBall(Player batsman)
+        public PlayerInning UpdateBatsmanThisBall(PlayerInning batsman)
         {
             if (batsman == null) throw new ArgumentNullException("Batsman not found");
             if (_undo && batsman.BallsPlayed <= 0) throw new ArgumentException("Batsman haven't played any ball");
@@ -110,7 +110,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return batsman;
         }
 
-        public Player UpdateRunnerThisBall(Player runner)
+        public PlayerInning UpdateRunnerThisBall(PlayerInning runner)
         {
             if (runner == null) throw new ArgumentNullException("Runner not found");
 
@@ -123,20 +123,20 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return runner;
         }
 
-        public Player UpdateFielderThisBall(Player fielder)
+        public PlayerInning UpdateFielderThisBall(PlayerInning fielder)
         {
             if (fielder == null) throw new ArgumentNullException("Fielder not found");
             var undoval = _undo ? -1 : 1;
             fielder.Catches = fielder.Catches + ((_undo && fielder.Catches <= 0) ? 0 :
-                ((_thisBall.HowOut.Contains($"c {fielder.Name}") ? 1 : 0) * undoval));
+                ((_thisBall.HowOut.Contains($"c {fielder.PlayerName}") ? 1 : 0) * undoval));
             fielder.Stumpings = fielder.Stumpings + ((_undo && fielder.Stumpings <= 0) ? 0 :
-                ((_thisBall.HowOut.Contains($"st †{fielder.Name}") ? 1 : 0) * undoval));
+                ((_thisBall.HowOut.Contains($"st †{fielder.PlayerName}") ? 1 : 0) * undoval));
             fielder.RunOuts = fielder.RunOuts + ((_undo && fielder.RunOuts <= 0) ? 0 :
-                ((_thisBall.HowOut.Contains($"runout {fielder.Name}") ? 1 : 0) * undoval));
+                ((_thisBall.HowOut.Contains($"runout {fielder.PlayerName}") ? 1 : 0) * undoval));
             return fielder;
         }
 
-        public Player UpdateBowlerThisBall(Player bowler)
+        public PlayerInning UpdateBowlerThisBall(PlayerInning bowler)
         {
             if (bowler == null) throw new ArgumentNullException("Bowler not found");
             if (_undo && bowler.BallsBowled <= 0) throw new ArgumentException("Bowler haven't bowled any ball");

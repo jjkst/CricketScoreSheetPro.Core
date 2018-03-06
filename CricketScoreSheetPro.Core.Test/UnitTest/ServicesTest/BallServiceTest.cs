@@ -13,8 +13,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
     {
         private static BallService BallService { get; set; }
         private static Ball Thisball { get; set; }
-        private static UserMatch Match { get; set; }
-        private static Player Player { get; set; }
+        private static Match Match { get; set; }
+        private static PlayerInning Player { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -37,12 +37,12 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
                 RunnerHowOut = "run out"
             };
 
-            Match = new UserMatch
+            Match = new Match
             {
                 Id = "MatchId",
                 TournamentId = "TournamentId",
                 AddDate = DateTime.Today,
-                HomeTeam = new Innings
+                HomeTeam = new TeamInning
                 {
                     TeamId = "HomeTeamId",
                     TeamName = "HomeTeamName",
@@ -54,13 +54,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
                     Wickets = 4,
                     Wides = 6
                 },
-                AwayTeam = new Innings { TeamId = "AwayTeamId", TeamName = "AwayTeamName" },
+                AwayTeam = new TeamInning { TeamId = "AwayTeamId", TeamName = "AwayTeamName" },
                 Location = "Richmond, VA",
                 TotalOvers = 20,
                 Umpires = new List<string> { "umpireA", "umpireB" }
             };
 
-            Player = new Player
+            Player = new PlayerInning
             {
                 Name = "JK",
                 Roles = new List<string> { "Batsman", "Bowler" },
@@ -91,7 +91,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(null);
 
             //Act
-            var val = ballService.UpdateBatsmanThisBall(new Player());
+            var val = ballService.UpdateBatsmanThisBall(new PlayerInning());
 
             //Assert
             val.Should().BeNull();
@@ -150,7 +150,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         {
             //Arrange 
             var ballService = new BallService(new Ball());
-            Match.HomeTeam.InningStatus = true;
+            Match.HomeTeam.Complete = true;
 
             //Act
             var match = ballService.UpdateMatchThisBall(Match, "HomeTeamName");
@@ -185,7 +185,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.HomeTeam.NoBalls.Should().Be(noballs - Thisball.NoBall);
             Match.HomeTeam.Byes.Should().Be(byes - Thisball.Byes);
             Match.HomeTeam.LegByes.Should().Be(legbyes - Thisball.LegByes);
-            Match.HomeTeam.InningStatus.Should().BeFalse();
+            Match.HomeTeam.Complete.Should().BeFalse();
             Match.MatchComplete.Should().BeFalse();
             Match.WinningTeamName.Should().BeNullOrEmpty();
             Match.Comments.Should().BeNullOrEmpty();
@@ -278,7 +278,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.HomeTeam.NoBalls.Should().Be(noballs + Thisball.NoBall);
             Match.HomeTeam.Byes.Should().Be(byes + Thisball.Byes);
             Match.HomeTeam.LegByes.Should().Be(legbyes + Thisball.LegByes);
-            Match.HomeTeam.InningStatus.Should().BeTrue();
+            Match.HomeTeam.Complete.Should().BeTrue();
         }
 
         [TestMethod]
@@ -291,7 +291,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Thisball.RunsScored = 4;
             var ballService = new BallService(Thisball);
             Match.AwayTeam.Runs = Match.HomeTeam.Runs + 3;
-            Match.AwayTeam.InningStatus = true;
+            Match.AwayTeam.Complete = true;
             var runs = Match.HomeTeam.Runs;
             var wickets = Match.HomeTeam.Wickets;
             var balls = Match.HomeTeam.Balls;
@@ -312,7 +312,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.HomeTeam.NoBalls.Should().Be(noballs + Thisball.NoBall);
             Match.HomeTeam.Byes.Should().Be(byes + Thisball.Byes);
             Match.HomeTeam.LegByes.Should().Be(legbyes + Thisball.LegByes);
-            Match.HomeTeam.InningStatus.Should().BeTrue();
+            Match.HomeTeam.Complete.Should().BeTrue();
             Match.MatchComplete.Should().BeTrue();
             Match.WinningTeamName.Should().Be(Match.HomeTeam.TeamName);
             Match.Comments.Should().Be(Match.HomeTeam.TeamName + " won by " + (11 - Match.HomeTeam.Wickets) + " wickets"); //total wickets ???
@@ -330,7 +330,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Thisball.LegByes = 0;
             var ballService = new BallService(Thisball);
             Match.AwayTeam.Runs = Match.HomeTeam.Runs + 3;
-            Match.AwayTeam.InningStatus = true;
+            Match.AwayTeam.Complete = true;
             Match.HomeTeam.Balls = (Match.TotalOvers * 6) - 1;
             var runs = Match.HomeTeam.Runs;
             var wickets = Match.HomeTeam.Wickets;
@@ -352,7 +352,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match.HomeTeam.NoBalls.Should().Be(noballs + Thisball.NoBall);
             Match.HomeTeam.Byes.Should().Be(byes + Thisball.Byes);
             Match.HomeTeam.LegByes.Should().Be(legbyes + Thisball.LegByes);
-            Match.HomeTeam.InningStatus.Should().BeTrue();
+            Match.HomeTeam.Complete.Should().BeTrue();
             Match.MatchComplete.Should().BeTrue();
             Match.WinningTeamName.Should().Be(Match.AwayTeam.TeamName);
             Match.Comments.Should().Be(Match.AwayTeam.TeamName + " won by " + (Match.AwayTeam.Runs - Match.HomeTeam.Runs + " runs"));
@@ -369,7 +369,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Thisball.Byes = 0;
             Thisball.LegByes = 0;
             var ballService = new BallService(Thisball);           
-            Match.AwayTeam.InningStatus = true;
+            Match.AwayTeam.Complete = true;
             Match.HomeTeam.Balls = (Match.TotalOvers * 6) - 1;
             Match.AwayTeam.Runs = Match.HomeTeam.Runs;
 
@@ -377,7 +377,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             ballService.UpdateMatchThisBall(Match, "HomeTeamName");
 
             //Assert
-            Match.HomeTeam.InningStatus.Should().BeTrue();
+            Match.HomeTeam.Complete.Should().BeTrue();
             Match.MatchComplete.Should().BeTrue();
             Match.WinningTeamName.Should().Be("Tie");
             Match.Comments.Should().Be("Game is tie");
@@ -841,7 +841,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var ballService = new BallService(new Ball(), true);
 
             //Act
-            var val = ballService.UpdateBowlerThisBall(new Player());
+            var val = ballService.UpdateBowlerThisBall(new PlayerInning());
 
             //Assert
             val.Should().NotBeNull();

@@ -17,26 +17,26 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
     public class PlayerServiceTest
     {
 
-        private static Player Player { get; set; }
-        private static PlayerService PlayerService { get; set; }
+        private static PlayerInning Player { get; set; }
+        private static PlayerInningService PlayerService { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
             //Arrange
-            Player = new Player { Name = "PlayerName", TeamId = "TeamId"};            
-            var players = new List<Player> { Player };
-            var mockPlayerRepo = new Mock<IRepository<Player>>();
-            mockPlayerRepo.Setup(x => x.CreateAsync(It.IsAny<Player>())).ReturnsAsync(Player);
-            mockPlayerRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Player>())).Returns(Task.FromResult(0));            
+            Player = new PlayerInning { Name = "PlayerName", TeamId = "TeamId"};            
+            var players = new List<PlayerInning> { Player };
+            var mockPlayerRepo = new Mock<IRepository<PlayerInning>>();
+            mockPlayerRepo.Setup(x => x.CreateAsync(It.IsAny<PlayerInning>())).ReturnsAsync(Player);
+            mockPlayerRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<PlayerInning>())).Returns(Task.FromResult(0));            
             mockPlayerRepo.Setup(x => x.GetFilteredListAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(players);
             mockPlayerRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(Player);
             mockPlayerRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
             mockPlayerRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
-            var mockTeamPlayerRepo = new Mock<IRepository<TeamPlayer>>();
-            mockTeamPlayerRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<TeamPlayer>())).Returns(Task.FromResult(0));
-            mockTeamPlayerRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<TeamPlayer> { new TeamPlayer {PlayerName = Player.Name } });
-            PlayerService = new PlayerService(mockPlayerRepo.Object, mockTeamPlayerRepo.Object);
+            var mockTeamPlayerRepo = new Mock<IRepository<Player>>();
+            mockTeamPlayerRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Player>())).Returns(Task.FromResult(0));
+            mockTeamPlayerRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Player> { new Player {PlayerName = Player.Name } });
+            PlayerService = new PlayerInningService(mockPlayerRepo.Object, mockTeamPlayerRepo.Object);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void PlayerService_NullPlayerRepository()
         {
             //Act
-            var playerService = new PlayerService(null, (new Mock<IRepository<TeamPlayer>>()).Object);
+            var playerService = new PlayerInningService(null, (new Mock<IRepository<Player>>()).Object);
 
             //Assert
             playerService.Should().BeNull();
@@ -57,7 +57,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void PlayerService_NullTeamPlayerRepository()
         {
             //Act
-            var playerService = new PlayerService((new Mock<IRepository<Player>>()).Object, null);
+            var playerService = new PlayerInningService((new Mock<IRepository<PlayerInning>>()).Object, null);
 
             //Assert
             playerService.Should().BeNull();
@@ -153,7 +153,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var val = PlayerService.GetTeamPlayersAsync();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<TeamPlayer> { new TeamPlayer { PlayerName = "PlayerName" } });
+            val.Result.Should().BeEquivalentTo(new List<Player> { new Player { PlayerName = "PlayerName" } });
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void GetUserTeamPlayersAsync()
         {
             //Arrange
-            var userteams = new List<UserTeam> { new UserTeam { TeamName = "Chennai Super Kings", TeamId = "TeamId" } };
+            var userteams = new List<Team> { new Team { TeamName = "Chennai Super Kings", TeamId = "TeamId" } };
 
             //Act
             var val = PlayerService.GetUserTeamPlayersAsync(userteams);

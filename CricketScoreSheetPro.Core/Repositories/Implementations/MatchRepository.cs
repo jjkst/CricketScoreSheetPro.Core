@@ -6,13 +6,13 @@ using Firebase.Database.Query;
 
 namespace CricketScoreSheetPro.Core.Repositories.Implementations
 {
-    public class UserMatchRepository : BaseRepository<UserMatch>
+    public class MatchRepository : BaseRepository<Match>
     { 
-        public UserMatchRepository(FirebaseClient client, string uuid)
+        public MatchRepository(FirebaseClient client, string uuid)
         {
-            _reference = client.Child("Users")
+            _reference = client.Child("User")
                                .Child(uuid)
-                               .Child("UserMatches");
+                               .Child("Match");
         }
 
     }

@@ -11,10 +11,10 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
     public interface ITournamentService
     {
         Task<Tournament> AddTournamentAsync(Tournament newTournament);
-        Task UpdateTournamentAsync(string tournamentId, Tournament updateTournament);
+        Task UpdateTournamentAsync(string tournamentId, TournamentDetail updateTournament);
         Task UpdateTournamentPropertyAsync(string id, string fieldName, object val);
-        Task<Tournament> GetTournamentAsync(string tournamentId);
-        Task<IList<UserTournament>> GetUserTournamentsAsync();
+        Task<TournamentDetail> GetTournamentDetailAsync(string tournamentId);
+        Task<IList<Tournament>> GetTournamentsAsync();
         Task DeleteAllTournamentsAsync();
         Task DeleteTournamentAsync(string tournamentId);
     }

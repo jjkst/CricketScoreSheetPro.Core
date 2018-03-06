@@ -14,7 +14,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         public void UserTournamentRepositoryCheckUrl()
         {
             //Arrange
-            var baseRepo = new UserTournamentRepository(new FirebaseClient("http://baseUrl"), "UUID");
+            var baseRepo = new TournamentRepository(new FirebaseClient("http://baseUrl"), "UUID");
 
             //Act
             var val = baseRepo._reference;

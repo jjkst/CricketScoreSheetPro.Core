@@ -4,7 +4,7 @@ using Firebase.Database;
 
 namespace CricketScoreSheetPro.Core.Models
 {
-    public class UserMatch
+    public class Match
     {
         public string Id { get; set; }
 
@@ -18,9 +18,9 @@ namespace CricketScoreSheetPro.Core.Models
 
         public bool MatchComplete { get; set; }
 
-        public Innings HomeTeam { get; set; }
+        public Team HomeTeam { get; set; }
 
-        public Innings AwayTeam { get; set; }
+        public Team AwayTeam { get; set; }
 
         public string WinningTeamName { get; set; }
 
@@ -30,15 +30,11 @@ namespace CricketScoreSheetPro.Core.Models
 
         public bool ImportedFlg { get; set; }
 
-        public UserMatch()
+        public Match()
         {
             AddDate = DateTime.Today;
             Umpires = new List<string>();
         }
 
-        public static explicit operator FirebaseObject<object>(UserMatch v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

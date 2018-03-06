@@ -14,25 +14,25 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
     [TestClass]
     public class TournamentServiceTest
     {
-        private static Tournament Tournament { get; set; }
+        private static TournamentDetail Tournament { get; set; }
         private static TournamentService TournamentService { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
             //Arrange
-            Tournament = new Tournament { Name = "IPL" };
-            var teams = new List<Tournament> { Tournament };
-            var mockTournamentRepo = new Mock<IRepository<Tournament>>();
-            mockTournamentRepo.Setup(x => x.CreateAsync(It.IsAny<Tournament>())).ReturnsAsync(Tournament);
-            mockTournamentRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Tournament>())).Returns(Task.FromResult(0));
+            Tournament = new TournamentDetail { Name = "IPL" };
+            var teams = new List<TournamentDetail> { Tournament };
+            var mockTournamentRepo = new Mock<IRepository<TournamentDetail>>();
+            mockTournamentRepo.Setup(x => x.CreateAsync(It.IsAny<TournamentDetail>())).ReturnsAsync(Tournament);
+            mockTournamentRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<TournamentDetail>())).Returns(Task.FromResult(0));
             mockTournamentRepo.Setup(x => x.UpdateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Returns(Task.FromResult(0));
             mockTournamentRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(Tournament);
             mockTournamentRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
             mockTournamentRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
-            var mockUserTournamentRepo = new Mock<IRepository<UserTournament>>();
-            mockUserTournamentRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<UserTournament>())).Returns(Task.FromResult(0));
-            mockUserTournamentRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<UserTournament> { new UserTournament { TournamentName = Tournament.Name } });
+            var mockUserTournamentRepo = new Mock<IRepository<Tournament>>();
+            mockUserTournamentRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Tournament>())).Returns(Task.FromResult(0));
+            mockUserTournamentRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Tournament> { new Tournament { TournamentName = Tournament.Name } });
             TournamentService = new TournamentService(mockTournamentRepo.Object, mockUserTournamentRepo.Object);
         }
 
@@ -42,7 +42,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void TournamentService_NullPlayerRepository()
         {
             //Act
-            var tournamentService = new TournamentService(null, (new Mock<IRepository<UserTournament>>()).Object);
+            var tournamentService = new TournamentService(null, (new Mock<IRepository<Tournament>>()).Object);
 
             //Assert
             tournamentService.Should().BeNull();
@@ -54,7 +54,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void TournamentService_NullTeamPlayerRepository()
         {
             //Act
-            var tournamentService = new TournamentService((new Mock<IRepository<Tournament>>()).Object, null);
+            var tournamentService = new TournamentService((new Mock<IRepository<TournamentDetail>>()).Object, null);
 
             //Assert
             tournamentService.Should().BeNull();
@@ -208,7 +208,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var val = TournamentService.GetUserTournamentsAsync();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<UserTournament> { new UserTournament { TournamentName = Tournament.Name } });
+            val.Result.Should().BeEquivalentTo(new List<Tournament> { new Tournament { TournamentName = Tournament.Name } });
         }
 
         [TestMethod]

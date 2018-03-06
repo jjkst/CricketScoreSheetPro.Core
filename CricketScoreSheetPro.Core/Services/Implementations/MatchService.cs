@@ -9,49 +9,52 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 {
     public class MatchService : IMatchService
     {
-        private readonly IRepository<UserMatch> _usermatchRepository;
+        private readonly IRepository<Match> _matchRepository;
 
-        public MatchService(IRepository<UserMatch> usermatchRepository)
+        private readonly IRepository<PlayerInning> _playerinningsRepository;
+
+        public MatchService(IRepository<Match> matchRepository, IRepository<PlayerInning> playerinningsRepository)
         {
-            _usermatchRepository = usermatchRepository ?? throw new ArgumentNullException($"UserMatchRepository is null");
+            _matchRepository = matchRepository ?? throw new ArgumentNullException($"MatchRepository is null");
+            _playerinningsRepository = playerinningsRepository ?? throw new ArgumentNullException($"PlayerInningRepository is null");
         }
 
-        public async Task<UserMatch> AddMatchAsync(UserMatch newmatch)
+        public async Task<Match> AddMatchAsync(Match newmatch)
         {
-            if (newmatch == null) throw new ArgumentNullException($"UserMatch is null");
-            var matchAdd = await _usermatchRepository.CreateAsync(newmatch);
+            if (newmatch == null) throw new ArgumentNullException($"Match is null");
+            var matchAdd = await _matchRepository.CreateAsync(newmatch);
             return matchAdd;
         }
 
-        public async Task UpdateMatchAsync(string matchId, UserMatch updateMatch)
+        public async Task UpdateMatchAsync(string matchId, Match updateMatch)
         {
             if (updateMatch == null) throw new ArgumentNullException($"UserMatch is null");
             if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"Match ID is null");
-            await _usermatchRepository.CreateWithIdAsync(matchId, updateMatch);
+            await _matchRepository.CreateWithIdAsync(matchId, updateMatch);
         }
 
-        public async Task<UserMatch> GetMatchAsync(string matchId)
+        public async Task<Match> GetMatchAsync(string matchId)
         {
             if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"Match ID is null");
-            var team = await _usermatchRepository.GetItemAsync(matchId);
+            var team = await _matchRepository.GetItemAsync(matchId);
             return team;
         }
 
-        public async Task<IList<UserMatch>> GetMatchesAsync()
+        public async Task<IList<Match>> GetMatchesAsync()
         {
-            var matches = await _usermatchRepository.GetListAsync();
+            var matches = await _matchRepository.GetListAsync();
             return matches;
         }
 
         public async Task DeleteAllMatchesAsync()
         {
-            await _usermatchRepository.DeleteAsync();
+            await _matchRepository.DeleteAsync();
         }
 
         public async Task DeleteMatchAsync(string matchId)
         {
             if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"Match ID is null");
-            await _usermatchRepository.DeleteByIdAsync(matchId);
+            await _matchRepository.DeleteByIdAsync(matchId);
         }
     }
 }

@@ -9,9 +9,9 @@ namespace CricketScoreSheetPro.Core.Validations
 {
     public class MatchValidator 
     {
-        private UserMatch Match { get; set; }
+        private Match Match { get; set; }
 
-        public MatchValidator(UserMatch obj)
+        public MatchValidator(Match obj)
         {
             this.Match = obj;
         }

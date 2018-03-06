@@ -1,10 +1,16 @@
 ﻿namespace CricketScoreSheetPro.Core.Models
 {
-    public class Innings
+    public class TeamInning
     {
+        public string Id { get; set; }
+
         public string TeamId { get; set; }
 
         public string TeamName { get; set; }
+
+        public string MatchId { get; set; }
+
+        public string TournamentId { get; set; }
 
         public int Runs { get; set; }
 
@@ -20,6 +26,6 @@
 
         public int LegByes { get; set; }
 
-        public bool InningStatus { get; set; }
+        public bool Complete { get; set; }
     }
 }

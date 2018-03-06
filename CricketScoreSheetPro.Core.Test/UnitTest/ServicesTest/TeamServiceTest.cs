@@ -14,24 +14,24 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
     [TestClass]
     public class TeamServiceTest
     {
-        private static Team Team { get; set; }
+        private static TeamDetail Team { get; set; }
         private static TeamService TeamService { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
             //Arrange
-            Team = new Team { Name = "TeamName" };
-            var teams = new List<Team> { Team };
-            var mockTeamRepo = new Mock<IRepository<Team>>();
-            mockTeamRepo.Setup(x => x.CreateAsync(It.IsAny<Team>())).ReturnsAsync(Team);
-            mockTeamRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Team>())).Returns(Task.FromResult(0));     
+            Team = new TeamDetail { Name = "TeamName" };
+            var teams = new List<TeamDetail> { Team };
+            var mockTeamRepo = new Mock<IRepository<TeamDetail>>();
+            mockTeamRepo.Setup(x => x.CreateAsync(It.IsAny<TeamDetail>())).ReturnsAsync(Team);
+            mockTeamRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<TeamDetail>())).Returns(Task.FromResult(0));     
             mockTeamRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(Team);
             mockTeamRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
             mockTeamRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
-            var mockUserTeamRepo = new Mock<IRepository<UserTeam>>();
-            mockUserTeamRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<UserTeam>())).Returns(Task.FromResult(0));
-            mockUserTeamRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<UserTeam> { new UserTeam { TeamName = Team.Name } });
+            var mockUserTeamRepo = new Mock<IRepository<Team>>();
+            mockUserTeamRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Team>())).Returns(Task.FromResult(0));
+            mockUserTeamRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Team> { new Team { TeamName = Team.Name } });
             TeamService = new TeamService(mockTeamRepo.Object, mockUserTeamRepo.Object);
         }
 
@@ -41,7 +41,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void TeamService_NullPlayerRepository()
         {
             //Act
-            var teamService = new TeamService(null, (new Mock<IRepository<UserTeam>>()).Object);
+            var teamService = new TeamService(null, (new Mock<IRepository<Team>>()).Object);
 
             //Assert
             teamService.Should().BeNull();
@@ -53,7 +53,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void TeamService_NullTeamPlayerRepository()
         {
             //Act
-            var teamService = new TeamService((new Mock<IRepository<Team>>()).Object, null);
+            var teamService = new TeamService((new Mock<IRepository<TeamDetail>>()).Object, null);
 
             //Assert
             teamService.Should().BeNull();
@@ -149,7 +149,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var val = TeamService.GetUserTeamsAsync();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<UserTeam> { new UserTeam { TeamName = "TeamName" } });
+            val.Result.Should().BeEquivalentTo(new List<Team> { new Team { TeamName = "TeamName" } });
         }
 
         [TestMethod]

@@ -10,11 +10,11 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 {
     public class StatisticsService
     {
-        public PlayerStatistics GetPlayerStatistics(IList<Player> players)
+        public PlayerStatistics GetPlayerStatistics(IList<PlayerInning> players)
         {
             var playersStatistics = new PlayerStatistics
             {
-                PlayerName = players.First().Name,
+                PlayerName = players.First().PlayerName,
                 TeamName = players.First().TeamId                
             };
 
@@ -51,7 +51,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return playersStatistics;
         }
 
-        public TeamStatistics GetTeamStatistics(IList<Team> teams)
+        public TeamStatistics GetTeamStatistics(IList<TeamDetail> teams)
         {
             var teamsStatistics = new TeamStatistics();
             return teamsStatistics;

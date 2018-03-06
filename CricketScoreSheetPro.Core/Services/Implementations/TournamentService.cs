@@ -11,40 +11,38 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
     public class TournamentService : ITournamentService
     {
         private readonly IRepository<Tournament> _tournamentRepository;
-        private readonly IRepository<UserTournament> _usertournamentRepository;
+        private readonly IRepository<TournamentDetail> _tournamentdetailRepository;
 
-        public TournamentService(IRepository<Tournament> tournamentRepository, IRepository<UserTournament> usertournamentRepository)
+        public TournamentService(IRepository<Tournament> tournamentRepository, IRepository<TournamentDetail> tournamentdetailRepository)
         {
             _tournamentRepository = tournamentRepository ?? throw new ArgumentNullException($"TournamentRepository is null");
-            _usertournamentRepository = usertournamentRepository ?? throw new ArgumentNullException($"UserTournamentRepository is null");
+            _tournamentdetailRepository = tournamentdetailRepository ?? throw new ArgumentNullException($"TournamentDetailRepository is null");
         }
 
         public async Task<Tournament> AddTournamentAsync(Tournament newTournament)
         {
             if (newTournament == null) throw new ArgumentNullException($"Tournament is null");
             var tournamentAdd = await _tournamentRepository.CreateAsync(newTournament);
-            var newusertournament = new UserTournament
+            var newtournamentdetail = new TournamentDetail
             {
-                TournamentId = tournamentAdd.Id,
-                TournamentName = tournamentAdd.Name,
+                Name = tournamentAdd.Name,
                 Status = tournamentAdd.Status
             };
-            await _usertournamentRepository.CreateWithIdAsync(tournamentAdd.Id, newusertournament);
+            await _tournamentdetailRepository.CreateWithIdAsync(tournamentAdd.Id, newtournamentdetail);
             return tournamentAdd;
         }
 
-        public async Task UpdateTournamentAsync(string tournamentId, Tournament updateTournament)
+        public async Task UpdateTournamentAsync(string tournamentId, TournamentDetail updateTournamentDetail)
         {
-            if (updateTournament == null) throw new ArgumentNullException($"Tournament is null");
+            if (updateTournamentDetail == null) throw new ArgumentNullException($"Tournament is null");
             if (string.IsNullOrEmpty(tournamentId)) throw new ArgumentException($"Tournament ID is null");
-            await _tournamentRepository.CreateWithIdAsync(tournamentId, updateTournament);
-            var updateusertournament = new UserTournament
+            var updatetournament = new Tournament
             {
-                TournamentId = tournamentId,
-                TournamentName = updateTournament.Name,
-                Status = updateTournament.Status
+                Name = updateTournamentDetail.Name,
+                Status = updateTournamentDetail.Status
             };
-            await _usertournamentRepository.CreateWithIdAsync(tournamentId, updateusertournament);
+            await _tournamentRepository.CreateWithIdAsync(tournamentId, updatetournament);
+            await _tournamentdetailRepository.CreateWithIdAsync(tournamentId, updateTournamentDetail);
         }
 
         public async Task UpdateTournamentPropertyAsync(string id, string fieldName, object val)
@@ -52,35 +50,35 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Tournament ID is null");
             if (string.IsNullOrEmpty(fieldName)) throw new ArgumentException($"Tournament property is null");
             if (val == null) throw new ArgumentException($"Tournament property value is null");
-            await _tournamentRepository.UpdateAsync(id, fieldName, val);
-            if (fieldName.ToLower() == "name") await _usertournamentRepository.UpdateAsync(id, "TournamentName", val);
-            if (fieldName.ToLower() == "status") await _usertournamentRepository.UpdateAsync(id, "Status", val);
+            if (fieldName.ToLower() == "name") await _tournamentRepository.UpdateAsync(id, "TournamentName", val);
+            if (fieldName.ToLower() == "status") await _tournamentRepository.UpdateAsync(id, "Status", val);
+            await _tournamentdetailRepository.UpdateAsync(id, fieldName, val);
         }
 
-        public async Task<Tournament> GetTournamentAsync(string tournamentId)
+        public async Task<TournamentDetail> GetTournamentDetailAsync(string tournamentId)
         {
             if (string.IsNullOrEmpty(tournamentId)) throw new ArgumentException($"Tournament ID is null");
-            var tournament = await _tournamentRepository.GetItemAsync(tournamentId);
+            var tournament = await _tournamentdetailRepository.GetItemAsync(tournamentId);
             return tournament;
         }
 
-        public async Task<IList<UserTournament>> GetUserTournamentsAsync()
+        public async Task<IList<Tournament>> GetTournamentsAsync()
         {
-            var usertournaments = await _usertournamentRepository.GetListAsync();
+            var usertournaments = await _tournamentRepository.GetListAsync();
             return usertournaments;
         }
 
         public async Task DeleteAllTournamentsAsync()
         {
             await _tournamentRepository.DeleteAsync();
-            await _usertournamentRepository.DeleteAsync();
+            await _tournamentdetailRepository.DeleteAsync();
         }
 
         public async Task DeleteTournamentAsync(string tournamentId)
         {
             if (string.IsNullOrEmpty(tournamentId)) throw new ArgumentException($"Tournament ID is null");
             await _tournamentRepository.DeleteByIdAsync(tournamentId);
-            await _usertournamentRepository.DeleteByIdAsync(tournamentId);
+            await _tournamentdetailRepository.DeleteByIdAsync(tournamentId);
         }
     }
 }

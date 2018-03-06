@@ -18,7 +18,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
             Tournament = _tournamentService.GetTournamentAsync(tournamentId).Result;
         }
 
-        public Tournament Tournament { get; private set; }
+        public TournamentDetail Tournament { get; private set; }
 
         public void UpdateName(string name) => 
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Name), name);
@@ -134,9 +134,9 @@ namespace CricketScoreSheetPro.Core.ViewModels
             Tournament = _tournamentService.GetTournamentAsync(Tournament.Id).Result;
         }
 
-        public List<UserTeam> UserTeamNames(ITeamService teamService)
+        public List<Team> UserTeamNames(ITeamService teamService)
         {
-            var userteams = new List<UserTeam>();
+            var userteams = new List<Team>();
             foreach (var team in teamService.GetUserTeamsAsync().Result)
             {
                 if(Tournament.PlayingTeamNames.Contains(team.TeamName)) continue;
