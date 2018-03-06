@@ -4,9 +4,11 @@
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
-
         public string TournamentId { get; set; }
+
+        public string MatchId { get; set; }
+
+        public string Name { get; set; }      
         
         public int HighestScore { get; set; }
 

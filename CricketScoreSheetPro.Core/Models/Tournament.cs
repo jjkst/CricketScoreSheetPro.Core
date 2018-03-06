@@ -21,13 +21,16 @@ namespace CricketScoreSheetPro.Core.Models
 
         public IList<string> Facilities { get; set; }
 
-        public IList<string> Venues { get; set; }        
+        public IList<string> Venues { get; set; }    
+        
+        public IList<string> PlayingTeamNames { get; set; }
 
         public Tournament()
         {
             Prizes = new List<string>();
             Facilities = new List<string>();
             Venues = new List<string>();
+            PlayingTeamNames = new List<string>();
         }
     }
 }

@@ -60,6 +60,12 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return userteams;
         }
 
+        public async Task<IList<UserTeam>> GetUserTeamsPerTournamentAsync(string tournamentId)
+        {
+            var userteams = await _userteamRepository.GetFilteredListAsync(nameof(UserTeam.TournamentId), tournamentId);
+            return userteams;
+        }
+
         public async Task DeleteAllTeamsAsync()
         {
             await _teamRepository.DeleteAsync();

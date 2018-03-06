@@ -14,7 +14,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
 
         public TournamentDetailViewModel(ITournamentService tournamentService, string tournamentId)
         {
-            _tournamentService = tournamentService;
+            _tournamentService = tournamentService ?? throw new ArgumentNullException($"TournamentService is null");
             Tournament = _tournamentService.GetTournamentAsync(tournamentId).Result;
         }
 
@@ -52,10 +52,17 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), venues);
         }
 
+        public void AddPlayingTeamName(string playingTeamName)
+        {
+            var playingteamnames = Tournament.PlayingTeamNames;
+            playingteamnames.Add(playingTeamName);
+            _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.PlayingTeamNames), playingteamnames);
+        }
+
         public void UpdatePrizes(string oldprize, string newprize)
         {
             var prizes = Tournament.Prizes;
-            for (int i = 0; i <= prizes.Count; i++)
+            for (int i = 0; i <= Tournament.Prizes.Count; i++)
             {
                 if (prizes[i] == oldprize) prizes[i] = newprize;
             }
@@ -65,7 +72,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public void UpdateFacility(string oldfacility, string newfacility)
         {
             var facilities = Tournament.Facilities;
-            for (int i = 0; i <= facilities.Count; i++)
+            for (int i = 0; i <= Tournament.Facilities.Count; i++)
             {
                 if (facilities[i] == oldfacility) facilities[i] = newfacility;
             }
@@ -75,7 +82,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public void UpdateVenue(string oldVenue, string newVenue)
         {
             var venues = Tournament.Venues;
-            for (int i = 0; i <= venues.Count; i++)
+            for (int i = 0; i <= Tournament.Venues.Count; i++)
             {
                 if (venues[i] == oldVenue) venues[i] = newVenue;
             }
@@ -85,7 +92,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public void DeletePrizes(string oldprize)
         {
             var prizes = Tournament.Prizes;
-            for(int i = 0; i <= prizes.Count; i++)
+            for(int i = 0; i <= Tournament.Prizes.Count; i++)
             {
                 if (prizes[i] == oldprize) prizes.RemoveAt(i);
             }
@@ -95,7 +102,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public void DeleteFacility(string oldfacility)        
         {
             var facilities = Tournament.Facilities;
-            for (int i = 0; i <= facilities.Count; i++)
+            for (int i = 0; i <= Tournament.Facilities.Count; i++)
             {
                 if (facilities[i] == oldfacility) facilities.RemoveAt(i);
             }
@@ -105,17 +112,37 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public void DeleteVenue(string oldVenue)
         {
             var venues = Tournament.Venues;
-            for (int i = 0; i <= venues.Count; i++)
+            for (int i = 0; i <= Tournament.Venues.Count; i++)
             {
                 if (venues[i] == oldVenue) venues.RemoveAt(i);
             }
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), venues);
         }
 
+        public void DeletePlayingTeamName(string oldplayingTeamName)
+        {
+            var playingteamnames = Tournament.PlayingTeamNames;
+            for (int i = 0; i <= Tournament.PlayingTeamNames.Count; i++)
+            {
+                if (playingteamnames[i] == oldplayingTeamName) playingteamnames.RemoveAt(i);
+            }
+            _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.PlayingTeamNames), playingteamnames);
+        }
+
         public void RefreshTournament()
         {
             Tournament = _tournamentService.GetTournamentAsync(Tournament.Id).Result;
         }
-        
+
+        public List<UserTeam> UserTeamNames(ITeamService teamService)
+        {
+            var userteams = new List<UserTeam>();
+            foreach (var team in teamService.GetUserTeamsAsync().Result)
+            {
+                if(Tournament.PlayingTeamNames.Contains(team.TeamName)) continue;
+                userteams.Add(team);
+            }
+            return userteams;
+        }
     }
 }

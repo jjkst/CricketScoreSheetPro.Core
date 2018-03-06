@@ -12,11 +12,13 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
     {
         public PlayerStatistics GetPlayerStatistics(IList<Player> players)
         {
-            var playersStatistics = new PlayerStatistics(); 
-            playersStatistics.PlayerName = players.First().Name;
-            playersStatistics.TeamName = players.First().TeamId;
-            playersStatistics.Matches = players.Count;
+            var playersStatistics = new PlayerStatistics
+            {
+                PlayerName = players.First().Name,
+                TeamName = players.First().TeamId                
+            };
 
+            playersStatistics.Matches = players.Count;
             playersStatistics.Innings = players.Count(p => p.BallsPlayed > 0 || (p.HowOut != null && p.HowOut.ToLower() != "not out"));
             playersStatistics.NotOuts = players.Count(p => p.BallsPlayed > 0 && (p.HowOut == null || p.HowOut.ToLower() == "not out"));
             playersStatistics.Runs = players.Sum(r => r.RunsTaken);

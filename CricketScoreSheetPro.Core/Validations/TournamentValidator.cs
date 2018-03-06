@@ -13,7 +13,7 @@ namespace CricketScoreSheetPro.Core.Validations
 
         public TournamentValidator(ITournamentService service)
         {
-            this._service = service;
+            this._service = service ?? throw new ArgumentNullException($"TournamentService is null");
         }
 
         public IList<ErrorResponse> IsValidName(string name)

@@ -66,7 +66,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             var players = new List<Player>();
             foreach (var team in userteams)
             {
-                var teamplayers = await _playerRepository.GetFilteredListAsync("TeamId", team.TeamId);
+                var teamplayers = await _playerRepository.GetFilteredListAsync(nameof(UserTeam.TeamId), team.TeamId);
                 players.AddRange(teamplayers);
             }
             return players;
