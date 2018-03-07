@@ -43,6 +43,15 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             await _teamdetailRepository.CreateWithIdAsync(teamId, updateTeamDetail);
         }
 
+        public async Task UpdateTeamPropertyAsync(string id, string fieldName, object val)
+        {
+            if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Team ID is null");
+            if (string.IsNullOrEmpty(fieldName)) throw new ArgumentException($"Team property is null");
+            if (val == null) throw new ArgumentException($"Team property value is null");
+            if (fieldName.ToLower() == "name") await _teamRepository.UpdateAsync(id, "TeamName", val);
+            await _teamdetailRepository.UpdateAsync(id, fieldName, val);
+        }
+
         public async Task<TeamDetail> GetTeamDetailAsync(string teamId)
         {
             if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"Team ID is null");

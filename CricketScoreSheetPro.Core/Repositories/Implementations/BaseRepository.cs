@@ -51,6 +51,21 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
             return ConvertFirebaseObjectCollectionToReadOnlyCollections(items);
         }
 
+        public async virtual Task<IList<T>> GetFilteredListByMulttpleColumnAsync(params string[] key_values)
+        {
+            List<string> fieldname = new List<string>();
+            List<string> fieldvalues = new List<string>();
+            foreach (var fields in key_values)
+            {
+                fieldname.Add(fields.Split(':')[0]);
+                fieldvalues.Add(fields.Split(':')[1]);
+            }
+
+            FilterQuery fq = new FilterQuery(_reference, () => fieldname.First(), () => fieldvalues.First(), client: _reference.Client);
+            var items = await _reference.OnceAsync<T>();
+            return ConvertFirebaseObjectCollectionToReadOnlyCollections(items);
+        }
+
         public async virtual Task<IList<T>> GetListAsync()
         {
             var items = await _reference.OnceAsync<T>();
@@ -71,6 +86,7 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
             {
                 val.Add(item.Object);
             }
+            var l = val.Reverse();
             return val;
         }
     }

@@ -32,7 +32,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             mockRepo.Setup((IRepository<Models.Match> x) => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync((Models.Match)Match);
             mockRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
             mockRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
-            MatchService = new MatchService(mockRepo.Object, null);
+            MatchService = new MatchService(mockRepo.Object);
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         public void MatchService_NullRepository()
         {
             //Act
-            var matchService = new MatchService(null, null);
+            var matchService = new MatchService(null);
 
             //Assert
             matchService.Should().BeNull();

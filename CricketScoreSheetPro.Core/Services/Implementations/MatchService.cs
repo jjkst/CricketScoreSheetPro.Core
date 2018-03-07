@@ -11,12 +11,9 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
     {
         private readonly IRepository<Match> _matchRepository;
 
-        private readonly IRepository<PlayerInning> _playerinningsRepository;
-
-        public MatchService(IRepository<Match> matchRepository, IRepository<PlayerInning> playerinningsRepository)
+        public MatchService(IRepository<Match> matchRepository)
         {
             _matchRepository = matchRepository ?? throw new ArgumentNullException($"MatchRepository is null");
-            _playerinningsRepository = playerinningsRepository ?? throw new ArgumentNullException($"PlayerInningRepository is null");
         }
 
         public async Task<Match> AddMatchAsync(Match newmatch)

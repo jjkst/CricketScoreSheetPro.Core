@@ -20,10 +20,5 @@ namespace CricketScoreSheetPro.Core.ViewModels
 
         public List<Team> Teams { get; private set; }
 
-        public Team AddTeam(string teamName)
-        {
-            var tournamentAdd = _teamService.AddTeamAsync(new Team { Name = teamName }).Result;
-            return tournamentAdd;
-        }
     }
 }

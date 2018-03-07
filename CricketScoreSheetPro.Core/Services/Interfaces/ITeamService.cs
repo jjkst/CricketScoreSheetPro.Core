@@ -11,6 +11,7 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
     {
         Task<Team> AddTeamAsync(Team newTeam);
         Task UpdateTeamAsync(string teamId, TeamDetail updateTeam);
+        Task UpdateTeamPropertyAsync(string id, string fieldName, object val);
         Task<TeamDetail> GetTeamDetailAsync(string teamId);
         Task<IList<Team>> GetTeamsAsync();
         Task DeleteAllTeamsAsync();
