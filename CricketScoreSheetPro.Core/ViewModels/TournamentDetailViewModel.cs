@@ -52,7 +52,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), venues);
         }
 
-        public void AddPlayingTeamName(Team team)
+        public void AddTeam(Team team)
         {
             var teams = Tournament.Teams;
             teams.Add(team);
@@ -119,7 +119,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), venues);
         }
 
-        public void DeletePlayingTeamName(string oldTeamName)
+        public void DeleteTeam(string oldTeamName)
         {
             var teams = Tournament.Teams;
             for (int i = 0; i <= Tournament.Teams.Count; i++)

@@ -22,5 +22,11 @@ namespace CricketScoreSheetPro.Core.ViewModels
         }
 
         public List<Tournament> Tournaments { get; private set; }
+
+        public Tournament AddTournament(string tournamentName)
+        {
+           var tournamentAdd =  _tournamentService.AddTournamentAsync(new Tournament { Name = tournamentName }).Result;
+           return tournamentAdd;
+        }
     }
 }

@@ -19,5 +19,22 @@ namespace CricketScoreSheetPro.Core.ViewModels
         }
 
         public TeamDetail Team { get; private set; }
+
+        public void AddPlayer(Player player)
+        {
+            var players = Team.Players;
+            players.Add(player);
+            _teamService.UpdateTeamPropertyAsync(Team.Id, nameof(Team.Players), players);
+        }
+
+        public void DeletePlayer(string oldPlayerName)
+        {
+            var players = Team.Players;
+            for (int i = 0; i <= Team.Players.Count; i++)
+            {
+                if (players[i].Name == oldPlayerName) players.RemoveAt(i);
+            }
+            _teamService.UpdateTeamPropertyAsync(Team.Id, nameof(Team.Players), players);
+        }
     }
 }
