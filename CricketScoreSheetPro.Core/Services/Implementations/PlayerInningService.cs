@@ -53,9 +53,25 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             return playerInning;
         }
 
-        public async Task<IList<PlayerInning>> GetPlayerInningsAsync()
+        public async Task<IList<PlayerInning>> GetPlayerInningsAsync(string playerId)
         {
-            var playerInnings = await _playerinningsRepository.GetListAsync();
+            var playerInnings = await _playerinningsRepository.
+                GetFilteredListAsync(nameof(PlayerInning.PlayerId), playerId);
+            return playerInnings;
+        }
+
+        public async Task<IList<PlayerInning>> GetPlayerInningsByTournamentIdAsync(string playerId, string tournamentId)
+        {
+            var playerInnings = await _playerinningsRepository.
+                GetFilteredListAsync(nameof(PlayerInning.Player_TournamentId), $"{playerId}_{tournamentId}");
+            return playerInnings;
+        }
+
+        public async Task<IList<PlayerInning>> GetAllPlayerInningsByTeamMatchId(string teamId, string matchId)
+        {
+            var playerInnings = await _playerinningsRepository.
+                GetFilteredListAsync(nameof(PlayerInning.Team_MatchId),
+                $"{teamId}_{matchId}");
             return playerInnings;
         }
 

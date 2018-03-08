@@ -8,7 +8,8 @@ namespace CricketScoreSheetPro.Core.Models
     {
         public string Id { get; set; }
 
-        public string TournamentId { get; set; }
+        //Index
+        public string TournamentId { get; set; } 
 
         public DateTime AddDate { get; set; }
 

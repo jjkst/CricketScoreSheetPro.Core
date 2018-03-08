@@ -45,30 +45,15 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
             return item;
         }
 
-        public async virtual Task<IList<T>> GetFilteredListAsync(string orderby, string value)
+        public async virtual Task<IList<T>> GetFilteredListAsync(string fieldname, string value)
         {
-            var items = await _reference.OrderBy(orderby).EqualTo(value).OnceAsync<T>();
-            return ConvertFirebaseObjectCollectionToReadOnlyCollections(items);
-        }
-
-        public async virtual Task<IList<T>> GetFilteredListByMulttpleColumnAsync(params string[] key_values)
-        {
-            List<string> fieldname = new List<string>();
-            List<string> fieldvalues = new List<string>();
-            foreach (var fields in key_values)
-            {
-                fieldname.Add(fields.Split(':')[0]);
-                fieldvalues.Add(fields.Split(':')[1]);
-            }
-
-            FilterQuery fq = new FilterQuery(_reference, () => fieldname.First(), () => fieldvalues.First(), client: _reference.Client);
-            var items = await _reference.OnceAsync<T>();
+            var items = await _reference.OrderBy(fieldname).EqualTo(value).OnceAsync<T>();
             return ConvertFirebaseObjectCollectionToReadOnlyCollections(items);
         }
 
         public async virtual Task<IList<T>> GetListAsync()
         {
-            var items = await _reference.OnceAsync<T>();
+            var items = await _reference.OrderByKey().OnceAsync<T>();
             return ConvertFirebaseObjectCollectionToReadOnlyCollections(items); 
         }
 
@@ -86,7 +71,7 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
             {
                 val.Add(item.Object);
             }
-            var l = val.Reverse();
+            val.Reverse();
             return val;
         }
     }

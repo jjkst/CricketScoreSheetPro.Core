@@ -78,6 +78,7 @@
     <Compile Include="Validations\TeamValidator.cs" />
     <Compile Include="Validations\TournamentValidator.cs" />
     <Compile Include="ViewModels\AddDialogViewModel.cs" />
+    <Compile Include="ViewModels\BatsmanStatisticsViewModel.cs" />
     <Compile Include="ViewModels\MatchDetailViewModel.cs" />
     <Compile Include="ViewModels\MatchesViewModel.cs" />
     <Compile Include="ViewModels\TeamDetailViewModel.cs" />

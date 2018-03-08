@@ -41,21 +41,17 @@ namespace CricketScoreSheetPro.Core.ViewModels
             {
                 BattingTeam = Match.HomeTeam;
                 BowlingTeam = Match.AwayTeam;
-                Batsman = _playerInningService.GetPlayerInningsAsync().Result.ToList(); //filter by teamId, matchId, tournamentId
-                Bowlers = _playerInningService.GetPlayerInningsAsync().Result.ToList(); //filter by teamId, matchId, tournamentId
-
             }
             else if (Match.AwayTeam.Id == battingInningId)
             {
                 BattingTeam = Match.AwayTeam;
-                BowlingTeam = Match.HomeTeam;
-                Batsman = _playerInningService.GetPlayerInningsAsync().Result.ToList(); //filter by teamId, matchId, tournamentId
-                Bowlers = _playerInningService.GetPlayerInningsAsync().Result.ToList(); //filter by teamId, matchId, tournamentId
-            }
+                BowlingTeam = Match.HomeTeam;  }
             else
             {
                 throw new ArgumentNullException($"Batting team id is not valid");
             }
+            Batsman = _playerInningService.GetAllPlayerInningsByTeamMatchId(BattingTeam.Id, Match.Id).Result.ToList(); 
+            Bowlers = _playerInningService.GetAllPlayerInningsByTeamMatchId(BowlingTeam.Id, Match.Id).Result.ToList();  
         }
     }
 }

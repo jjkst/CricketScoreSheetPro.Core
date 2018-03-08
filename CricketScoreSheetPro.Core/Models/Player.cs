@@ -6,6 +6,7 @@ namespace CricketScoreSheetPro.Core.Models
     {
         public string Id { get; set; }
 
+        //Index
         public string Name { get; set; }
 
         public IList<string> Roles { get; set; }

@@ -11,10 +11,16 @@ namespace CricketScoreSheetPro.Core.Models
         public string PlayerName { get; set; }
 
         public string TeamId { get; set; }
-
+       
         public string MatchId { get; set; }
 
-        public string TournamentId { get; set; }            
+        //Index
+        public string Team_MatchId { get; set; } // used for match
+
+        public string TournamentId { get; set; }
+
+        //Index
+        public string Player_TournamentId { get; set; }
 
         public int RunsTaken { get; set; }
 
