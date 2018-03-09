@@ -30,6 +30,8 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.StartDate), startdate);
         public void UpdateEntryFee(decimal entryfee) => 
             _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.EntryFee), entryfee);
+        public void UpdateTotalOvers(int totalOvers) =>
+            _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.TotalOvers), totalOvers);
 
         public void AddPrizes(string newPrize)
         {

@@ -27,14 +27,15 @@ namespace CricketScoreSheetPro.Core.Models
 
         public string Comments { get; set; }
 
-        public IList<string> Umpires { get; set; }
+        public string PrimaryUmpire { get; set; }
+
+        public string SecondaryUmpire { get; set; }
 
         public bool ImportedFlg { get; set; }
 
         public Match()
         {
             AddDate = DateTime.Today;
-            Umpires = new List<string>();
         }
 
     }

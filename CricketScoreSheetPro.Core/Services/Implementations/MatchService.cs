@@ -33,8 +33,8 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
         public async Task<Match> GetMatchAsync(string matchId)
         {
             if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"Match ID is null");
-            var team = await _matchRepository.GetItemAsync(matchId);
-            return team;
+            var match = await _matchRepository.GetItemAsync(matchId);
+            return match;
         }
 
         public async Task<IList<Match>> GetMatchesAsync()

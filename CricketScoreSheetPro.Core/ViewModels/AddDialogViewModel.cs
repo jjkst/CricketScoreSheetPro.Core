@@ -13,6 +13,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public string Title { get; set; }
         private readonly ITeamService _teamService;
         private readonly ITournamentService _tournamentService;
+        private readonly IUmpireService _umpireService;
 
         public AddDialogViewModel(ITeamService teamService)
         {
@@ -26,6 +27,12 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _tournamentService = tournamentService;
         }
 
+        public AddDialogViewModel(IUmpireService umpireService)
+        {
+            Title = "Add Umpire";
+            _umpireService = umpireService;
+        }
+
         public Tournament AddTournament(string tournamentName)
         {
             var tournamentAdd = _tournamentService.AddTournamentAsync(new Tournament { Name = tournamentName }).Result;
@@ -36,6 +43,12 @@ namespace CricketScoreSheetPro.Core.ViewModels
         {
             var teamAdd = _teamService.AddTeamAsync(new Team { Name = teamName }).Result;
             return teamAdd;
+        }
+
+        public Umpire AddUmpire(string umpireName)
+        {
+            var umpireAdd = _umpireService.AddUmpireAsync(new Umpire { Name = umpireName }).Result;
+            return umpireAdd;
         }
     }
 }

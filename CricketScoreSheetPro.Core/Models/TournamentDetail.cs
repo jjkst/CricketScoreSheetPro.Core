@@ -24,6 +24,8 @@ namespace CricketScoreSheetPro.Core.Models
         
         public IList<Team> Teams { get; set; }
 
+        public int TotalOvers { get; set; }
+
         public TournamentDetail()
         {
             Prizes = new List<string>();
