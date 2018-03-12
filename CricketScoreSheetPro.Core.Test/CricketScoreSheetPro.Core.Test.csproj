@@ -108,14 +108,19 @@
     <Compile Include="UnitTest\RepositoriesTest\TournamentRepositoryTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\TeamRepositoryTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\MatchRepositoryTest.cs" />
+    <Compile Include="UnitTest\RepositoriesTest\UmpireRepositoryTest.cs" />
     <Compile Include="UnitTest\ServicesTest\MatchServiceTest.cs" />
-    <Compile Include="UnitTest\ServicesTest\PlayerServiceTest.cs" />
+    <Compile Include="UnitTest\ServicesTest\PlayerInningServiceTest.cs" />
     <Compile Include="UnitTest\ServicesTest\TeamServiceTest.cs" />
     <Compile Include="UnitTest\ServicesTest\TournamentServiceTest.cs" />
     <Compile Include="UnitTest\ServicesTest\BallServiceTest.cs" />
+    <Compile Include="UnitTest\ServicesTest\StatisticsServiceTest.cs" />
+    <Compile Include="UnitTest\ServicesTest\TeamInningServiceTest.cs" />
+    <Compile Include="UnitTest\ServicesTest\UmpireServiceTest.cs" />
     <Compile Include="UnitTest\ValidationsTest\TournamentValidatorTest.cs" />
     <Compile Include="UnitTest\ValidationsTest\BaseValidatorTest.cs" />
-    <Compile Include="UnitTest\ViewModelsTest\TournamentViewModelTest.cs" />
+    <Compile Include="UnitTest\ViewModelsTest\TournamentsViewModelTest.cs" />
+    <Compile Include="UnitTest\ViewModelsTest\TournamentDetailViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

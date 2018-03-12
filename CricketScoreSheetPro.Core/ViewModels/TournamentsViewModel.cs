@@ -2,11 +2,7 @@
 using CricketScoreSheetPro.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.ViewModels
 {
@@ -16,7 +12,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         
         public TournamentsViewModel(ITournamentService tournamentService)
         {
-            _tournamentService = tournamentService ?? throw new ArgumentNullException($"TournamentService is null"); 
+            _tournamentService = tournamentService ?? throw new ArgumentNullException($"TournamentService is null, cannot get tournaments."); 
             Tournaments = _tournamentService.GetTournamentsAsync().Result.ToList();
         }
 

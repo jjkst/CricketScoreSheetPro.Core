@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using CricketScoreSheetPro.Core.Models;
+﻿using CricketScoreSheetPro.Core.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
 

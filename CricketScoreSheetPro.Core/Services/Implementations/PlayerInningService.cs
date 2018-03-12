@@ -10,33 +10,18 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 {
     public class PlayerInningService : IPlayerInningService
     {
-        private readonly IRepository<TeamDetail> _teamdetailRepository;
         private readonly IRepository<PlayerInning> _playerinningsRepository;
 
-        public PlayerInningService(IRepository<TeamDetail> teamdetailRepository, IRepository<PlayerInning> playerinningsRepository)
+        public PlayerInningService(IRepository<PlayerInning> playerinningsRepository)
         {
-            _teamdetailRepository = teamdetailRepository ?? throw new ArgumentNullException($"TeamDetailRepository is null");
             _playerinningsRepository = playerinningsRepository ?? throw new ArgumentNullException($"PlayerInningRepository is null");
         }
 
-        public async Task<IList<PlayerInning>> AddPlayerInningAsync(string teamId, string matchId, string tournamentId = "")
+        public async Task<PlayerInning> AddPlayerInningsAsync(PlayerInning newplayerinning)
         {
-            var teamdetail = await _teamdetailRepository.GetItemAsync(teamId);
-            var playersadded = new List<PlayerInning>(); 
-            foreach(var player in teamdetail.Players)
-            {
-                var newteaminning = new PlayerInning
-                {
-                    PlayerId = player.Id,
-                    PlayerName = player.Name,
-                    TeamId = teamId,
-                    MatchId = matchId,
-                    TournamentId = tournamentId
-                };
-
-                playersadded.Add(await _playerinningsRepository.CreateAsync(newteaminning));
-            }            
-            return playersadded;
+            if (newplayerinning == null) throw new ArgumentNullException($"PlayerInning is null");
+            var playerinningadded = await _playerinningsRepository.CreateAsync(newplayerinning);      
+            return playerinningadded;
         }
 
         public async Task UpdatePlayerInningAsync(string playerInningsId, PlayerInning playerinning)
@@ -55,6 +40,7 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public async Task<IList<PlayerInning>> GetPlayerInningsAsync(string playerId)
         {
+            if (string.IsNullOrEmpty(playerId)) throw new ArgumentException($"PlayerID is null");
             var playerInnings = await _playerinningsRepository.
                 GetFilteredListAsync(nameof(PlayerInning.PlayerId), playerId);
             return playerInnings;
@@ -62,13 +48,17 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
 
         public async Task<IList<PlayerInning>> GetPlayerInningsByTournamentIdAsync(string playerId, string tournamentId)
         {
+            if (string.IsNullOrEmpty(playerId)) throw new ArgumentException($"PlayerID is null");
+            if (string.IsNullOrEmpty(tournamentId)) throw new ArgumentException($"TournamentId is null");
             var playerInnings = await _playerinningsRepository.
                 GetFilteredListAsync(nameof(PlayerInning.Player_TournamentId), $"{playerId}_{tournamentId}");
             return playerInnings;
         }
 
-        public async Task<IList<PlayerInning>> GetAllPlayerInningsByTeamMatchId(string teamId, string matchId)
+        public async Task<IList<PlayerInning>> GetAllPlayerInningsByTeamMatchIdAsync(string teamId, string matchId) //Used for match
         {
+            if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"TeamID is null");
+            if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"MatchId is null");
             var playerInnings = await _playerinningsRepository.
                 GetFilteredListAsync(nameof(PlayerInning.Team_MatchId),
                 $"{teamId}_{matchId}");

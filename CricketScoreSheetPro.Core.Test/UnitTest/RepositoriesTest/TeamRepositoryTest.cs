@@ -11,6 +11,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void UserTeamRepositoryCheckUrl()
         {
             //Arrange
@@ -20,7 +21,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
             var val = baseRepo._reference;
 
             //Assert
-            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/Users/UUID/Team/.json");
+            val.BuildUrlAsync().Result.Should().Be("http://baseUrl/User/UUID/Team/.json");
         }
     }
 }

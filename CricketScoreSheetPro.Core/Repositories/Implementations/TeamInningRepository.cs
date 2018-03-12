@@ -1,6 +1,5 @@
 ﻿using CricketScoreSheetPro.Core.Models;
 using Firebase.Database;
-using Firebase.Database.Query;
 
 namespace CricketScoreSheetPro.Core.Repositories.Implementations
 {

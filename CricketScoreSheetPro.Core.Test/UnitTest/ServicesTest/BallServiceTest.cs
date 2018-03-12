@@ -57,7 +57,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
                 AwayTeam = new TeamInning { TeamId = "AwayTeamId", TeamName = "AwayTeamName" },
                 Location = "Richmond, VA",
                 TotalOvers = 20,
-                Umpires = new List<string> { "umpireA", "umpireB" }
+                PrimaryUmpire = "umpireA",
+                SecondaryUmpire = "umpireB" 
             };
 
             Player = new PlayerInning
@@ -84,6 +85,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "This Ball is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void WhenThisBall_NullBall()
         {
             //Arrange
@@ -99,6 +101,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Current match not set")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_NullMatch()
         {
             //Arrange 
@@ -114,6 +117,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Batting team not found")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_BattingTeamNotExist()
         {
             //Arrange 
@@ -129,6 +133,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Batting team innings is not started yet.")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_UndoScoreOnBattingTeamNotYetStarted()
         {
             //Arrange 
@@ -145,6 +150,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Batting team innings is already over.")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_UpdateScoreOnInningsOver()
         {
             //Arrange 
@@ -160,6 +166,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_UndoScore()
         {
             //Arrange
@@ -192,6 +199,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_UpdateScore()
         {
             //Arrange
@@ -220,6 +228,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_AwayTeamUpdateScore()
         {
             //Arrange
@@ -250,6 +259,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_BattingTeamInningsCompleteWhenOverareDone()
         {
             //Arrange
@@ -282,6 +292,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_BattingTeamChasedSuccessfully()
         {
             //Arrange
@@ -319,6 +330,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_BattingTeamLostChasing()
         {
             //Arrange
@@ -359,6 +371,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchThisBall_MatchIsTie()
         {
             //Arrange
@@ -389,6 +402,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Batsman not found")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBatsmanThisBall_Null()
         {
             //Arrange
@@ -404,6 +418,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Batsman haven't played any ball")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBatsmanThisBall_UndoWhenZeroBalls()
         {
             //Arrange
@@ -419,6 +434,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBatsmanThisBall_UpdateScore()
         {
             //Arrange                      
@@ -449,6 +465,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBatsmanThisBall_UpdateScoreWideBall()
         {
             //Arrange                      
@@ -479,6 +496,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBatsmanThisBall_UndoScore()
         {
             //Arrange                      
@@ -508,6 +526,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBatsmanThisBall_UndoScoreWhenWide()
         {
             //Arrange                      
@@ -542,6 +561,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Runner not found")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateRunnerThisBall_Null()
         {
             //Arrange
@@ -556,6 +576,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateRunnerThisBall_NoChange()
         {
             //Arrange
@@ -575,6 +596,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateRunnerThisBall_runout()
         {
             //Arrange
@@ -594,6 +616,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateRunnerThisBall_UndoRunOut()
         {
             //Arrange
@@ -618,6 +641,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Fielder not found")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_Null()
         {
             //Arrange
@@ -632,6 +656,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_Catch()
         {
             //Arrange
@@ -652,6 +677,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_UndoCatch()
         {
             //Arrange
@@ -672,6 +698,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_UndoCatchWhenZero()
         {
             //Arrange
@@ -692,6 +719,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_Stumping()
         {
             //Arrange
@@ -712,6 +740,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_UndoStumping()
         {
             //Arrange
@@ -732,6 +761,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_UndoStumpingWhenZero()
         {
             //Arrange
@@ -752,6 +782,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_Runouts()
         {
             //Arrange
@@ -772,6 +803,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_UndoRunouts()
         {
             //Arrange
@@ -793,6 +825,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateFielderThisBall_UndoRunoutsWhenZero()
         {
             //Arrange
@@ -819,6 +852,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Bowler not found")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowlerThisBall_Null()
         {
             //Arrange
@@ -834,6 +868,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "Bowler haven't bowled any ball")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowlerThisBall_UndoWhenZeroBallsBowled()
         {
             //Arrange
@@ -848,6 +883,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowler()
         {
             //Arrange
@@ -881,6 +917,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowlerThisBall_UndoScore()
         {
             //Arrange
@@ -914,6 +951,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowlerThisBall_UpdateScoreWhenWide()
         {
             //Arrange
@@ -947,6 +985,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowlerThisBall_UndoWide()
         {
             //Arrange
@@ -980,6 +1019,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowlerThisBall_noball()
         {
             //Arrange
@@ -1012,6 +1052,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateBowlerThisBall_UndoNoball()
         {
             //Arrange
@@ -1047,6 +1088,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Balls collection not found")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_NullBallsCollection()
         {
             //Arrange
@@ -1061,6 +1103,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_LessThanOver_Positive()
         {
             //Arrange
@@ -1079,6 +1122,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_OverWithRuns()
         {
             //Arrange
@@ -1102,6 +1146,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_OverWithoutRuns()
         {
             //Arrange
@@ -1125,6 +1170,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_OverWithWide()
         {
             //Arrange
@@ -1148,6 +1194,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_OverWithNoBall()
         {
             //Arrange
@@ -1171,6 +1218,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_MoreThanAnOver_RunInRecentOver()
         {
             //Arrange
@@ -1200,6 +1248,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_MoreThanAnOver_NoRunInRecentOver()
         {
             //Arrange
@@ -1229,6 +1278,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_MoreThanAnOver_InCompleteLastOver()
         {
             //Arrange
@@ -1256,6 +1306,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_MoreThanAnOver_Undo_InCompleteLastOver()
         {
             //Arrange
@@ -1283,6 +1334,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMaidenValue_MoreThanAnOver_Undo_NoRunInRecentOver()
         {
             //Arrange

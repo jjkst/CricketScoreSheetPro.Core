@@ -1,14 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using CricketScoreSheetPro.Core.Repositories.Interfaces;
 using CricketScoreSheetPro.Core.Services.Implementations;
-using CricketScoreSheetPro.Core.Repositories.Interfaces;
-using Moq;
-using CricketScoreSheetPro.Core.Models;
-using FluentAssertions;
-using Firebase.Database;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using CricketScoreSheetPro.Core.Test.Extensions;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
@@ -36,8 +33,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserMatchRepository is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "MatchRepository is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void MatchService_NullRepository()
         {
             //Act
@@ -49,6 +47,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void AddMatchAsync()
         {
             //Act            
@@ -60,8 +59,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserMatch is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void AddMatchAsync_Null()
         {
             //Act
@@ -73,6 +73,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchAsync()
         {
             //Act
@@ -85,6 +86,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchAsync_EmptyMatchId()
         {
             //Act
@@ -97,6 +99,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserMatch is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateMatchAsync_Null()
         {
             //Act
@@ -108,6 +111,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMatchAsync()
         {
             //Act
@@ -120,6 +124,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMatchAsync_EmptyMatchId()
         {
             //Act
@@ -131,6 +136,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void GetMatchesAsync()
         {
             //Act
@@ -143,6 +149,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void DeleteAllMatchesAsync()
         {
             //Act
@@ -154,6 +161,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void DeleteMatchAsync()
         {
             //Act
@@ -166,6 +174,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void DeleteMatchAsync_EmptyMatchId()
         {
             //Act

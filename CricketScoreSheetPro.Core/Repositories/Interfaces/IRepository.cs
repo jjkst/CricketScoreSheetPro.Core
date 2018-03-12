@@ -12,7 +12,7 @@ namespace CricketScoreSheetPro.Core.Repositories.Interfaces
         Task UpdateAsync(string uid, string fieldName, object val);
 
         Task<IList<T>> GetListAsync();
-        Task<IList<T>> GetFilteredListAsync(string orderby, string value);
+        Task<IList<T>> GetFilteredListAsync(string fieldname, string value);
         Task<T> GetItemAsync(string uid);
 
         Task DeleteByIdAsync(string uid);

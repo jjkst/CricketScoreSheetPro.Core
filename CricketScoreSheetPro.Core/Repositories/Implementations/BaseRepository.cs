@@ -14,7 +14,7 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
 
         public async virtual Task<T> CreateAsync(T obj)
         {
-            if (obj == null) throw new ArgumentNullException($"Object is null");
+            if (obj == null) throw new ArgumentNullException($"Object to create is null");
             var item = await _reference.PostAsync<T>(obj);
             await UpdateAsync(item.Key, "Id", item.Key);
             return item.Object;
@@ -22,7 +22,7 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
 
         public async virtual Task CreateWithIdAsync(string id, T obj)
         {
-            if (obj == null) throw new ArgumentNullException($"Object is null");
+            if (obj == null) throw new ArgumentNullException($"Object to create is null");
             if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Given ID is null");
             await _reference.Child(id).PutAsync(obj);
         }
@@ -47,6 +47,8 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
 
         public async virtual Task<IList<T>> GetFilteredListAsync(string fieldname, string value)
         {
+            if (string.IsNullOrEmpty(fieldname)) throw new ArgumentException($"FieldName is null");
+            if (string.IsNullOrEmpty(value)) throw new ArgumentException($"Value is null");
             var items = await _reference.OrderBy(fieldname).EqualTo(value).OnceAsync<T>();
             return ConvertFirebaseObjectCollectionToReadOnlyCollections(items);
         }
@@ -60,7 +62,7 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
         public async virtual Task UpdateAsync(string id, string fieldName, object val)
         {
             if (val == null) throw new ArgumentNullException($"Object is null");
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(fieldName)) throw new ArgumentException($"Given ID is null");
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(fieldName)) throw new ArgumentException($"Given fieldname or id is invalid");
             await _reference.Child(id).Child(fieldName).PutAsync(val);
         }
 

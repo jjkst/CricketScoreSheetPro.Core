@@ -11,6 +11,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.HelperTest
     {
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Balls cannot be negative.")]
+        [TestCategory("UnitTest")]
+        [TestCategory("HelperTest")]
         public void BallsToOversValueConverter_NegativeBalls()
         {
             //Act
@@ -19,6 +21,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.HelperTest
         }
 
         [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("HelperTest")]
         public void BallsToOversValueConverter_ZeroBalls()
         {
             //Act
@@ -29,6 +33,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.HelperTest
         }
 
         [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("HelperTest")]
         public void BallsToOversValueConverter_BallsWhenOverisnotDone()
         {
             //Act
@@ -39,6 +45,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.HelperTest
         }
 
         [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("HelperTest")]
         public void BallsToOversValueConverter_BallsWhenOverisDone()
         {
             //Act

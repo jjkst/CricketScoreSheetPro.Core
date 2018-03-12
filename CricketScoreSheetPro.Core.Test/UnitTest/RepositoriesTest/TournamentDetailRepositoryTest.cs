@@ -11,6 +11,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     {
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void TournamentRepositoryCheckUrl()
         {
             //Arrange

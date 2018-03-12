@@ -25,14 +25,14 @@ namespace CricketScoreSheetPro.Core.ViewModels
             if ((IsBatsman && CurrentMatch.HomeTeam.Id == teamId) || (!IsBatsman && CurrentMatch.AwayTeam.Id == teamId))
             {
                 BattingTeamName = CurrentMatch.HomeTeam.TeamName;
-                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.HomeTeam.Id, matchId).Result;
-                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.AwayTeam.Id, matchId).Result;
+                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.HomeTeam.Id, matchId).Result;
+                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.AwayTeam.Id, matchId).Result;
             }
             else if ((IsBatsman && CurrentMatch.AwayTeam.Id == teamId) || (!IsBatsman && CurrentMatch.HomeTeam.Id == teamId))
             {
                 BattingTeamName = CurrentMatch.AwayTeam.TeamName;
-                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.AwayTeam.Id, matchId).Result;
-                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.HomeTeam.Id, matchId).Result;
+                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.AwayTeam.Id, matchId).Result;
+                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.HomeTeam.Id, matchId).Result;
             }
             else
             {

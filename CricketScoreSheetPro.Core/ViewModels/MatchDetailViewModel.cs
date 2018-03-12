@@ -50,8 +50,8 @@ namespace CricketScoreSheetPro.Core.ViewModels
             {
                 throw new ArgumentNullException($"Batting team id is not valid");
             }
-            Batsman = _playerInningService.GetAllPlayerInningsByTeamMatchId(BattingTeam.Id, Match.Id).Result.ToList(); 
-            Bowlers = _playerInningService.GetAllPlayerInningsByTeamMatchId(BowlingTeam.Id, Match.Id).Result.ToList();  
+            Batsman = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(BattingTeam.Id, Match.Id).Result.ToList(); 
+            Bowlers = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(BowlingTeam.Id, Match.Id).Result.ToList();  
         }
     }
 }

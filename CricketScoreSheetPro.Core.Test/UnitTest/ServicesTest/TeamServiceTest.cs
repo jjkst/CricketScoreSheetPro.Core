@@ -14,46 +14,50 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
     [TestClass]
     public class TeamServiceTest
     {
-        private static TeamDetail Team { get; set; }
+        private static Team Team { get; set; }
+        private static TeamDetail TeamDetail { get; set; }
         private static TeamService TeamService { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
             //Arrange
-            Team = new TeamDetail { Name = "TeamName" };
-            var teams = new List<TeamDetail> { Team };
-            var mockTeamRepo = new Mock<IRepository<TeamDetail>>();
-            mockTeamRepo.Setup(x => x.CreateAsync(It.IsAny<TeamDetail>())).ReturnsAsync(Team);
-            mockTeamRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<TeamDetail>())).Returns(Task.FromResult(0));     
-            mockTeamRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(Team);
+            Team = new Team { Name = "TeamName" };
+            TeamDetail = new TeamDetail { Name = Team.Name };
+            var teams = new List<Team> { Team };
+            var mockTeamRepo = new Mock<IRepository<Team>>();
+            mockTeamRepo.Setup(x => x.CreateAsync(It.IsAny<Team>())).ReturnsAsync(Team);
+            mockTeamRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Team>())).Returns(Task.FromResult(0));     
+            mockTeamRepo.Setup(x => x.GetListAsync()).ReturnsAsync(teams);
             mockTeamRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
             mockTeamRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
-            var mockUserTeamRepo = new Mock<IRepository<Team>>();
-            mockUserTeamRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Team>())).Returns(Task.FromResult(0));
-            mockUserTeamRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Team> { new Team { TeamName = Team.Name } });
-            TeamService = new TeamService(mockTeamRepo.Object, mockUserTeamRepo.Object);
+            var mockTeamDetailRepo = new Mock<IRepository<TeamDetail>>();
+            mockTeamDetailRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<TeamDetail>())).Returns(Task.FromResult(0));
+            mockTeamDetailRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(TeamDetail);
+            TeamService = new TeamService(mockTeamRepo.Object, mockTeamDetailRepo.Object);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "TeamRepository is null")]
         [TestCategory("UnitTest")]
-        public void TeamService_NullPlayerRepository()
+        [TestCategory("ServiceTest")]
+        public void TeamService_NullTeamRepository()
         {
             //Act
-            var teamService = new TeamService(null, (new Mock<IRepository<Team>>()).Object);
+            var teamService = new TeamService(null, (new Mock<IRepository<TeamDetail>>()).Object);
 
             //Assert
             teamService.Should().BeNull();
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserTeamRepository is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "TeamDetailRepository is null")]
         [TestCategory("UnitTest")]
-        public void TeamService_NullTeamPlayerRepository()
+        [TestCategory("ServiceTest")]
+        public void TeamService_NullTeamDetailRepository()
         {
             //Act
-            var teamService = new TeamService((new Mock<IRepository<TeamDetail>>()).Object, null);
+            var teamService = new TeamService((new Mock<IRepository<Team>>()).Object, null);
 
             //Assert
             teamService.Should().BeNull();
@@ -61,6 +65,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void AddTeamAsync()
         {
             //Act            
@@ -74,6 +79,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void AddTeamAsync_Null()
         {
             //Act
@@ -85,10 +91,11 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateTeamAsync()
         {
             //Act
-            var val = TeamService.UpdateTeamAsync("TID", Team);
+            var val = TeamService.UpdateTeamAsync("TID", TeamDetail);
 
             //Assert
             val.Wait();
@@ -97,10 +104,11 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team ID is null")]
         [TestCategory("UnitTest")]
-        public void UpdateTeamAsync_EmptyPlayerId()
+        [TestCategory("ServiceTest")]
+        public void UpdateTeamAsync_EmptyTeamId()
         {
             //Act
-            var val = TeamService.UpdateTeamAsync("", Team);
+            var val = TeamService.UpdateTeamAsync("", TeamDetail);
 
             //Assert
             val.Wait();
@@ -109,6 +117,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void UpdateTeamAsync_Null()
         {
             //Act
@@ -119,23 +128,39 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team ID is null")]
         [TestCategory("UnitTest")]
-        public void GetTeamAsync()
+        [TestCategory("ServiceTest")]
+        public void UpdateTeamPropertyAsync_EmptyId()
         {
             //Act
-            var val = TeamService.GetTeamAsync("TID");
+            var val = TeamService.UpdateTeamPropertyAsync("", "fieldname", new object());
 
             //Assert
-            val.Result.Should().BeEquivalentTo(Team);
+            val.Wait();
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team property is null")]
         [TestCategory("UnitTest")]
-        public void GetTeamAsync_EmptyTeamId()
+        [TestCategory("ServiceTest")]
+        public void UpdateTeamPropertyAsync_EmptyFieldName()
         {
             //Act
-            var val = TeamService.GetTeamAsync("");
+            var val = TeamService.UpdateTeamPropertyAsync("Id", "", new object());
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team property value is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void UpdateTeamPropertyAsync_EmptyValue()
+        {
+            //Act
+            var val = TeamService.UpdateTeamPropertyAsync("Id", "fieldname", null);
 
             //Assert
             val.Wait();
@@ -143,17 +168,56 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void GetUserTeamsAsync()
+        [TestCategory("ServiceTest")]
+        public void UpdateTeamPropertyAsync_UpdateTournamentName()
+        {
+            //Act
+            var val = TeamService.UpdateTeamPropertyAsync("Id", "Name", new object());
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void GetTeamDetailAsync()
+        {
+            //Act
+            var val = TeamService.GetTeamDetailAsync("TID");
+
+            //Assert
+            val.Result.Should().BeEquivalentTo(TeamDetail);
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team ID is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void GetTeamDetailAsync_EmptyTeamId()
+        {
+            //Act
+            var val = TeamService.GetTeamDetailAsync("");
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void GetTeamsAsync()
         {
             //Act
             var val = TeamService.GetTeamsAsync();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<Team> { new Team { Name = "TeamName" } });
+            val.Result.Should().BeEquivalentTo(new List<Team> { Team });
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void DeleteAllTeamsAsync()
         {
             //Act
@@ -165,6 +229,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void DeleteTeamAsync()
         {
             //Act
@@ -177,6 +242,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Team ID is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
         public void DeleteTeamAsync_EmptyTeamId()
         {
             //Act

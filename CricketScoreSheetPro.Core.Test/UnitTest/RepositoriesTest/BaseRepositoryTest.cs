@@ -17,8 +17,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
     public class BaseRepositoryTest
     {        
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object to create is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void CreateAsync_Null()
         {
             //Arrange
@@ -33,7 +34,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void CreateAsync_NotNull()
+        [TestCategory("RepositoryTest")]
+        public void CreateAsync()
         {
             //Arrange
             var obj = new { Name = "CreateWithValidObjectTest" };
@@ -48,8 +50,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object to create is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void CreateWithIdAsync_Null()
         {
             //Arrange
@@ -65,6 +68,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void CreateWithIdAsync_EmptyId()
         {
             //Arrange
@@ -79,7 +83,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void CreateWithIdAsync_NotNull()
+        [TestCategory("RepositoryTest")]
+        public void CreateWithIdAsync()
         {
             //Arrange
             object obj = new { Name = "CreateWithIdAsync_NotNull" };
@@ -97,6 +102,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void UpdateAsync_Null()
         {
             //Arrange
@@ -110,8 +116,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Given fieldname or id is invalid")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void UpdateAsync_EmptyUid()
         {
             //Arrange
@@ -125,8 +132,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Given fieldname or id is invalid")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void UpdateAsync_EmptyId()
         {
             //Arrange
@@ -141,7 +149,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void UpdateAsync_NotNull()
+        [TestCategory("RepositoryTest")]
+        public void UpdateAsync()
         {
             // Arrange
             object obj = new { Name = "Update_Positive" };
@@ -159,6 +168,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void GetItemAsync_EmptyId()
         {
             //Arrange
@@ -173,7 +183,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void GetItemAsync_NotNull()
+        [TestCategory("RepositoryTest")]
+        public void GetItemAsync()
         {
             // Arrange
             object obj = new { Name = "GetItem_Positive" };
@@ -190,7 +201,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void GetListAsync_NotNull()
+        [TestCategory("RepositoryTest")]
+        public void GetListAsync()
         {
             // Arrange
             var lst = new List<object>
@@ -211,8 +223,64 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         }
 
         [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
+        public void GetFilteredListAsync()
+        {
+            // Arrange
+            var lst = new List<object>
+            {
+                new { Name = "GetFilteredListAsync" }
+            };
+
+            var baseRepo = new Mock<BaseRepository<object>>();
+            baseRepo.Setup(m => m.GetFilteredListAsync(It.IsAny<string>(), It.IsAny<string>()))
+               .ReturnsAsync(lst);
+
+            //Act
+            var val = baseRepo.Object.GetFilteredListAsync("fieldname", "value");
+
+            //Assert
+            baseRepo.Verify();
+            val.Result.Should().BeEquivalentTo(lst);
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "FieldName is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
+        public void GetFilteredListAsync_EmptyFieldName()
+        {
+            // Arrange
+            var baseRepo = new BaseRepository<object>();
+
+            //Act
+            var val = baseRepo.GetFilteredListAsync("", "value");
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Value is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
+        public void GetFilteredListAsync_EmptyValue()
+        {
+            // Arrange
+            var baseRepo = new BaseRepository<object>();
+
+            //Act
+            var val = baseRepo.GetFilteredListAsync("fieldname", "");
+
+            //Assert
+            val.Wait();
+        }
+
+        [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void DeleteByIdAsync_EmptyId()
         {
             //Arrange
@@ -227,7 +295,8 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
-        public void DeleteByIdAsync_NotNull()
+        [TestCategory("RepositoryTest")]
+        public void DeleteByIdAsync()
         {
             // Arrange
             object obj = new { Name = "Delete_Positive" };
@@ -244,6 +313,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
 
         [TestMethod]
         [TestCategory("UnitTest")]
+        [TestCategory("RepositoryTest")]
         public void DeleteAsync_NotNull()
         {
             // Arrange
