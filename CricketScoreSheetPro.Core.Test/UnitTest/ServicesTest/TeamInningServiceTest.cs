@@ -50,6 +50,19 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "New TeamInning is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void AddTeamInningAsync_Null()
+        {
+            //Act            
+            var val = TeamInningService.AddTeamInningAsync(null);
+
+            //Assert
+            val.Result.Should().BeNull();
+        }
+
+        [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
         public void AddTeamInningAsync()
