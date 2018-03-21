@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.ViewModels
 {
-    public class TeamsViewModel
+    public class TeamViewModel
     {
         private readonly ITeamService _teamService;
 
-        public TeamsViewModel(ITeamService teamService)
+        public TeamViewModel(ITeamService teamService)
         {
             _teamService = teamService;
             Teams = _teamService.GetTeamsAsync().Result.ToList();

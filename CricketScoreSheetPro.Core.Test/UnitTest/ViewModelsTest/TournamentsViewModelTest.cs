@@ -24,7 +24,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ViewModelsTest
             mockService.Setup(x => x.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { tournament });
 
             //Act
-            var viewModel = new TournamentsViewModel(mockService.Object);
+            var viewModel = new TournamentViewModel(mockService.Object);
             var val = viewModel.Tournaments;
 
             //Assert
@@ -38,7 +38,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ViewModelsTest
         public void TournamentsViewModel_Null()
         {
             //Act
-            var viewModel = new TournamentsViewModel(null);
+            var viewModel = new TournamentViewModel(null);
 
             //Assert
             viewModel.Tournaments.Should().BeNull();

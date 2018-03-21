@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="Extensions\ExpectedExceptionExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryTest\TournamentViewTest.cs" />
     <Compile Include="UnitTest\HelperTest\FunctionsTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\BaseRepositoryTest.cs" />
     <Compile Include="UnitTest\RepositoriesTest\PlayerInningRepositoryTest.cs" />

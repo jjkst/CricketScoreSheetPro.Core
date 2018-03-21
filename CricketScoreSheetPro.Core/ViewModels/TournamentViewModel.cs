@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace CricketScoreSheetPro.Core.ViewModels
 {
-    public class TournamentsViewModel 
+    public class TournamentViewModel 
     {
         private readonly ITournamentService _tournamentService;
         
-        public TournamentsViewModel(ITournamentService tournamentService)
+        public TournamentViewModel(ITournamentService tournamentService)
         {
             _tournamentService = tournamentService ?? throw new ArgumentNullException($"TournamentService is null, cannot get tournaments."); 
             Tournaments = _tournamentService.GetTournamentsAsync().Result.ToList();

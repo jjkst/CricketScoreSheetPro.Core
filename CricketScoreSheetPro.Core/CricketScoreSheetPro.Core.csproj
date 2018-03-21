@@ -17,7 +17,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -87,13 +87,13 @@
     <Compile Include="ViewModels\BowlerStatisticsViewModel.cs" />
     <Compile Include="ViewModels\FielderStatisticsViewModel.cs" />
     <Compile Include="ViewModels\MatchDetailViewModel.cs" />
-    <Compile Include="ViewModels\MatchesViewModel.cs" />
+    <Compile Include="ViewModels\MatchViewModel.cs" />
     <Compile Include="ViewModels\ScoreViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TeamDetailViewModel.cs" />
-    <Compile Include="ViewModels\TeamsViewModel.cs" />
+    <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\TournamentDetailViewModel.cs" />
-    <Compile Include="ViewModels\TournamentsViewModel.cs" />
+    <Compile Include="ViewModels\TournamentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Firebase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.ViewModels
 {
-    public class MatchesViewModel
+    public class MatchViewModel
     {
         private readonly IMatchService _matchService;
 
-        public MatchesViewModel(IMatchService matchService)
+        public MatchViewModel(IMatchService matchService)
         {
             _matchService = matchService ?? throw new ArgumentNullException($"MatchService is null");
             Matches = _matchService.GetMatchesAsync().Result.ToList();
