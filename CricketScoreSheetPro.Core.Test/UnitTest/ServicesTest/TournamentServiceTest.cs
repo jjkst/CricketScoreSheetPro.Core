@@ -1,15 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CricketScoreSheetPro.Core.Services.Implementations;
-using CricketScoreSheetPro.Core.Models;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using CricketScoreSheetPro.Core.Models;
 using CricketScoreSheetPro.Core.Repositories.Interfaces;
-using Moq;
+using CricketScoreSheetPro.Core.Services.Implementations;
 using CricketScoreSheetPro.Core.Test.Extensions;
 using FluentAssertions;
-using CricketScoreSheetPro.Core.Repositories.Implementations;
-using Firebase.Database;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 {
@@ -29,17 +27,12 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var teams = new List<Tournament> { Tournament };
 
             var mockTournamentRepo = new Mock<IRepository<Tournament>>();
-            mockTournamentRepo.Setup(x => x.CreateAsync(It.IsAny<Tournament>())).ReturnsAsync(Tournament);
-            mockTournamentRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Tournament>())).Returns(Task.FromResult(0));
-            mockTournamentRepo.Setup(x => x.UpdateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Returns(Task.FromResult(0));
-            mockTournamentRepo.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Tournament> { new Tournament { Name = Tournament.Name } });
-            mockTournamentRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(Tournament);
-            mockTournamentRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
-            mockTournamentRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
+            mockTournamentRepo.Setup(x => x.Create(It.IsAny<Tournament>())).Returns(Tournament);
+            mockTournamentRepo.Setup(x => x.GetList()).Returns(new List<Tournament> { new Tournament { Name = Tournament.Name } });
+            mockTournamentRepo.Setup(x => x.GetItem(It.IsAny<string>())).Returns(Tournament);
 
             var mockTournamentDetailRepo = new Mock<IRepository<TournamentDetail>>();            
-            mockTournamentDetailRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<TournamentDetail>())).Returns(Task.FromResult(0));
-            mockTournamentDetailRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(TournamentDetail);
+            mockTournamentDetailRepo.Setup(x => x.GetItem(It.IsAny<string>())).Returns(TournamentDetail);
 
             TournamentService = new TournamentService(mockTournamentRepo.Object, mockTournamentDetailRepo.Object);
         }
@@ -73,202 +66,166 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddTournamentAsync()
+        public void AddTournament()
         {
             //Act            
-            var val = TournamentService.AddTournamentAsync(Tournament);
+            var val = TournamentService.AddTournament(Tournament);
 
             //Assert
-            val.Result.Should().NotBeNull();
-            val.Result.Should().BeEquivalentTo(Tournament);
+            val.Should().NotBeNull();
+            val.Should().BeEquivalentTo(Tournament);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddTournamentAsync_Null()
+        public void AddTournament_Null()
         {
             //Act
-            var val = TournamentService.AddTournamentAsync(null);
+            var val = TournamentService.AddTournament(null);
 
             //Assert
-            val.Result.Should().BeNull();
+            val.Should().BeNull();
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentAsync()
+        public void UpdateTournament()
         {
             //Act
-            var val = TournamentService.UpdateTournamentAsync("TID", TournamentDetail);
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournament("TID", TournamentDetail);
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Tournament ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentAsync_EmptyPlayerId()
+        public void UpdateTournament_EmptyPlayerId()
         {
             //Act
-            var val = TournamentService.UpdateTournamentAsync("", TournamentDetail);
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournament("", TournamentDetail);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentAsync_Null()
+        public void UpdateTournament_Null()
         {
             //Act
-            var val = TournamentService.UpdateTournamentAsync("TID", null);
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournament("TID", null);
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Tournament ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentPropertyAsync_EmptyId()
+        public void UpdateTournamentProperty_EmptyId()
         {
             //Act
-            var val = TournamentService.UpdateTournamentPropertyAsync("","fieldname", new object());
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournamentProperty("","fieldname", new object());  
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament property is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Tournament property is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentPropertyAsync_EmptyFieldName()
+        public void UpdateTournamentProperty_EmptyFieldName()
         {
             //Act
-            var val = TournamentService.UpdateTournamentPropertyAsync("Id", "", new object());
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournamentProperty("Id", "", new object());
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament property value is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Tournament property value is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentPropertyAsync_EmptyValue()
+        public void UpdateTournamentProperty_EmptyValue()
         {
             //Act
-            var val = TournamentService.UpdateTournamentPropertyAsync("Id", "fieldname", null);
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournamentProperty("Id", "fieldname", null);
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentPropertyAsync_UpdateTournamentName()
+        public void UpdateTournamentProperty_UpdateTournamentName()
         {
             //Act
-            var val = TournamentService.UpdateTournamentPropertyAsync("Id", "Name", new object());
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournamentProperty("Id", "Name", new object());
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateTournamentPropertyAsync_UpdateTournamentStatus()
+        public void UpdateTournamentProperty_UpdateTournamentStatus()
         {
             //Act
-            var val = TournamentService.UpdateTournamentPropertyAsync("Id", "Status", new object());
-
-            //Assert
-            val.Wait();
+            TournamentService.UpdateTournamentProperty("Id", "Status", new object());
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetTournamentAsync()
+        public void GetTournament()
         {
             //Act
-            var val = TournamentService.GetTournamentDetailAsync("TID");
+            var val = TournamentService.GetTournamentDetail("TID");
 
             //Assert
-            val.Result.Should().BeEquivalentTo(TournamentDetail);
+            val.Should().BeEquivalentTo(TournamentDetail);
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Tournament ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetTournamentAsync_EmptyTournamentId()
+        public void GetTournament_EmptyTournamentId()
         {
             //Act
-            var val = TournamentService.GetTournamentDetailAsync("");
-
-            //Assert
-            val.Wait();
-        }
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void GetUserTournamentsAsync()
-        {
-            //Act
-            var val = TournamentService.GetTournamentsAsync();
-
-            //Assert
-            val.Result.Should().BeEquivalentTo(new List<Tournament> { new Tournament { Name = Tournament.Name } });
+            TournamentService.GetTournamentDetail("");
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeleteAllTournamentsAsync()
+        public void GetUserTournaments()
         {
             //Act
-            var val = TournamentService.DeleteAllTournamentsAsync();
+            var val = TournamentService.GetTournaments();
 
             //Assert
-            val.Wait();
+            val.Should().BeEquivalentTo(new List<Tournament> { new Tournament { Name = Tournament.Name } });
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeleteTournamentAsync()
+        public void DeleteAllTournaments()
         {
             //Act
-            var val = TournamentService.DeleteTournamentAsync("TID");
-
-            //Assert
-            val.Wait();
+            TournamentService.DeleteAllTournaments();
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Tournament ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeleteTournamentAsync_EmptyTournamentId()
+        public void DeleteTournament()
         {
             //Act
-            var val = TournamentService.DeleteTournamentAsync("");
+            TournamentService.DeleteTournament("TID");
+        }
 
-            //Assert
-            val.Wait();
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Tournament ID is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void DeleteTournament_EmptyTournamentId()
+        {
+            //Act
+            TournamentService.DeleteTournament("");
         }
     }
 }

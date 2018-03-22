@@ -27,12 +27,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var players = new List<PlayerInning> { PlayerInning };
 
             var mockPlayerRepo = new Mock<IRepository<PlayerInning>>();
-            mockPlayerRepo.Setup(x => x.CreateAsync(It.IsAny<PlayerInning>())).ReturnsAsync(PlayerInning);
-            mockPlayerRepo.Setup(x => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<PlayerInning>())).Returns(Task.FromResult(0));            
-            mockPlayerRepo.Setup(x => x.GetFilteredListAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(players);
-            mockPlayerRepo.Setup(x => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync(PlayerInning);
-            mockPlayerRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
-            mockPlayerRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
+            mockPlayerRepo.Setup(x => x.Create(It.IsAny<PlayerInning>())).Returns(PlayerInning);
+            mockPlayerRepo.Setup(x => x.GetFilteredList(It.IsAny<string>(), It.IsAny<string>())).Returns(players);
+            mockPlayerRepo.Setup(x => x.GetItem(It.IsAny<string>())).Returns(PlayerInning);
 
             PlayerInningService = new PlayerInningService(mockPlayerRepo.Object);
         }
@@ -54,227 +51,203 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerInning is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddPlayerInningsAsync_Null()
+        public void AddPlayerInnings_Null()
         {
             //Act            
-            var val = PlayerInningService.AddPlayerInningsAsync(null);
+            var val = PlayerInningService.AddPlayerInnings(null);
 
             //Assert
-            val.Result.Should().BeNull();
+            val.Should().BeNull();
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddPlayerInningsAsync()
+        public void AddPlayerInnings()
         {
             //Act            
-            var val = PlayerInningService.AddPlayerInningsAsync(PlayerInning);
+            var val = PlayerInningService.AddPlayerInnings(PlayerInning);
 
             //Assert
-            val.Result.Should().NotBeNull();
-            val.Result.Should().BeEquivalentTo(PlayerInning);
+            val.Should().NotBeNull();
+            val.Should().BeEquivalentTo(PlayerInning);
         }
        
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdatePlayerInningAsync()
+        public void UpdatePlayerInning()
         {
             //Act
-            var val = PlayerInningService.UpdatePlayerInningAsync("PID", PlayerInning);
-
-            //Assert
-            val.Wait();
+            PlayerInningService.UpdatePlayerInning("PID", PlayerInning);
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerInning ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "PlayerInning ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdatePlayerInningAsync_EmptyPlayerId()
+        public void UpdatePlayerInning_EmptyPlayerId()
         {
             //Act
-            var val = PlayerInningService.UpdatePlayerInningAsync("", PlayerInning);
-
-            //Assert
-            val.Wait();
+            PlayerInningService.UpdatePlayerInning("", PlayerInning);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerInning is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdatePlayerInningAsync_Null()
+        public void UpdatePlayerInning_Null()
         {
             //Act
-            var val = PlayerInningService.UpdatePlayerInningAsync("PID", null);
-
-            //Assert
-            val.Wait();
+            PlayerInningService.UpdatePlayerInning("PID", null);
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetPlayerInningAsync()
+        public void GetPlayerInning()
         {
             //Act
-            var val = PlayerInningService.GetPlayerInningAsync("PID");
+            var val = PlayerInningService.GetPlayerInning("PID");
 
             //Assert
-            val.Result.Should().BeEquivalentTo(PlayerInning);
+            val.Should().BeEquivalentTo(PlayerInning);
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerInning ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "PlayerInning ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetPlayerInningAsync_EmptyPlayerId()
+        public void GetPlayerInning_EmptyPlayerId()
         {
             //Act
-            var val = PlayerInningService.GetPlayerInningAsync("");
-
-            //Assert
-            val.Wait();
-        }
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void GetPlayerInningsAsync()
-        {
-            //Act
-            var val = PlayerInningService.GetPlayerInningsAsync("playerId");
-
-            //Assert
-            val.Result.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
-        }
-
-        [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerID is null")]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void GetPlayerInningsAsync_EmptyPlayerId()
-        {
-            //Act
-            var val = PlayerInningService.GetPlayerInningsAsync(null);
-
-            //Assert
-            val.Wait();
+            PlayerInningService.GetPlayerInning("");
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetPlayerInningsByTournamentIdAsync()
+        public void GetPlayerInnings()
         {
             //Act
-            var val = PlayerInningService.GetPlayerInningsByTournamentIdAsync("playerId","tournamentId");
+            var val = PlayerInningService.GetPlayerInnings("playerId");
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
+            val.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "PlayerID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetPlayerInningsByTournamentIdAsync_EmptyPlayerId()
+        public void GetPlayerInnings_EmptyPlayerId()
         {
             //Act
-            var val = PlayerInningService.GetPlayerInningsByTournamentIdAsync("", "tournamentId");
-
-            //Assert
-            val.Result.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
-        }
-
-        [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "TournamentId is null")]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void GetPlayerInningsByTournamentIdAsync_EmptyTournamentId()
-        {
-            //Act
-            var val = PlayerInningService.GetPlayerInningsByTournamentIdAsync("playerId", "");
-
-            //Assert
-            val.Result.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
+            PlayerInningService.GetPlayerInnings(null);
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetAllPlayerInningsByTeamMatchIdAsync()
+        public void GetPlayerInningsByTournamentId()
         {
             //Act
-            var val = PlayerInningService.GetAllPlayerInningsByTeamMatchIdAsync("playerId", "tournamentId");
+            var val = PlayerInningService.GetPlayerInningsByTournamentId("playerId","tournamentId");
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
+            val.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "TeamID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "PlayerID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetAllPlayerInningsByTeamMatchIdAsync_EmptyTeamId()
+        public void GetPlayerInningsByTournamentId_EmptyPlayerId()
         {
             //Act
-            var val = PlayerInningService.GetAllPlayerInningsByTeamMatchIdAsync("", "matchId");
+            var val = PlayerInningService.GetPlayerInningsByTournamentId("", "tournamentId");
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
+            val.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "MatchId is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "TournamentId is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetAllPlayerInningsByTeamMatchIdAsync_EmptyMatchId()
+        public void GetPlayerInningsByTournamentId_EmptyTournamentId()
         {
             //Act
-            var val = PlayerInningService.GetAllPlayerInningsByTeamMatchIdAsync("teamId", "");
+            var val = PlayerInningService.GetPlayerInningsByTournamentId("playerId", "");
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
-        }
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void DeleteAllPlayerInningsAsync()
-        {
-            //Act
-            var val = PlayerInningService.DeleteAllPlayerInningsAsync();
-
-            //Assert
-            val.Wait();
+            val.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeletePlayerAsync()
+        public void GetAllPlayerInningsByTeamMatchId()
         {
             //Act
-            var val = PlayerInningService.DeletePlayerInningAsync("PID");
+            var val = PlayerInningService.GetAllPlayerInningsByTeamMatchId("playerId", "tournamentId");
 
             //Assert
-            val.Wait();
+            val.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "PlayerInning ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "TeamID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeletePlayerAsync_EmptyPlayerId()
+        public void GetAllPlayerInningsByTeamMatchId_EmptyTeamId()
         {
             //Act
-            var val = PlayerInningService.DeletePlayerInningAsync("");
+            var val = PlayerInningService.GetAllPlayerInningsByTeamMatchId("", "matchId");
 
             //Assert
-            val.Wait();
+            val.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "MatchId is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void GetAllPlayerInningsByTeamMatchId_EmptyMatchId()
+        {
+            //Act
+            var val = PlayerInningService.GetAllPlayerInningsByTeamMatchId("teamId", "");
+
+            //Assert
+            val.Should().BeEquivalentTo(new List<PlayerInning> { PlayerInning });
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void DeleteAllPlayerInnings()
+        {
+            //Act
+            PlayerInningService.DeleteAllPlayerInnings();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void DeletePlayer()
+        {
+            //Act
+            PlayerInningService.DeletePlayerInning("PID");
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "PlayerInning ID is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void DeletePlayer_EmptyPlayerId()
+        {
+            //Act
+            PlayerInningService.DeletePlayerInning("");
         }
     }
 }

@@ -79,7 +79,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Umpire ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
         public void UpdateUmpire_EmptyMatchId()
@@ -111,7 +111,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Umpire ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
         public void GetUmpire_EmptyUmpireId()
@@ -152,7 +152,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Umpire ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
         public void DeleteUmpire_EmptyUmpireId()

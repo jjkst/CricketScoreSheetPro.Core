@@ -23,12 +23,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match = new Models.Match { TournamentId = "TID" };
             var matches = new List<Models.Match> { Match };
             var mockRepo = new Mock<IRepository<Models.Match>>();
-            mockRepo.Setup(x => x.CreateAsync(It.IsAny<Models.Match>())).ReturnsAsync(Match);
-            mockRepo.Setup((IRepository<Models.Match> x) => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Models.Match>())).Returns(Task.FromResult(0));
-            mockRepo.Setup(x => x.GetListAsync()).ReturnsAsync(matches);
-            mockRepo.Setup((IRepository<Models.Match> x) => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync((Models.Match)Match);
-            mockRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
-            mockRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
+            mockRepo.Setup(x => x.Create(It.IsAny<Models.Match>())).Returns(Match);
+            mockRepo.Setup(x => x.GetList()).Returns(matches);
+            mockRepo.Setup((IRepository<Models.Match> x) => x.GetItem(It.IsAny<string>())).Returns((Models.Match)Match);
             MatchService = new MatchService(mockRepo.Object);
         }
 
@@ -48,140 +45,119 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddMatchAsync()
+        public void AddMatch()
         {
             //Act            
-            var val = MatchService.AddMatchAsync((Models.Match)Match);
+            var val = MatchService.AddMatch(Match);
 
             //Assert
-            val.Result.Should().NotBeNull();
-            val.Result.Should().BeEquivalentTo((Models.Match)Match);
+            val.Should().NotBeNull();
+            val.Should().BeEquivalentTo(Match);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddMatchAsync_Null()
+        public void AddMatch_Null()
         {
             //Act
-            var val = MatchService.AddMatchAsync(null);
+            var val = MatchService.AddMatch(null);
 
             //Assert
-            val.Result.Should().BeNull();
+            val.Should().BeNull();
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateMatchAsync()
+        public void UpdateMatch()
         {
             //Act
-            var val = MatchService.UpdateMatchAsync("MID", (Models.Match)Match);
-
-            //Assert
-            val.Wait();
+            MatchService.UpdateMatch("MID", Match);
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Match ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateMatchAsync_EmptyMatchId()
+        public void UpdateMatch_EmptyMatchId()
         {
             //Act
-            var val = MatchService.UpdateMatchAsync("", (Models.Match)Match);
-
-            //Assert
-            val.Wait();
+            MatchService.UpdateMatch("", Match);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "UserMatch is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateMatchAsync_Null()
+        public void UpdateMatch_Null()
         {
             //Act
-            var val = MatchService.UpdateMatchAsync("MID", null);
-
-            //Assert
-            val.Wait();
+            MatchService.UpdateMatch("MID", null);
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetMatchAsync()
+        public void GetMatch()
         {
             //Act
-            var val = MatchService.GetMatchAsync("MID");
+            var val = MatchService.GetMatch("MID");
 
             //Assert
-            val.Result.Should().BeEquivalentTo((Models.Match)Match);
+            val.Should().BeEquivalentTo(Match);
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Match ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetMatchAsync_EmptyMatchId()
+        public void GetMatch_EmptyMatchId()
         {
             //Act
-            var val = MatchService.GetMatchAsync("");
-
-            //Assert
-            val.Wait();
+            MatchService.GetMatch("");
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetMatchesAsync()
+        public void GetMatches()
         {
             //Act
-            var val = MatchService.GetMatchesAsync();
+            var val = MatchService.GetMatches();
 
             //Assert
-            val.Result.Should().BeEquivalentTo(new List<Models.Match> { Match });
+            val.Should().BeEquivalentTo(new List<Models.Match> { Match });
         }
 
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeleteAllMatchesAsync()
+        public void DeleteAllMatches()
         {
             //Act
-            var val = MatchService.DeleteAllMatchesAsync();
-
-            //Assert
-            val.Wait();
+            MatchService.DeleteAllMatches();
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeleteMatchAsync()
+        public void DeleteMatch()
         {
             //Act
-            var val = MatchService.DeleteMatchAsync("MID");
-
-            //Assert
-            val.Wait();
+            MatchService.DeleteMatch("MID");
         }
 
         [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Match ID is null")]
+        [ExpectedExceptionExtension(typeof(ArgumentException), "Match ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeleteMatchAsync_EmptyMatchId()
+        public void DeleteMatch_EmptyMatchId()
         {
             //Act
-            var val = MatchService.DeleteMatchAsync("");
-
-            //Assert
-            val.Wait();
+            MatchService.DeleteMatch("");
         }
     }
 }
