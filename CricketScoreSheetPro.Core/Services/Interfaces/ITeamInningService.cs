@@ -9,12 +9,12 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
 {
     public interface ITeamInningService
     {
-        Task<TeamInning> AddTeamInningAsync(TeamInning newteaminning);
-        Task UpdateTeamInningAsync(string TeaminningId, TeamInning updateTeamInning);
-        Task<TeamInning> GetTeamInningAsync(string TeaminningId);
-        Task<IList<TeamInning>> GetTeamInningsAsync(string teamId);
-        Task<IList<TeamInning>> GetTeamInningsByTournamentIdAsync(string teamId, string tournamentId);
-        Task DeleteAllTeamInningsAsync();
-        Task DeleteTeamInningAsync(string TeaminningId);
+        TeamInning AddTeamInning(TeamInning newteaminning);
+        void UpdateTeamInning(string TeaminningId, TeamInning updateTeamInning);
+        TeamInning GetTeamInning(string TeaminningId);
+        IList<TeamInning> GetTeamInnings(string teamId);
+        IList<TeamInning> GetTeamInningsByTournamentId(string teamId, string tournamentId);
+        void DeleteAllTeamInnings();
+        void DeleteTeamInning(string TeaminningId);
     }
 }

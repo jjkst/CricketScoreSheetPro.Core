@@ -18,7 +18,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         {
             _matchService = matchService ?? throw new ArgumentNullException($"MatchService is null");
             _playerInningService = playerInningService ?? throw new ArgumentNullException($"PlayerInningService is null");
-            Match = _matchService.GetMatchAsync(matchId).Result;
+            Match = _matchService.GetMatch(matchId);
 
             SelectedInnings(battingInningId);
         }
@@ -50,8 +50,8 @@ namespace CricketScoreSheetPro.Core.ViewModels
             {
                 throw new ArgumentNullException($"Batting team id is not valid");
             }
-            Batsman = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(BattingTeam.Id, Match.Id).Result.ToList(); 
-            Bowlers = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(BowlingTeam.Id, Match.Id).Result.ToList();  
+            Batsman = _playerInningService.GetAllPlayerInningsByTeamMatchId(BattingTeam.Id, Match.Id).ToList(); 
+            Bowlers = _playerInningService.GetAllPlayerInningsByTeamMatchId(BowlingTeam.Id, Match.Id).ToList();  
         }
     }
 }

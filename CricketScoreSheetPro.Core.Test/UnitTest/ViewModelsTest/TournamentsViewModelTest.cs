@@ -21,7 +21,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ViewModelsTest
             //Arrange
             var tournament = new Tournament { Name = "IPL", Status = "Open"};
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(x => x.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { tournament });
+            mockService.Setup(x => x.GetTournaments()).Returns(new List<Tournament> { tournament });
 
             //Act
             var viewModel = new TournamentViewModel(mockService.Object);

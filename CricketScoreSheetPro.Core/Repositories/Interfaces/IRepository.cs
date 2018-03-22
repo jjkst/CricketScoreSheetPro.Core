@@ -6,16 +6,16 @@ namespace CricketScoreSheetPro.Core.Repositories.Interfaces
 {
     public interface IRepository<T>
     {
-        Task<T> CreateAsync(T obj);
-        Task CreateWithIdAsync(string id, T obj);
+        T Create(T obj);
+        void CreateWithId(string id, T obj);
 
-        Task UpdateAsync(string uid, string fieldName, object val);
+        void Update(string uid, string fieldName, object val);
 
-        Task<IList<T>> GetListAsync();
-        Task<IList<T>> GetFilteredListAsync(string fieldname, string value);
-        Task<T> GetItemAsync(string uid);
+        IList<T> GetList();
+        IList<T> GetFilteredList(string fieldname, string value);
+        T GetItem(string uid);
 
-        Task DeleteByIdAsync(string uid);
-        Task DeleteAsync();
+        void DeleteById(string uid);
+        void Delete();
     }
 }

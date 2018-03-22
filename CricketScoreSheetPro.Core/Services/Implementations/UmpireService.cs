@@ -1,11 +1,8 @@
-﻿using CricketScoreSheetPro.Core.Services.Interfaces;
+﻿using CricketScoreSheetPro.Core.Models;
+using CricketScoreSheetPro.Core.Repositories.Interfaces;
+using CricketScoreSheetPro.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CricketScoreSheetPro.Core.Models;
-using CricketScoreSheetPro.Core.Repositories.Interfaces;
 
 namespace CricketScoreSheetPro.Core.Services.Implementations
 {
@@ -18,42 +15,42 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _umpireRepository = umpireRepository ?? throw new ArgumentNullException($"UmpireRepository is null");
         }
 
-        public async Task<Umpire> AddUmpireAsync(Umpire newumpire)
+        public Umpire AddUmpire(Umpire newumpire)
         {
             if (newumpire == null) throw new ArgumentNullException($"Umpire is null");
-            var umpireAdd = await _umpireRepository.CreateAsync(newumpire);
+            var umpireAdd =  _umpireRepository.Create(newumpire);
             return umpireAdd;
         }
 
-        public async Task DeleteAllUmpiresAsync()
+        public void DeleteAllUmpires()
         {
-            await _umpireRepository.DeleteAsync();
+             _umpireRepository.Delete();
         }
 
-        public async Task DeleteUmpireAsync(string umpireId)
+        public void DeleteUmpire(string umpireId)
         {
             if (string.IsNullOrEmpty(umpireId)) throw new ArgumentException($"Umpire ID is null");
-            await _umpireRepository.DeleteByIdAsync(umpireId);
+             _umpireRepository.DeleteById(umpireId);
         }
 
-        public async Task<Umpire> GetUmpireAsync(string umpireId)
+        public Umpire GetUmpire(string umpireId)
         {
             if (string.IsNullOrEmpty(umpireId)) throw new ArgumentException($"Umpire ID is null");
-            var umpire = await _umpireRepository.GetItemAsync(umpireId);
+            var umpire =  _umpireRepository.GetItem(umpireId);
             return umpire;
         }
 
-        public async Task<IList<Umpire>> GetUmpiresAsync()
+        public IList<Umpire> GetUmpires()
         {
-            var umpires = await _umpireRepository.GetListAsync();
+            var umpires =  _umpireRepository.GetList();
             return umpires;
         }
 
-        public async Task UpdateUmpireAsync(string umpireId, Umpire updateumpire)
+        public void UpdateUmpire(string umpireId, Umpire updateumpire)
         {
             if (updateumpire == null) throw new ArgumentNullException($"UserUmpire is null");
             if (string.IsNullOrEmpty(umpireId)) throw new ArgumentException($"Umpire ID is null");
-            await _umpireRepository.CreateWithIdAsync(umpireId, updateumpire);
+             _umpireRepository.CreateWithId(umpireId, updateumpire);
         }
     }
 }

@@ -35,19 +35,19 @@ namespace CricketScoreSheetPro.Core.ViewModels
 
         public Tournament AddTournament(string tournamentName)
         {
-            var tournamentAdd = _tournamentService.AddTournamentAsync(new Tournament { Name = tournamentName }).Result;
+            var tournamentAdd = _tournamentService.AddTournament(new Tournament { Name = tournamentName });
             return tournamentAdd;
         }
 
         public Team AddTeam(string teamName)
         {
-            var teamAdd = _teamService.AddTeamAsync(new Team { Name = teamName }).Result;
+            var teamAdd = _teamService.AddTeam(new Team { Name = teamName });
             return teamAdd;
         }
 
         public Umpire AddUmpire(string umpireName)
         {
-            var umpireAdd = _umpireService.AddUmpireAsync(new Umpire { Name = umpireName }).Result;
+            var umpireAdd = _umpireService.AddUmpire(new Umpire { Name = umpireName });
             return umpireAdd;
         }
     }

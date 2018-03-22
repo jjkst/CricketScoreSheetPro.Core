@@ -16,42 +16,42 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _matchRepository = matchRepository ?? throw new ArgumentNullException($"MatchRepository is null");
         }
 
-        public async Task<Match> AddMatchAsync(Match newmatch)
+        public Match AddMatch(Match newmatch)
         {
             if (newmatch == null) throw new ArgumentNullException($"Match is null");
-            var matchAdd = await _matchRepository.CreateAsync(newmatch);
+            var matchAdd = _matchRepository.Create(newmatch);
             return matchAdd;
         }
 
-        public async Task UpdateMatchAsync(string matchId, Match updateMatch)
+        public void UpdateMatch(string matchId, Match updateMatch)
         {
             if (updateMatch == null) throw new ArgumentNullException($"UserMatch is null");
             if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"Match ID is null");
-            await _matchRepository.CreateWithIdAsync(matchId, updateMatch);
+            _matchRepository.CreateWithId(matchId, updateMatch);
         }
 
-        public async Task<Match> GetMatchAsync(string matchId)
+        public Match GetMatch(string matchId)
         {
             if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"Match ID is null");
-            var match = await _matchRepository.GetItemAsync(matchId);
+            var match = _matchRepository.GetItem(matchId);
             return match;
         }
 
-        public async Task<IList<Match>> GetMatchesAsync()
+        public IList<Match> GetMatches()
         {
-            var matches = await _matchRepository.GetListAsync();
+            var matches = _matchRepository.GetList();
             return matches;
         }
 
-        public async Task DeleteAllMatchesAsync()
+        public void DeleteAllMatches()
         {
-            await _matchRepository.DeleteAsync();
+            _matchRepository.Delete();
         }
 
-        public async Task DeleteMatchAsync(string matchId)
+        public void DeleteMatch(string matchId)
         {
             if (string.IsNullOrEmpty(matchId)) throw new ArgumentException($"Match ID is null");
-            await _matchRepository.DeleteByIdAsync(matchId);
+            _matchRepository.DeleteById(matchId);
         }
     }
 }

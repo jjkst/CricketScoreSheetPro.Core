@@ -19,7 +19,7 @@ namespace CricketScoreSheetPro.Core.Validations
         public IList<ErrorResponse> IsTournamentNameExist(string name)
         {
             var errors = new List<ErrorResponse>();
-            var usertournaments = _service.GetTournamentsAsync().Result;
+            var usertournaments = _service.GetTournaments();
             if (usertournaments.Any(ut => ut.Name.ToLower() == name.ToLower()))
             {
                 errors.Add(new ErrorResponse

@@ -3,9 +3,6 @@ using CricketScoreSheetPro.Core.Repositories.Interfaces;
 using CricketScoreSheetPro.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Services.Implementations
 {
@@ -18,53 +15,53 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _teaminningsRepository = teaminningsRepository ?? throw new ArgumentNullException($"TeamInningRepository is null");
         }
 
-        public async Task<TeamInning> AddTeamInningAsync(TeamInning newteaminning)
+        public TeamInning AddTeamInning(TeamInning newteaminning)
         {
             if (newteaminning == null) throw new ArgumentNullException($"New TeamInning is null");
-            var teamInningAdd = await _teaminningsRepository.CreateAsync(newteaminning);
+            var teamInningAdd = _teaminningsRepository.Create(newteaminning);
             return teamInningAdd;
         }
 
-        public async Task UpdateTeamInningAsync(string teamInningsId, TeamInning teaminning)
+        public void UpdateTeamInning(string teamInningsId, TeamInning teaminning)
         {
             if (teaminning == null) throw new ArgumentNullException($"TeamInning is null");
             if (string.IsNullOrEmpty(teamInningsId)) throw new ArgumentException($"TeamInning ID is null");
-            await _teaminningsRepository.CreateWithIdAsync(teamInningsId, teaminning);
+            _teaminningsRepository.CreateWithId(teamInningsId, teaminning);
         }
 
-        public async Task<TeamInning> GetTeamInningAsync(string teamInningsId)
+        public TeamInning GetTeamInning(string teamInningsId)
         {
             if (string.IsNullOrEmpty(teamInningsId)) throw new ArgumentException($"TeamInning ID is null");
-            var teamInning = await _teaminningsRepository.GetItemAsync(teamInningsId);
+            var teamInning =  _teaminningsRepository.GetItem(teamInningsId);
             return teamInning;
         }
 
-        public async Task<IList<TeamInning>> GetTeamInningsAsync(string teamId)
+        public IList<TeamInning> GetTeamInnings(string teamId)
         {
             if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"TeamID is null");
-            var teamInnings = await _teaminningsRepository.
-                GetFilteredListAsync(nameof(TeamInning.TeamId), teamId);
+            var teamInnings =  _teaminningsRepository.
+                GetFilteredList(nameof(TeamInning.TeamId), teamId);
             return teamInnings;
         }
 
-        public async Task<IList<TeamInning>> GetTeamInningsByTournamentIdAsync(string teamId, string tournamentId)
+        public IList<TeamInning> GetTeamInningsByTournamentId(string teamId, string tournamentId)
         {
             if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"TeamID is null");
             if (string.IsNullOrEmpty(tournamentId)) throw new ArgumentException($"TournamentId is null");
-            var teamInnings = await _teaminningsRepository.
-                GetFilteredListAsync(nameof(TeamInning.Team_TournamentId), $"{teamId}_{tournamentId}");
+            var teamInnings =  _teaminningsRepository.
+                GetFilteredList(nameof(TeamInning.Team_TournamentId), $"{teamId}_{tournamentId}");
             return teamInnings;
         }
 
-        public async Task DeleteAllTeamInningsAsync()
+        public void DeleteAllTeamInnings()
         {
-            await _teaminningsRepository.DeleteAsync();
+             _teaminningsRepository.Delete();
         }
 
-        public async Task DeleteTeamInningAsync(string teamInningsId)
+        public void DeleteTeamInning(string teamInningsId)
         {
             if (string.IsNullOrEmpty(teamInningsId)) throw new ArgumentException($"TeamInning ID is null");
-            await _teaminningsRepository.DeleteByIdAsync(teamInningsId);
+             _teaminningsRepository.DeleteById(teamInningsId);
         }
     }
 }

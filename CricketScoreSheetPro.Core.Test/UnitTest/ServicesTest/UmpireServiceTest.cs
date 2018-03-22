@@ -24,12 +24,9 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Umpire = new Umpire { Id = "ID" };
             var matches = new List<Umpire> { Umpire };
             var mockRepo = new Mock<IRepository<Models.Umpire>>();
-            mockRepo.Setup(x => x.CreateAsync(It.IsAny<Models.Umpire>())).ReturnsAsync(Umpire);
-            mockRepo.Setup((IRepository<Umpire> x) => x.CreateWithIdAsync(It.IsAny<string>(), It.IsAny<Umpire>())).Returns(Task.FromResult(0));
-            mockRepo.Setup(x => x.GetListAsync()).ReturnsAsync(matches);
-            mockRepo.Setup((IRepository<Umpire> x) => x.GetItemAsync(It.IsAny<string>())).ReturnsAsync((Umpire)Umpire);
-            mockRepo.Setup(x => x.DeleteAsync()).Returns(Task.FromResult(0));
-            mockRepo.Setup(x => x.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
+            mockRepo.Setup(x => x.Create(It.IsAny<Models.Umpire>())).Returns(Umpire);
+            mockRepo.Setup(x => x.GetList()).Returns(matches);
+            mockRepo.Setup((IRepository<Umpire> x) => x.GetItem(It.IsAny<string>())).Returns((Umpire)Umpire);
             UmpireService = new UmpireService(mockRepo.Object);
         }
 
@@ -49,140 +46,119 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddUmpireAsync()
+        public void AddUmpire()
         {
             //Act            
-            var val = UmpireService.AddUmpireAsync(Umpire);
+            var val = UmpireService.AddUmpire(Umpire);
 
             //Assert
-            val.Result.Should().NotBeNull();
-            val.Result.Should().BeEquivalentTo(Umpire);
+            val.Should().NotBeNull();
+            val.Should().BeEquivalentTo(Umpire);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void AddUmpireAsync_Null()
+        public void AddUmpire_Null()
         {
             //Act
-            var val = UmpireService.AddUmpireAsync(null);
+            var val = UmpireService.AddUmpire(null);
 
             //Assert
-            val.Result.Should().BeNull();
+            val.Should().BeNull();
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateUmpireAsync()
+        public void UpdateUmpire()
         {
             //Act
-            var val = UmpireService.UpdateUmpireAsync("ID", Umpire);
-
-            //Assert
-            val.Wait();
+            UmpireService.UpdateUmpire("ID", Umpire);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateUmpireAsync_EmptyMatchId()
+        public void UpdateUmpire_EmptyMatchId()
         {
             //Act
-            var val = UmpireService.UpdateUmpireAsync("", Umpire);
-
-            //Assert
-            val.Wait();
+            UmpireService.UpdateUmpire("", Umpire);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void UpdateUmpireAsync_Null()
+        public void UpdateUmpire_Null()
         {
             //Act
-            var val = UmpireService.UpdateUmpireAsync("ID", null);
-
-            //Assert
-            val.Wait();
+            UmpireService.UpdateUmpire("ID", null);
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void GetUmpireAsync()
+        public void GetUmpire()
         {
             //Act
-            var val = UmpireService.GetUmpireAsync("ID");
+            var val = UmpireService.GetUmpire("ID");
 
             //Assert
-            val.Result.Should().BeEquivalentTo(Umpire);
-        }
-
-        [TestMethod]
-        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire ID is null")]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void GetUmpireAsync_EmptyUmpireId()
-        {
-            //Act
-            var val = UmpireService.GetUmpireAsync("");
-
-            //Assert
-            val.Wait();
-        }
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void GetUmpiresAsync()
-        {
-            //Act
-            var val = UmpireService.GetUmpiresAsync();
-
-            //Assert
-            val.Result.Should().BeEquivalentTo(new List<Umpire> { Umpire });
-        }
-
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void DeleteAllUmpiresAsync()
-        {
-            //Act
-            var val = UmpireService.DeleteAllUmpiresAsync();
-
-            //Assert
-            val.Wait();
-        }
-
-        [TestMethod]
-        [TestCategory("UnitTest")]
-        [TestCategory("ServiceTest")]
-        public void DeleteUmpireAsync()
-        {
-            //Act
-            var val = UmpireService.DeleteUmpireAsync("ID");
-
-            //Assert
-            val.Wait();
+            val.Should().BeEquivalentTo(Umpire);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("ServiceTest")]
-        public void DeleteUmpireAsync_EmptyUmpireId()
+        public void GetUmpire_EmptyUmpireId()
         {
             //Act
-            var val = UmpireService.DeleteUmpireAsync("");
+            UmpireService.GetUmpire("");
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void GetUmpires()
+        {
+            //Act
+            var val = UmpireService.GetUmpires();
 
             //Assert
-            val.Wait();
+            val.Should().BeEquivalentTo(new List<Umpire> { Umpire });
+        }
+
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void DeleteAllUmpires()
+        {
+            //Act
+            UmpireService.DeleteAllUmpires();
+        }
+
+        [TestMethod]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void DeleteUmpire()
+        {
+            //Act
+            UmpireService.DeleteUmpire("ID");
+        }
+
+        [TestMethod]
+        [ExpectedExceptionExtension(typeof(ArgumentNullException), "Umpire ID is null")]
+        [TestCategory("UnitTest")]
+        [TestCategory("ServiceTest")]
+        public void DeleteUmpire_EmptyUmpireId()
+        {
+            //Act
+            UmpireService.DeleteUmpire("");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public MatchViewModel(IMatchService matchService)
         {
             _matchService = matchService ?? throw new ArgumentNullException($"MatchService is null");
-            Matches = _matchService.GetMatchesAsync().Result.ToList();
+            Matches = _matchService.GetMatches().ToList();
         }
 
         public List<Match> Matches { get; private set; }

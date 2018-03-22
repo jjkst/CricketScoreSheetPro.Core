@@ -15,7 +15,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public TeamDetailViewModel(ITeamService teamService, string teamId)
         {
             _teamService = teamService;
-            Team = _teamService.GetTeamDetailAsync(teamId).Result;
+            Team = _teamService.GetTeamDetail(teamId);
         }
 
         public TeamDetail Team { get; private set; }
@@ -24,7 +24,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         {
             var players = Team.Players;
             players.Add(player);
-            _teamService.UpdateTeamPropertyAsync(Team.Id, nameof(Team.Players), players);
+            _teamService.UpdateTeamProperty(Team.Id, nameof(Team.Players), players);
         }
 
         public void DeletePlayer(string oldPlayerName)
@@ -34,7 +34,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
             {
                 if (players[i].Name == oldPlayerName) players.RemoveAt(i);
             }
-            _teamService.UpdateTeamPropertyAsync(Team.Id, nameof(Team.Players), players);
+            _teamService.UpdateTeamProperty(Team.Id, nameof(Team.Players), players);
         }
     }
 }

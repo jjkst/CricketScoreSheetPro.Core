@@ -1,10 +1,8 @@
-﻿using CricketScoreSheetPro.Core.Helper;
-using CricketScoreSheetPro.Core.Models;
+﻿using CricketScoreSheetPro.Core.Models;
 using CricketScoreSheetPro.Core.Repositories.Interfaces;
 using CricketScoreSheetPro.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Services.Implementations
 {
@@ -19,19 +17,19 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _teamdetailRepository = teamdetailRepository ?? throw new ArgumentNullException($"TeamDetailRepository is null");
         }
 
-        public async Task<Team> AddTeamAsync(Team newTeam)
+        public Team AddTeam(Team newTeam)
         {
             if (newTeam == null) throw new ArgumentNullException($"Team is null");
-            var teamAdd = await _teamRepository.CreateAsync(newTeam);
+            var teamAdd =  _teamRepository.Create(newTeam);
             var newuserteam = new TeamDetail
             {
                 Name = teamAdd.Name
             };
-            await _teamdetailRepository.CreateWithIdAsync(teamAdd.Id, newuserteam);
+            _teamdetailRepository.CreateWithId(teamAdd.Id, newuserteam);
             return teamAdd;
         }
 
-        public async Task UpdateTeamAsync(string teamId, TeamDetail updateTeamDetail)
+        public void UpdateTeam(string teamId, TeamDetail updateTeamDetail)
         {
             if (updateTeamDetail == null) throw new ArgumentNullException($"Team is null");
             if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"Team ID is null");            
@@ -39,43 +37,43 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             {
                 Name = updateTeamDetail.Name
             };
-            await _teamRepository.CreateWithIdAsync(teamId, updateteam);
-            await _teamdetailRepository.CreateWithIdAsync(teamId, updateTeamDetail);
+             _teamRepository.CreateWithId(teamId, updateteam);
+             _teamdetailRepository.CreateWithId(teamId, updateTeamDetail);
         }
 
-        public async Task UpdateTeamPropertyAsync(string id, string fieldName, object val)
+        public void UpdateTeamProperty(string id, string fieldName, object val)
         {
             if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Team ID is null");
             if (string.IsNullOrEmpty(fieldName)) throw new ArgumentException($"Team property is null");
             if (val == null) throw new ArgumentException($"Team property value is null");
-            if (fieldName.ToLower() == "name") await _teamRepository.UpdateAsync(id, "TeamName", val);
-            await _teamdetailRepository.UpdateAsync(id, fieldName, val);
+            if (fieldName.ToLower() == "name")  _teamRepository.Update(id, "TeamName", val);
+             _teamdetailRepository.Update(id, fieldName, val);
         }
 
-        public async Task<TeamDetail> GetTeamDetailAsync(string teamId)
+        public TeamDetail GetTeamDetail(string teamId)
         {
             if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"Team ID is null");
-            var team = await _teamdetailRepository.GetItemAsync(teamId);
+            var team =  _teamdetailRepository.GetItem(teamId);
             return team;
         }
 
-        public async Task<IList<Team>> GetTeamsAsync()
+        public IList<Team> GetTeams()
         {
-            var userteams = await _teamRepository.GetListAsync();
+            var userteams =  _teamRepository.GetList();
             return userteams;
         }
 
-        public async Task DeleteAllTeamsAsync()
+        public void DeleteAllTeams()
         {
-            await _teamRepository.DeleteAsync();
-            await _teamdetailRepository.DeleteAsync();
+             _teamRepository.Delete();
+             _teamdetailRepository.Delete();
         }
 
-        public async Task DeleteTeamAsync(string teamId)
+        public void DeleteTeam(string teamId)
         {
             if (string.IsNullOrEmpty(teamId)) throw new ArgumentException($"Team ID is null");
-            await _teamRepository.DeleteByIdAsync(teamId);
-            await _teamdetailRepository.DeleteByIdAsync(teamId);
+             _teamRepository.DeleteById(teamId);
+             _teamdetailRepository.DeleteById(teamId);
         }
     }
 }

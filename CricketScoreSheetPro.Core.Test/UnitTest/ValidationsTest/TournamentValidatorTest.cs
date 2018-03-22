@@ -20,7 +20,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
             //Arrange
             var ut = new Tournament() { Name = "ValidateDuplicateTournamentNameTest" };
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { ut });
+            mockService.Setup(m => m.GetTournaments()).Returns(new List<Tournament> { ut });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);
@@ -38,7 +38,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
             //Arrange
             var ut = new Tournament() { Name = "ValidateDuplicateTournamentNameTest" };
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { ut });
+            mockService.Setup(m => m.GetTournaments()).Returns(new List<Tournament> { ut });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);
@@ -54,7 +54,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
         {
             //Arrange
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { new Tournament() });
+            mockService.Setup(m => m.GetTournaments()).Returns(new List<Tournament> { new Tournament() });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);
@@ -72,7 +72,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ValidationsTest
         {
             //Arrange
             var mockService = new Mock<ITournamentService>();
-            mockService.Setup(m => m.GetTournamentsAsync()).ReturnsAsync(new List<Tournament> { new Tournament() });
+            mockService.Setup(m => m.GetTournaments()).Returns(new List<Tournament> { new Tournament() });
 
             //Act
             var validator = new TournamentValidator(mockService.Object);

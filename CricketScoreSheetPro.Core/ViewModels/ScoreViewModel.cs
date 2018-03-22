@@ -19,20 +19,20 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _matchService = matchService ?? throw new ArgumentNullException($"MatchService is null");
             _playerInningService = playerInningService ?? throw new ArgumentNullException($"PlayerInningService is null");
 
-            CurrentMatch = _matchService.GetMatchAsync(matchId).Result;
+            CurrentMatch = _matchService.GetMatch(matchId);
             IList<PlayerInning> batsman;
             IList<PlayerInning> bowler;
             if ((IsBatsman && CurrentMatch.HomeTeam.Id == teamId) || (!IsBatsman && CurrentMatch.AwayTeam.Id == teamId))
             {
                 BattingTeamName = CurrentMatch.HomeTeam.TeamName;
-                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.HomeTeam.Id, matchId).Result;
-                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.AwayTeam.Id, matchId).Result;
+                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.HomeTeam.Id, matchId);
+                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.AwayTeam.Id, matchId);
             }
             else if ((IsBatsman && CurrentMatch.AwayTeam.Id == teamId) || (!IsBatsman && CurrentMatch.HomeTeam.Id == teamId))
             {
                 BattingTeamName = CurrentMatch.AwayTeam.TeamName;
-                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.AwayTeam.Id, matchId).Result;
-                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchIdAsync(CurrentMatch.HomeTeam.Id, matchId).Result;
+                batsman = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.AwayTeam.Id, matchId);
+                bowler = _playerInningService.GetAllPlayerInningsByTeamMatchId(CurrentMatch.HomeTeam.Id, matchId);
             }
             else
             {
@@ -66,30 +66,30 @@ namespace CricketScoreSheetPro.Core.ViewModels
         {
             var ballService = new BallService(thisBall);
             ballService.UpdateMatch(CurrentMatch, BattingTeamName);
-            ballService.UpdateBatsman(_playerInningService.GetPlayerInningAsync(thisBall.ActiveBatsmanId).Result);
-            var selectedBowler = _playerInningService.GetPlayerInningAsync(thisBall.ActiveBowlerId).Result;
+            ballService.UpdateBatsman(_playerInningService.GetPlayerInning(thisBall.ActiveBatsmanId));
+            var selectedBowler = _playerInningService.GetPlayerInning(thisBall.ActiveBowlerId);
             ballService.UpdateBowler(selectedBowler);
             if(ballService.GetMaidenValue(allballs) == 1)
             {
-                //_playerInningService.UpdatePlayerInningPropertyAsync(nameof(PlayerInning.Maiden), selectedBowler.Maiden + 1);
+                //_playerInningService.UpdatePlayerInningProperty(nameof(PlayerInning.Maiden), selectedBowler.Maiden + 1);
             }            
             if (string.IsNullOrEmpty(thisBall.FielderId)) return;
-            ballService.UpdateFielder(_playerInningService.GetPlayerInningAsync(thisBall.FielderId).Result);
+            ballService.UpdateFielder(_playerInningService.GetPlayerInning(thisBall.FielderId));
         }
 
         public void Undo(Ball thisBall, List<Ball> allballs)
         {
             var ballService = new BallService(thisBall, true);
             ballService.UpdateMatch(CurrentMatch, BattingTeamName);
-            ballService.UpdateBatsman(_playerInningService.GetPlayerInningAsync(thisBall.ActiveBatsmanId).Result);
-            var selectedBowler = _playerInningService.GetPlayerInningAsync(thisBall.ActiveBowlerId).Result;
+            ballService.UpdateBatsman(_playerInningService.GetPlayerInning(thisBall.ActiveBatsmanId));
+            var selectedBowler = _playerInningService.GetPlayerInning(thisBall.ActiveBowlerId);
             ballService.UpdateBowler(selectedBowler);
             if (ballService.GetMaidenValue(allballs) == -1)
             {
-                //_playerInningService.UpdatePlayerInningPropertyAsync(nameof(PlayerInning.Maiden), selectedBowler.Maiden - 1);
+                //_playerInningService.UpdatePlayerInningProperty(nameof(PlayerInning.Maiden), selectedBowler.Maiden - 1);
             }
             if (string.IsNullOrEmpty(thisBall.FielderId)) return;
-            ballService.UpdateFielder(_playerInningService.GetPlayerInningAsync(thisBall.FielderId).Result);
+            ballService.UpdateFielder(_playerInningService.GetPlayerInning(thisBall.FielderId));
         }
 
     }

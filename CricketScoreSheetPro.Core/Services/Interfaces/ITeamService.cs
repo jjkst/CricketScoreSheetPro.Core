@@ -1,20 +1,16 @@
 ﻿using CricketScoreSheetPro.Core.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Services.Interfaces
 {
     public interface ITeamService
     {
-        Task<Team> AddTeamAsync(Team newTeam);
-        Task UpdateTeamAsync(string teamId, TeamDetail updateTeam);
-        Task UpdateTeamPropertyAsync(string id, string fieldName, object val);
-        Task<TeamDetail> GetTeamDetailAsync(string teamId);
-        Task<IList<Team>> GetTeamsAsync();
-        Task DeleteAllTeamsAsync();
-        Task DeleteTeamAsync(string teamId);
+        Team AddTeam(Team newTeam);
+        void UpdateTeam(string teamId, TeamDetail updateTeam);
+        void UpdateTeamProperty(string id, string fieldName, object val);
+        TeamDetail GetTeamDetail(string teamId);
+        IList<Team> GetTeams();
+        void DeleteAllTeams();
+        void DeleteTeam(string teamId);
     }
 }

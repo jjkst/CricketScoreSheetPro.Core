@@ -13,73 +13,73 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public TournamentDetailViewModel(ITournamentService tournamentService, string tournamentId)
         {
             _tournamentService = tournamentService ?? throw new ArgumentNullException($"TournamentService is null");
-            Tournament = _tournamentService.GetTournamentDetailAsync(tournamentId)?.Result ?? throw new ArgumentNullException($"Tournament Id is not exist");
+            Tournament = _tournamentService.GetTournamentDetail(tournamentId) ?? throw new ArgumentNullException($"Tournament Id is not exist");
         }
 
         public TournamentDetail Tournament { get; private set; }
 
-        public async void SetName(string name)
+        public  void SetName(string name)
         {
             Tournament.Name = name;
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Name), name);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Name), name);
         }
             
-        public async void SetSponsor(string sponsor)
+        public  void SetSponsor(string sponsor)
         {
             Tournament.Sponsor = sponsor;
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Sponsor), sponsor);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Sponsor), sponsor);
         }
 
-        public async void SetStatus(string status)
+        public  void SetStatus(string status)
         {
             Tournament.Status = status;
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Status), status);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Status), status);
         }
             
-        public async void SetStartDate(DateTime startdate)
+        public  void SetStartDate(DateTime startdate)
         {
             Tournament.StartDate = startdate;
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.StartDate), startdate);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.StartDate), startdate);
         }
             
-        public async void SetEntryFee(decimal entryfee)
+        public  void SetEntryFee(decimal entryfee)
         {
             Tournament.EntryFee = entryfee;
-           await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.EntryFee), entryfee);
+            _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.EntryFee), entryfee);
         }
             
-        public async void UpdateTotalOvers(int totalOvers)
+        public  void UpdateTotalOvers(int totalOvers)
         {
             Tournament.TotalOvers = totalOvers;
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.TotalOvers), totalOvers);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.TotalOvers), totalOvers);
         }
             
 
-        public async void AddPrizes(string newPrize)
+        public  void AddPrizes(string newPrize)
         {
             Tournament.Prizes.Add(newPrize);
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Prizes), Tournament.Prizes);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Prizes), Tournament.Prizes);
         }
 
-        public async void AddFacility(string newFacility)
+        public  void AddFacility(string newFacility)
         {
             Tournament.Facilities.Add(newFacility);
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Facilities), Tournament.Facilities);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Facilities), Tournament.Facilities);
         }
 
-        public async void AddVenue(string newVenue)
+        public  void AddVenue(string newVenue)
         {
             Tournament.Venues.Add(newVenue);
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), Tournament.Venues);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Venues), Tournament.Venues);
         }
 
-        public async void IncludeTeam(Team team)
+        public  void IncludeTeam(Team team)
         {
             Tournament.Teams.Add(team);
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Teams), Tournament.Teams);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Teams), Tournament.Teams);
         }
 
-        public async void UpdatePrizes(string oldprize, string newprize)
+        public  void UpdatePrizes(string oldprize, string newprize)
         {
             for (int i = 0; i <= Tournament.Prizes.Count; i++)
             {
@@ -89,10 +89,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
                     break;
                 }
             }
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Prizes), Tournament.Prizes);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Prizes), Tournament.Prizes);
         }
 
-        public async void UpdateFacility(string oldfacility, string newfacility)
+        public  void UpdateFacility(string oldfacility, string newfacility)
         {
             for (int i = 0; i <= Tournament.Facilities.Count; i++)
             {
@@ -102,10 +102,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
                     break;
                 }
             }
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Facilities), Tournament.Facilities);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Facilities), Tournament.Facilities);
         }
 
-        public async void UpdateVenue(string oldVenue, string newVenue)
+        public  void UpdateVenue(string oldVenue, string newVenue)
         {
             for (int i = 0; i <= Tournament.Venues.Count; i++)
             {
@@ -115,10 +115,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
                     break;
                 }
             }
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), Tournament.Venues);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Venues), Tournament.Venues);
         }
 
-        public async void DeletePrizes(string oldprize)
+        public  void DeletePrizes(string oldprize)
         {
             for(int i = 0; i <= Tournament.Prizes.Count; i++)
             {
@@ -128,10 +128,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
                     break;
                 }
             }
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Prizes), Tournament.Prizes);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Prizes), Tournament.Prizes);
         }
 
-        public async void DeleteFacility(string oldfacility)        
+        public  void DeleteFacility(string oldfacility)        
         {
             for (int i = 0; i <= Tournament.Facilities.Count; i++)
             {
@@ -141,10 +141,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
                     break;
                 }
             }
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Facilities), Tournament.Facilities);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Facilities), Tournament.Facilities);
         }
 
-        public async void DeleteVenue(string oldVenue)
+        public  void DeleteVenue(string oldVenue)
         {
             for (int i = 0; i <= Tournament.Venues.Count; i++)
             {
@@ -154,10 +154,10 @@ namespace CricketScoreSheetPro.Core.ViewModels
                     break;
                 }
             }
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Venues), Tournament.Venues);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Venues), Tournament.Venues);
         }
 
-        public async void ExcludeTeam(string oldTeamName)
+        public  void ExcludeTeam(string oldTeamName)
         {
             for (int i = 0; i <= Tournament.Teams.Count; i++)
             {
@@ -167,18 +167,18 @@ namespace CricketScoreSheetPro.Core.ViewModels
                     break;
                 }
             }
-            await _tournamentService.UpdateTournamentPropertyAsync(Tournament.Id, nameof(Tournament.Teams), Tournament.Teams);
+             _tournamentService.UpdateTournamentProperty(Tournament.Id, nameof(Tournament.Teams), Tournament.Teams);
         }
 
         public void RefreshTournament()
         {
-            Tournament = _tournamentService.GetTournamentDetailAsync(Tournament.Id).Result;
+            Tournament = _tournamentService.GetTournamentDetail(Tournament.Id);
         }
 
         public List<Team> UserTeamNames(ITeamService teamService)
         {
             var teams = new List<Team>();
-            foreach (var team in teamService.GetTeamsAsync().Result)
+            foreach (var team in teamService.GetTeams())
             {
                 if(Tournament.Teams.Count(t=>t.Name.ToLower().Contains(team.Name.ToLower())) > 0) continue;
                 teams.Add(team);

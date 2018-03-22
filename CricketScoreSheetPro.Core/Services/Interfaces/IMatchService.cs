@@ -9,11 +9,11 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
 {
     public interface IMatchService
     {
-        Task<Match> AddMatchAsync(Match newmatch);
-        Task UpdateMatchAsync(string matchId, Match updateMatch);
-        Task<Match> GetMatchAsync(string matchId);
-        Task<IList<Match>> GetMatchesAsync();
-        Task DeleteAllMatchesAsync();
-        Task DeleteMatchAsync(string matchId);
+        Match AddMatch(Match newmatch);
+        void UpdateMatch(string matchId, Match updateMatch);
+        Match GetMatch(string matchId);
+        IList<Match> GetMatches();
+        void DeleteAllMatches();
+        void DeleteMatch(string matchId);
     }
 }

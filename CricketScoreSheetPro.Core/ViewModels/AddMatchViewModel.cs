@@ -25,9 +25,9 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _playerInningService = playerInningService ?? throw new ArgumentNullException($"PlayerInningService is null");
             _umpireService = umpireService ?? throw new ArgumentNullException($"PlayerInningService is null");
 
-            Teams = _teamService.GetTeamsAsync().Result.ToList();
-            Matches = _matchService.GetMatchesAsync().Result.ToList();
-            var UmpiresListWithDupes = _umpireService.GetUmpiresAsync().Result.ToList();
+            Teams = _teamService.GetTeams().ToList();
+            Matches = _matchService.GetMatches().ToList();
+            var UmpiresListWithDupes = _umpireService.GetUmpires().ToList();
             Umpires = UmpiresListWithDupes.Distinct().ToList();
         }
 

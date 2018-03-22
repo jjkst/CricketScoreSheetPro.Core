@@ -13,7 +13,7 @@ namespace CricketScoreSheetPro.Core.ViewModels
         public TournamentViewModel(ITournamentService tournamentService)
         {
             _tournamentService = tournamentService ?? throw new ArgumentNullException($"TournamentService is null, cannot get tournaments."); 
-            Tournaments = _tournamentService.GetTournamentsAsync().Result.ToList();
+            Tournaments = _tournamentService.GetTournaments().ToList();
         }
 
         public List<Tournament> Tournaments { get; private set; }

@@ -20,13 +20,13 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object to create is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void CreateAsync_Null()
+        public void Create_Null()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.CreateAsync(null).Result;
+            var val = baseRepo.Create(null);
 
             //Assert
             val.Should().BeNull();
@@ -35,147 +35,128 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void CreateAsync()
+        public void Create()
         {
             //Arrange
             var obj = new { Name = "CreateWithValidObjectTest" };
             var baseRepo = new Mock<BaseRepository<object>>();
 
             //Act
-            baseRepo.Setup(x => x.CreateAsync(It.IsAny<object>())).ReturnsAsync(obj);
+            baseRepo.Setup(x => x.Create(It.IsAny<object>())).Returns(obj);
 
             //Assert
             baseRepo.Verify();
-            baseRepo.Object.CreateAsync(obj).Result.Should().BeEquivalentTo(obj);
+            baseRepo.Object.Create(obj).Should().BeEquivalentTo(obj);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object to create is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void CreateWithIdAsync_Null()
+        public void CreateWithId_Null()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.CreateWithIdAsync("Id", null);
-
-            //Assert
-            val.Wait();
+            baseRepo.CreateWithId("Id", null);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void CreateWithIdAsync_EmptyId()
+        public void CreateWithId_EmptyId()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.CreateWithIdAsync("", new object());
-
-            //Assert
-            val.Wait();
+            baseRepo.CreateWithId("", new object());
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void CreateWithIdAsync()
+        public void CreateWithId()
         {
             //Arrange
-            object obj = new { Name = "CreateWithIdAsync_NotNull" };
+            object obj = new { Name = "CreateWithId_NotNull" };
             var baseRepo = new Mock<BaseRepository<object>>();
-            baseRepo.Setup(x => x.CreateWithIdAsync("Id", It.IsAny<object>())).Returns(Task.FromResult(0));
 
             //Act
-            var val = baseRepo.Object.CreateWithIdAsync("Id", obj);
+            baseRepo.Object.CreateWithId("Id", obj);
 
             //Assert
             baseRepo.Verify();
-            val.Wait();
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentNullException), "Object is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void UpdateAsync_Null()
+        public void Update_Null()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.UpdateAsync("uid", "tid", null);
-
-            //Assert
-            val.Wait();
+            baseRepo.Update("uid", "tid", null);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given fieldname or id is invalid")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void UpdateAsync_EmptyUid()
+        public void Update_EmptyUid()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var updated = baseRepo.UpdateAsync("", "tid", new object());
-
-            //Assert
-            updated.Wait();
+            baseRepo.Update("", "tid", new object());
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given fieldname or id is invalid")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void UpdateAsync_EmptyId()
+        public void Update_EmptyId()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var updated = baseRepo.UpdateAsync("uid", "", new object());
-
-            //Assert
-            updated.Wait();
+            baseRepo.Update("uid", "", new object());
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void UpdateAsync()
+        public void Update()
         {
             // Arrange
             object obj = new { Name = "Update_Positive" };
-            var baseRepo = new Mock<BaseRepository<object>>();
-            baseRepo.Setup(m => m.UpdateAsync(It.IsAny<string>(), It.IsAny<string>(), (It.IsAny<object>()))).Returns(Task.FromResult(0));
+            var baseRepo = new Mock<BaseRepository<object>>();            
 
             //Act
-            var val = baseRepo.Object.UpdateAsync("uid", "tid", obj);
+            baseRepo.Object.Update("uid", "tid", obj);
 
             //Assert
             baseRepo.Verify();
-            val.Wait();
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void GetItemAsync_EmptyId()
+        public void GetItem_EmptyId()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.GetItemAsync("").Result;
+            var val = baseRepo.GetItem("");
 
             //Assert
             val.Should().BeNull();
@@ -184,149 +165,142 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void GetItemAsync()
+        public void GetItem()
         {
             // Arrange
             object obj = new { Name = "GetItem_Positive" };
             var baseRepo = new Mock<BaseRepository<object>>();
 
             //Act
-            baseRepo.Setup(m => m.GetItemAsync(It.IsAny<string>()))
-                        .ReturnsAsync(obj);
+            baseRepo.Setup(m => m.GetItem(It.IsAny<string>()))
+                        .Returns(obj);
 
             //Assert
             baseRepo.Verify();
-            baseRepo.Object.GetItemAsync("Id").Result.Should().BeEquivalentTo(obj);
+            baseRepo.Object.GetItem("Id").Should().BeEquivalentTo(obj);
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void GetListAsync()
+        public void GetList()
         {
             // Arrange
             var lst = new List<object>
             {
-                new { Name = "GetListAsync_NotNull" }
+                new { Name = "GetList_NotNull" }
             };
 
             var baseRepo = new Mock<BaseRepository<object>>();
-            baseRepo.Setup(m => m.GetListAsync())
-               .ReturnsAsync(lst);
+            baseRepo.Setup(m => m.GetList())
+               .Returns(lst);
 
             //Act
-            var val = baseRepo.Object.GetListAsync();
+            var val = baseRepo.Object.GetList();
 
             //Assert
             baseRepo.Verify();
-            val.Result.Should().BeEquivalentTo(lst);
+            val.Should().BeEquivalentTo(lst);
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void GetFilteredListAsync()
+        public void GetFilteredList()
         {
             // Arrange
             var lst = new List<object>
             {
-                new { Name = "GetFilteredListAsync" }
+                new { Name = "GetFilteredList" }
             };
 
             var baseRepo = new Mock<BaseRepository<object>>();
-            baseRepo.Setup(m => m.GetFilteredListAsync(It.IsAny<string>(), It.IsAny<string>()))
-               .ReturnsAsync(lst);
+            baseRepo.Setup(m => m.GetFilteredList(It.IsAny<string>(), It.IsAny<string>()))
+               .Returns(lst);
 
             //Act
-            var val = baseRepo.Object.GetFilteredListAsync("fieldname", "value");
+            var val = baseRepo.Object.GetFilteredList("fieldname", "value");
 
             //Assert
             baseRepo.Verify();
-            val.Result.Should().BeEquivalentTo(lst);
+            val.Should().BeEquivalentTo(lst);
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "FieldName is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void GetFilteredListAsync_EmptyFieldName()
+        public void GetFilteredList_EmptyFieldName()
         {
             // Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.GetFilteredListAsync("", "value");
+            var val = baseRepo.GetFilteredList("", "value");
 
             //Assert
-            val.Wait();
+            ;
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Value is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void GetFilteredListAsync_EmptyValue()
+        public void GetFilteredList_EmptyValue()
         {
             // Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.GetFilteredListAsync("fieldname", "");
+            var val = baseRepo.GetFilteredList("fieldname", "");
 
             //Assert
-            val.Wait();
+            ;
         }
 
         [TestMethod]
         [ExpectedExceptionExtension(typeof(ArgumentException), "Given ID is null")]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void DeleteByIdAsync_EmptyId()
+        public void DeleteById_EmptyId()
         {
             //Arrange
             var baseRepo = new BaseRepository<object>();
 
             //Act
-            var val = baseRepo.DeleteByIdAsync("");
-
-            //Assert
-            val.Wait();
+            baseRepo.DeleteById("");
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void DeleteByIdAsync()
+        public void DeleteById()
         {
             // Arrange
             object obj = new { Name = "Delete_Positive" };
             var baseRepo = new Mock<BaseRepository<object>>();
-            baseRepo.Setup(m => m.DeleteByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
 
             //Act
-            var val = baseRepo.Object.DeleteByIdAsync("Id");
+            baseRepo.Object.DeleteById("Id");
 
             //Assert
             baseRepo.Verify();
-            val.Wait();
         }
 
         [TestMethod]
         [TestCategory("UnitTest")]
         [TestCategory("RepositoryTest")]
-        public void DeleteAsync_NotNull()
+        public void Delete_NotNull()
         {
             // Arrange
             object obj = new { Name = "Delete_Positive" };
             var baseRepo = new Mock<BaseRepository<object>>();
-            baseRepo.Setup(m => m.DeleteAsync()).Returns(Task.FromResult(0));
 
             //Act
-            var val = baseRepo.Object.DeleteAsync();
+            baseRepo.Object.Delete();
 
             //Assert
             baseRepo.Verify();
-            val.Wait();
         }
 
     }

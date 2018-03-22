@@ -26,13 +26,13 @@ namespace CricketScoreSheetPro.Core.ViewModels
             _statistics = statistics ?? throw new ArgumentNullException($"StatisticsService is null");
 
             Statistics = new List<PlayerStatistics>();
-            foreach (var team in _teamService.GetTeamsAsync().Result)
+            foreach (var team in _teamService.GetTeams())
             {
-                var players = _teamService.GetTeamDetailAsync(team.Id).Result.Players;
+                var players = _teamService.GetTeamDetail(team.Id).Players;
                 foreach (var player in players)
                 {
                     Statistics.Add(_statistics.GetPlayerStatistics(
-                            _playerInningService.GetPlayerInningsAsync(player.Id).Result));
+                            _playerInningService.GetPlayerInnings(player.Id)));
                 }
             }
         }

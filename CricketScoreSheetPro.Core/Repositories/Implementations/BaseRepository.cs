@@ -4,7 +4,6 @@ using Firebase.Database.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CricketScoreSheetPro.Core.Repositories.Implementations
 {
@@ -12,58 +11,58 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
     {
         internal ChildQuery _reference { get; set; }
 
-        public async virtual Task<T> CreateAsync(T obj)
+        public virtual T Create(T obj)
         {
             if (obj == null) throw new ArgumentNullException($"Object to create is null");
-            var item = await _reference.PostAsync<T>(obj);
-            await UpdateAsync(item.Key, "Id", item.Key);
+            var item = _reference.PostAsync<T>(obj).Result;
+            Update(item.Key, "Id", item.Key);
             return item.Object;
         }
 
-        public async virtual Task CreateWithIdAsync(string id, T obj)
+        public virtual void CreateWithId(string id, T obj)
         {
             if (obj == null) throw new ArgumentNullException($"Object to create is null");
             if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Given ID is null");
-            await _reference.Child(id).PutAsync(obj);
+            _reference.Child(id).PutAsync(obj).Wait();
         }
 
-        public async virtual Task DeleteAsync()
+        public virtual void Delete()
         {
-            await _reference.DeleteAsync();
+            _reference.DeleteAsync().Wait();
         }
 
-        public async virtual Task DeleteByIdAsync(string id)
-        {
-            if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Given ID is null");
-            await _reference.Child(id).DeleteAsync();
-        }
-
-        public async virtual Task<T> GetItemAsync(string id)
+        public virtual void DeleteById(string id)
         {
             if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Given ID is null");
-            var item = await _reference.Child(id).OnceSingleAsync<T>();
+            _reference.Child(id).DeleteAsync().Wait();
+        }
+
+        public virtual T GetItem(string id)
+        {
+            if (string.IsNullOrEmpty(id)) throw new ArgumentException($"Given ID is null");
+            var item = _reference.Child(id).OnceSingleAsync<T>().Result;
             return item;
         }
 
-        public async virtual Task<IList<T>> GetFilteredListAsync(string fieldname, string value)
+        public virtual IList<T> GetFilteredList(string fieldname, string value)
         {
             if (string.IsNullOrEmpty(fieldname)) throw new ArgumentException($"FieldName is null");
             if (string.IsNullOrEmpty(value)) throw new ArgumentException($"Value is null");
-            var items = await _reference.OrderBy(fieldname).EqualTo(value).OnceAsync<T>();
+            var items = _reference.OrderBy(fieldname).EqualTo(value).OnceAsync<T>().Result;
             return ConvertFirebaseObjectCollectionToReadOnlyCollections(items);
         }
 
-        public async virtual Task<IList<T>> GetListAsync()
+        public virtual IList<T> GetList()
         {
-            var items = await _reference.OrderByKey().OnceAsync<T>();
+            var items = _reference.OrderByKey().OnceAsync<T>().Result;
             return ConvertFirebaseObjectCollectionToReadOnlyCollections(items); 
         }
 
-        public async virtual Task UpdateAsync(string id, string fieldName, object val)
+        public virtual void Update(string id, string fieldName, object val)
         {
             if (val == null) throw new ArgumentNullException($"Object is null");
             if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(fieldName)) throw new ArgumentException($"Given fieldname or id is invalid");
-            await _reference.Child(id).Child(fieldName).PutAsync(val);
+            _reference.Child(id).Child(fieldName).PutAsync(val).Wait();
         }
 
         private static IList<T> ConvertFirebaseObjectCollectionToReadOnlyCollections(IReadOnlyCollection<FirebaseObject<T>> firebaseObjectCollection) 
