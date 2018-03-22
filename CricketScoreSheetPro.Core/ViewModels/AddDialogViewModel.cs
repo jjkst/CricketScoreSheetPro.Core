@@ -35,7 +35,11 @@ namespace CricketScoreSheetPro.Core.ViewModels
 
         public Tournament AddTournament(string tournamentName)
         {
-            var tournamentAdd = _tournamentService.AddTournament(new Tournament { Name = tournamentName });
+            var tournamentAdd = _tournamentService.AddTournament(
+                new Tournament {
+                    Name = tournamentName,
+                    Status = "Open"
+                });
             return tournamentAdd;
         }
 
