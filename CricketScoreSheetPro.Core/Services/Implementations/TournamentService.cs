@@ -24,7 +24,8 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             var newtournamentdetail = new TournamentDetail
             {
                 Name = tournamentAdd.Name,
-                Status = tournamentAdd.Status
+                Status = tournamentAdd.Status,
+                StartDate = tournamentAdd.AddDate
             };
              _tournamentdetailRepository.CreateWithId(tournamentAdd.Id, newtournamentdetail);
             return tournamentAdd;

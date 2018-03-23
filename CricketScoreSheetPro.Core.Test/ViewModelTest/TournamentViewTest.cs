@@ -11,12 +11,20 @@ namespace CricketScoreSheetPro.Core.Test.RepositoryTest
     public class TournamentViewTest
     {
         private TournamentViewModel TournamentViewModel { get; set; }
+        private AddDialogViewModel AddTournamentViewModel { get; set; }
 
         public TournamentViewTest()
         {
             var _client = new FirebaseClient("https://xamarinfirebase-4a90e.firebaseio.com/");
             var _tournamentService = new TournamentService(new TournamentRepository(_client, "UUID"), new TournamentDetailRepository(_client));
             TournamentViewModel = new TournamentViewModel(_tournamentService);
+            AddTournamentViewModel = new AddDialogViewModel(_tournamentService);
+        }
+
+        [TestMethod]
+        public void AddTournamentTest()
+        {
+            var t = AddTournamentViewModel.AddTournament("TEST");
         }
 
         [TestMethod]

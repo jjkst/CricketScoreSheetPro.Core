@@ -16,7 +16,7 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
             if (obj == null) throw new ArgumentNullException($"Object to create is null");
             var item = _reference.PostAsync<T>(obj).Result;
             Update(item.Key, "Id", item.Key);
-            return item.Object;
+            return GetItem(item.Key);
         }
 
         public virtual void CreateWithId(string id, T obj)
