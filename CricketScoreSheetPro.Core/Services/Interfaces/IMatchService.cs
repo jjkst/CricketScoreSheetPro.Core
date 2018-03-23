@@ -9,7 +9,7 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
 {
     public interface IMatchService
     {
-        Match AddMatch(Match newmatch);
+        string AddMatch(Match newmatch);
         void UpdateMatch(string matchId, Match updateMatch);
         Match GetMatch(string matchId);
         IList<Match> GetMatches();

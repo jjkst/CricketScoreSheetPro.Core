@@ -24,7 +24,7 @@ namespace CricketScoreSheetPro.Core.Test.RepositoryTest
         [TestMethod]
         public void AddTournamentTest()
         {
-            var t = AddTournamentViewModel.AddTournament("TEST");
+            var t = AddTournamentViewModel.AddTournament("NEWTEST");
         }
 
         [TestMethod]

@@ -5,7 +5,7 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
 {
     public interface ITournamentService
     {
-        Tournament AddTournament(Tournament newTournament);
+        string AddTournament(Tournament newTournament);
         void UpdateTournament(string tournamentId, TournamentDetail updateTournament);
         void UpdateTournamentProperty(string id, string fieldName, object val);
         TournamentDetail GetTournamentDetail(string tournamentId);

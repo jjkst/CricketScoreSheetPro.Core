@@ -17,18 +17,19 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _tournamentdetailRepository = tournamentdetailRepository ?? throw new ArgumentNullException($"TournamentDetailRepository is null");
         }
 
-        public Tournament AddTournament(Tournament newTournament)
+        public string AddTournament(Tournament newTournament)
         {
             if (newTournament == null) throw new ArgumentNullException($"Tournament is null");
-            var tournamentAdd =  _tournamentRepository.Create(newTournament);
+            var newTournamentKey =  _tournamentRepository.Create(newTournament);
             var newtournamentdetail = new TournamentDetail
             {
-                Name = tournamentAdd.Name,
-                Status = tournamentAdd.Status,
-                StartDate = tournamentAdd.AddDate
+                Name = newTournament.Name,
+                Status = newTournament.Status,
+                StartDate = newTournament.AddDate
             };
-             _tournamentdetailRepository.CreateWithId(tournamentAdd.Id, newtournamentdetail);
-            return tournamentAdd;
+            _tournamentdetailRepository.CreateWithId(newTournamentKey, newtournamentdetail);
+            _tournamentRepository.Update(newTournamentKey, "Id", newTournamentKey);
+            return newTournamentKey;
         }
 
         public void UpdateTournament(string tournamentId, TournamentDetail updateTournamentDetail)

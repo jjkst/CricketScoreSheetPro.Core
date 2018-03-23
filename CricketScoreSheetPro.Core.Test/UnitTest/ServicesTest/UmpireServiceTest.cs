@@ -24,7 +24,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Umpire = new Umpire { Id = "ID" };
             var matches = new List<Umpire> { Umpire };
             var mockRepo = new Mock<IRepository<Models.Umpire>>();
-            mockRepo.Setup(x => x.Create(It.IsAny<Models.Umpire>())).Returns(Umpire);
+            mockRepo.Setup(x => x.Create(It.IsAny<Models.Umpire>())).Returns("UmpireId");
             mockRepo.Setup(x => x.GetList()).Returns(matches);
             mockRepo.Setup((IRepository<Umpire> x) => x.GetItem(It.IsAny<string>())).Returns((Umpire)Umpire);
             UmpireService = new UmpireService(mockRepo.Object);
@@ -53,7 +53,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
             //Assert
             val.Should().NotBeNull();
-            val.Should().BeEquivalentTo(Umpire);
+            val.Should().BeEquivalentTo("UmpireId");
         }
 
         [TestMethod]

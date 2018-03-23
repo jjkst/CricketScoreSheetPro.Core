@@ -27,7 +27,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var teams = new List<Tournament> { Tournament };
 
             var mockTournamentRepo = new Mock<IRepository<Tournament>>();
-            mockTournamentRepo.Setup(x => x.Create(It.IsAny<Tournament>())).Returns(Tournament);
+            mockTournamentRepo.Setup(x => x.Create(It.IsAny<Tournament>())).Returns("TournamentId");
             mockTournamentRepo.Setup(x => x.GetList()).Returns(new List<Tournament> { new Tournament { Name = Tournament.Name } });
             mockTournamentRepo.Setup(x => x.GetItem(It.IsAny<string>())).Returns(Tournament);
 
@@ -73,7 +73,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
             //Assert
             val.Should().NotBeNull();
-            val.Should().BeEquivalentTo(Tournament);
+            val.Should().BeEquivalentTo("TournamentId");
         }
 
         [TestMethod]

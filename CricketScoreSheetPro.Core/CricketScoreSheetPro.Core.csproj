@@ -52,6 +52,7 @@
     <Compile Include="Models\Umpire.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Implementations\BaseRepository.cs" />
+    <Compile Include="Repositories\Implementations\OfflineRepository.cs" />
     <Compile Include="Repositories\Implementations\PlayerInningRepository.cs" />
     <Compile Include="Repositories\Implementations\TeamInningRepository.cs" />
     <Compile Include="Repositories\Implementations\TeamDetailRepository.cs" />
@@ -97,7 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Firebase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FirebaseDatabase.net.3.3.2\lib\netstandard1.1\Firebase.dll</HintPath>
+      <HintPath>..\packages\FirebaseDatabase.net.3.3.3\lib\netstandard1.1\Firebase.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>

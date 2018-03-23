@@ -16,11 +16,11 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _matchRepository = matchRepository ?? throw new ArgumentNullException($"MatchRepository is null");
         }
 
-        public Match AddMatch(Match newmatch)
+        public string AddMatch(Match newmatch)
         {
             if (newmatch == null) throw new ArgumentNullException($"Match is null");
-            var matchAdd = _matchRepository.Create(newmatch);
-            return matchAdd;
+            var matchAddKey = _matchRepository.Create(newmatch);
+            return matchAddKey;
         }
 
         public void UpdateMatch(string matchId, Match updateMatch)

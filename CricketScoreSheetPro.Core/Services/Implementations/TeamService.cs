@@ -17,16 +17,16 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _teamdetailRepository = teamdetailRepository ?? throw new ArgumentNullException($"TeamDetailRepository is null");
         }
 
-        public Team AddTeam(Team newTeam)
+        public string AddTeam(Team newTeam)
         {
             if (newTeam == null) throw new ArgumentNullException($"Team is null");
-            var teamAdd =  _teamRepository.Create(newTeam);
+            var teamAddKey =  _teamRepository.Create(newTeam);
             var newuserteam = new TeamDetail
             {
-                Name = teamAdd.Name
+                Name = newTeam.Name
             };
-            _teamdetailRepository.CreateWithId(teamAdd.Id, newuserteam);
-            return teamAdd;
+            _teamdetailRepository.CreateWithId(teamAddKey, newuserteam);
+            return teamAddKey;
         }
 
         public void UpdateTeam(string teamId, TeamDetail updateTeamDetail)

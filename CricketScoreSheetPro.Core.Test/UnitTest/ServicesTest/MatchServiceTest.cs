@@ -23,7 +23,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             Match = new Models.Match { TournamentId = "TID" };
             var matches = new List<Models.Match> { Match };
             var mockRepo = new Mock<IRepository<Models.Match>>();
-            mockRepo.Setup(x => x.Create(It.IsAny<Models.Match>())).Returns(Match);
+            mockRepo.Setup(x => x.Create(It.IsAny<Models.Match>())).Returns("matchId");
             mockRepo.Setup(x => x.GetList()).Returns(matches);
             mockRepo.Setup((IRepository<Models.Match> x) => x.GetItem(It.IsAny<string>())).Returns((Models.Match)Match);
             MatchService = new MatchService(mockRepo.Object);
@@ -52,7 +52,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
             //Assert
             val.Should().NotBeNull();
-            val.Should().BeEquivalentTo(Match);
+            val.Should().BeEquivalentTo("matchId");
         }
 
         [TestMethod]

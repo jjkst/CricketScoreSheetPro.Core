@@ -11,12 +11,11 @@ namespace CricketScoreSheetPro.Core.Repositories.Implementations
     {
         internal ChildQuery _reference { get; set; }
 
-        public virtual T Create(T obj)
+        public virtual string Create(T obj)
         {
             if (obj == null) throw new ArgumentNullException($"Object to create is null");
-            var item = _reference.PostAsync<T>(obj).Result;
-            Update(item.Key, "Id", item.Key);
-            return GetItem(item.Key);
+            var item = _reference.PostAsync<T>(obj).Result;                      
+            return item.Key;
         }
 
         public virtual void CreateWithId(string id, T obj)

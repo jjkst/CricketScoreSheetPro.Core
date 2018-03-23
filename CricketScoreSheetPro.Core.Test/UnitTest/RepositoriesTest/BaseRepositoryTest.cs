@@ -40,13 +40,14 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.RepositoriesTest
             //Arrange
             var obj = new { Name = "CreateWithValidObjectTest" };
             var baseRepo = new Mock<BaseRepository<object>>();
-
+            var mockObject = new Mock<FirebaseObject<object>>();
+            mockObject.SetReturnsDefault(obj);
             //Act
-            baseRepo.Setup(x => x.Create(It.IsAny<object>())).Returns(obj);
+            baseRepo.Setup(x => x.Create(It.IsAny<object>())).Returns("Id");
 
             //Assert
             baseRepo.Verify();
-            baseRepo.Object.Create(obj).Should().BeEquivalentTo(obj);
+            baseRepo.Object.Create(obj).Should().BeEquivalentTo("Id");
         }
 
         [TestMethod]

@@ -17,11 +17,11 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _playerinningsRepository = playerinningsRepository ?? throw new ArgumentNullException($"PlayerInningRepository is null");
         }
 
-        public PlayerInning AddPlayerInnings(PlayerInning newplayerinning)
+        public string AddPlayerInnings(PlayerInning newplayerinning)
         {
             if (newplayerinning == null) throw new ArgumentNullException($"PlayerInning is null");
-            var playerinningadded = _playerinningsRepository.Create(newplayerinning);      
-            return playerinningadded;
+            var playerinningaddedKey = _playerinningsRepository.Create(newplayerinning);      
+            return playerinningaddedKey;
         }
 
         public void UpdatePlayerInning(string playerInningsId, PlayerInning playerinning)

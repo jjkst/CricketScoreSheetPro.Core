@@ -27,7 +27,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             var players = new List<PlayerInning> { PlayerInning };
 
             var mockPlayerRepo = new Mock<IRepository<PlayerInning>>();
-            mockPlayerRepo.Setup(x => x.Create(It.IsAny<PlayerInning>())).Returns(PlayerInning);
+            mockPlayerRepo.Setup(x => x.Create(It.IsAny<PlayerInning>())).Returns("PlayerInningId");
             mockPlayerRepo.Setup(x => x.GetFilteredList(It.IsAny<string>(), It.IsAny<string>())).Returns(players);
             mockPlayerRepo.Setup(x => x.GetItem(It.IsAny<string>())).Returns(PlayerInning);
 
@@ -70,7 +70,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
             //Assert
             val.Should().NotBeNull();
-            val.Should().BeEquivalentTo(PlayerInning);
+            val.Should().BeEquivalentTo("PlayerInningId");
         }
        
         [TestMethod]

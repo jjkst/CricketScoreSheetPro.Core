@@ -9,7 +9,7 @@ namespace CricketScoreSheetPro.Core.Services.Interfaces
 {
     public interface IPlayerInningService
     {
-        PlayerInning AddPlayerInnings(PlayerInning newplayerinning);
+        string AddPlayerInnings(PlayerInning newplayerinning);
         void UpdatePlayerInning(string playerinningId, PlayerInning updatePlayerInning);
         PlayerInning GetPlayerInning(string playerinningId);
         IList<PlayerInning> GetPlayerInnings(string playerId);

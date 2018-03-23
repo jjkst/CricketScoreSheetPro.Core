@@ -15,11 +15,11 @@ namespace CricketScoreSheetPro.Core.Services.Implementations
             _umpireRepository = umpireRepository ?? throw new ArgumentNullException($"UmpireRepository is null");
         }
 
-        public Umpire AddUmpire(Umpire newumpire)
+        public string AddUmpire(Umpire newumpire)
         {
             if (newumpire == null) throw new ArgumentNullException($"Umpire is null");
-            var umpireAdd =  _umpireRepository.Create(newumpire);
-            return umpireAdd;
+            var umpireAddKey =  _umpireRepository.Create(newumpire);
+            return umpireAddKey;
         }
 
         public void DeleteAllUmpires()

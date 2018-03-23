@@ -25,7 +25,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
             TeamDetail = new TeamDetail { Name = Team.Name };
             var teams = new List<Team> { Team };
             var mockTeamRepo = new Mock<IRepository<Team>>();
-            mockTeamRepo.Setup(x => x.Create(It.IsAny<Team>())).Returns(Team);
+            mockTeamRepo.Setup(x => x.Create(It.IsAny<Team>())).Returns("TeamId");
             mockTeamRepo.Setup(x => x.GetList()).Returns(teams);
             var mockTeamDetailRepo = new Mock<IRepository<TeamDetail>>();
             mockTeamDetailRepo.Setup(x => x.GetItem(It.IsAny<string>())).Returns(TeamDetail);
@@ -68,7 +68,7 @@ namespace CricketScoreSheetPro.Core.Test.UnitTest.ServicesTest
 
             //Assert
             val.Should().NotBeNull();
-            val.Should().BeEquivalentTo(Team);
+            val.Should().BeEquivalentTo("TeamId");
         }
 
         [TestMethod]
